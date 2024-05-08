@@ -21,10 +21,10 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="flex justify-center items-center min-h-screen font-light">
       <div className="flex flex-col w-1/2 h-full justify-center items-center shadow-md border-b-2 border-r-2 p-5">
         <h1>대충 로고</h1>
-        <form className="flex flex-col" onSubmit={handleSubmit}>
+        <form className="flex flex-col w-1/2" onSubmit={handleSubmit}>
           <LoginInput
             type="text"
             placeholder="이메일을 입력해주세요."
