@@ -2,10 +2,17 @@ interface Props {
   label: string;
   placeholder: string;
   value: string;
+  setValue: (value: string) => void;
   type: "text" | "password";
 }
 
-export default function LoginInput({ label, placeholder, type, value }: Props) {
+export default function LoginInput({
+  label,
+  placeholder,
+  type,
+  value,
+  setValue,
+}: Props) {
   return (
     <div className="flex flex-col h-20 ">
       <label htmlFor={label} className="font-bold">
