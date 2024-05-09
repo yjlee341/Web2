@@ -23,8 +23,10 @@ export default function RegisterPage() {
 
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <div className="flex flex-col w-1/2 h-full justify-center items-center shadow-md border-black">
-        <form className="flex flex-col" onSubmit={handleSubmit}>
+      <div className="flex flex-col w-1/2 h-full justify-center items-center shadow-md border-b-2 border-r-2 p-5">
+        <img src="/images/logos/logo_wide.png" className="w-1/2" />
+        <h1 className="font-bold">회원가입</h1>
+        <form className="flex flex-col w-1/2" onSubmit={handleSubmit}>
           <RegisterInput
             label="이메일"
             placeholder="OpenBook에서 사용하실 이메일을 입력해주세요."
@@ -34,28 +36,28 @@ export default function RegisterPage() {
           />
           <RegisterInput
             label="닉네임"
-            placeholder="OpenBook에서 사용하실 이메일을 입력해주세요."
+            placeholder="OpenBook에서 사용하실 닉네임을 입력해주세요."
             type="text"
             value={nickname}
             setValue={setNickName}
           />
           <RegisterInput
             label="이름"
-            placeholder="예약 기능을 이용할 때 사용될 이름을 입력해주세요."
+            placeholder="OpenBook의 예약 기능을 이용할 때 사용될 이름을 입력해주세요."
             type="text"
             value={name}
             setValue={setName}
           />
           <RegisterInput
             label="비밀번호"
-            placeholder="OpenBook에서 사용하실 이메일을 입력해주세요."
+            placeholder="OpenBook에서 사용하실 비밀번호를 입력해주세요."
             type="password"
             value={password}
             setValue={setPassword}
           />
           <RegisterInput
             label="비밀번호 확인"
-            placeholder="OpenBook에서 사용하실 이메일을 입력해주세요."
+            placeholder="비밀번호를 한번 더 입력해주세요."
             type="password"
             value={passwordCheck}
             setValue={setPasswordCheck}
@@ -63,7 +65,7 @@ export default function RegisterPage() {
           <input
             type="submit"
             value="회원가입"
-            className="hover:cursor-pointer"
+            className="hover:cursor-pointer bg-[#0064FF] rounded-md text-white h-10 font-bold mt-5"
           />
         </form>
       </div>
