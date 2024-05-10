@@ -1,6 +1,4 @@
-import { Link } from "react-router-dom";
 import tempBanner from "../../logo.svg";
-import ListPage from "./List";
 import ShowEventList from "./ShowEventList";
 
 interface Props {
@@ -25,24 +23,6 @@ export default function MainPage({ state = "main" }: Props) {
         <ShowEventList title="인기있는 부스" eventList={[]} />
         <ShowEventList title="부스 모집 중" eventList={[]} />
       </div>
-
-      {/* <div>
-        
-        <div className="flex w-full justify-center p-20">
-          <div className="flex w-full max-w-screen-md justify-between">
-            <Link to={"/list"} className={buttonStyle}>
-              부스 목록
-            </Link>
-            <Link to={"/"} className={buttonStyle}>
-              부스 등록
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex justify-center">
-        {state === "list" && <ListPage />}
-      </div> */}
     </section>
   );
 }
