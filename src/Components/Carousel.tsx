@@ -5,7 +5,7 @@ interface Props {
   className?: String;
   imgs: string[];
 }
-
+// TODO: 최대개수 제한?
 export default function Carousel({ className, imgs = [] }: Props) {
   const [emblaRef, emblaApi] = useEmblaCarousel();
 
@@ -17,12 +17,11 @@ export default function Carousel({ className, imgs = [] }: Props) {
       <div className={`embla overflow-hidden ${className}`} ref={emblaRef}>
         <div className="embla__container h-full">
           {imgs.map((img, i) => (
-            <div className="embla__slide h-full">
+            <div className="embla__slide h-full" key={img + i}>
               <img
                 src={img}
                 alt="케러셀 이미지"
                 className="h-full w-full object-contain"
-                key={img + i}
               />
             </div>
           ))}

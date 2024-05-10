@@ -22,7 +22,15 @@ export default function ShowEventList({ eventList, title }: Props) {
       </div>
       <Carousel
         className="h-72"
-        imgs={[tempBanner, tempBanner, tempBanner, tempBanner]}
+        imgs={[
+          tempBanner,
+          tempBanner,
+          tempBanner,
+          tempBanner,
+          tempBanner,
+          tempBanner,
+          tempBanner,
+        ]}
       />
     </div>
   );
