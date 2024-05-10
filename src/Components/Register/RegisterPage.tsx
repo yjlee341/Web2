@@ -21,11 +21,26 @@ export default function RegisterPage() {
     }
   };
 
+  function emailCheck(email_address: string) {
+    const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+    if (!email_regex.test(email_address)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  function passwordSameCheck() {
+    const passwordSame = password === passwordCheck;
+    if (!passwordSame) return false;
+    else return true;
+  }
+
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="flex flex-col w-1/2 h-full justify-center items-center shadow-md border-b-2 border-r-2 p-5">
         <img src="/images/logos/logo_wide.png" className="w-1/2" />
-        <h1 className="font-bold">회원가입</h1>
+        <h1 className="font-bold text-xl">회원가입</h1>
         <form className="flex flex-col w-1/2" onSubmit={handleSubmit}>
           <RegisterInput
             label="이메일"
@@ -33,6 +48,7 @@ export default function RegisterPage() {
             type="text"
             value={email}
             setValue={setEmail}
+            validate={emailCheck}
           />
           <RegisterInput
             label="닉네임"
@@ -61,6 +77,7 @@ export default function RegisterPage() {
             type="password"
             value={passwordCheck}
             setValue={setPasswordCheck}
+            validate={passwordSameCheck}
           />
           <input
             type="submit"
