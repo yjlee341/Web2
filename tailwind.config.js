@@ -7,6 +7,11 @@ export default {
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      nanumEB: ["nanumEB"],
+      nanumB: ["nanumB"],
+      nanum: ["namnum"],
+    },
   },
   plugins: [],
 };
