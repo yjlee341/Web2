@@ -1,7 +1,6 @@
 import LoginInput from "./LoginInput";
 import { useNavigate } from "react-router-dom";
 import { useLoginUser } from "../../Hooks/useLoginUser";
-import { setAccessToken } from "../../Api/Util/token";
 
 export default function LoginPage() {
   const navi = useNavigate();
