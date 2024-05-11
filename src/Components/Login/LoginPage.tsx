@@ -1,6 +1,7 @@
 import LoginInput from "./LoginInput";
 import { useNavigate } from "react-router-dom";
 import { useLoginUser } from "../../Hooks/useLoginUser";
+import { setAccessToken } from "../../Api/Util/token";
 
 export default function LoginPage() {
   const navi = useNavigate();
@@ -14,7 +15,11 @@ export default function LoginPage() {
   return (
     <div className="flex justify-center items-center min-h-screen font-light">
       <div className="flex flex-col w-1/2 h-full justify-center items-center shadow-md border-b-2 border-r-2 p-5">
-        <img src="/images/logos/logo_wide.png" className="w-1/3" />
+        <img
+          src="/images/logos/logo_wide.png"
+          className="w-1/3"
+          alt="로그인이미지"
+        />
         <h1 className="font-bold text-xl">로그인</h1>
         <form className="flex flex-col w-1/2" onSubmit={handleSubmit}>
           <LoginInput
