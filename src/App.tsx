@@ -6,10 +6,10 @@ import RegisterPage from "./Components/Register/RegisterPage";
 import MainPage from "./Components/Main/Main";
 import EventDetailPage from "./Components/Event/EventDetail";
 import AddEventPage from "./Components/Event/AddEvent";
+import BoothRegistPage from "./Components/Booth/BoothRegistPage";
+import BoothDetailPage from "./Components/Booth/BoothDetailPage";
 
 function App() {
-  const navi = useNavigate();
-
   return (
     <div>
       <Routes>
@@ -19,6 +19,8 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/event/:id" element={<EventDetailPage />} />
         <Route path="/addEvent" element={<AddEventPage />} />
+        <Route path="/boothRegist" element={<BoothRegistPage />} />
+        <Route path="/boothDetail" element={<BoothDetailPage />} />
       </Routes>
     </div>
   );
