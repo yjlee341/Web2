@@ -1,4 +1,4 @@
-import Modal from "../../Hooks/Modal";
+import Modal from "../../../Hooks/Modal";
 import BoothInput from "./BoothInput";
 import { MdStorefront } from "react-icons/md";
 import { FaHashtag } from "react-icons/fa";
@@ -12,8 +12,8 @@ import { SlLocationPin } from "react-icons/sl";
 export default function BoothRegistPage() {
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <div className="flex flex-col w-1/2 h-full justify-center items-center shadow-md border-b-2 border-r-2 p-5">
-        <h1 className="font-bold text-2xl">부스 등록</h1>
+      <div className="flex flex-col w-1/2 my-5 h-full justify-center items-center shadow-md border-b-2 border-r-2 p-5">
+        <h1 className="font-bold text-3xl mb-5">부스 등록</h1>
         <BoothInput
           placeholder="부스명을 입력해 주세요"
           label="부스명"

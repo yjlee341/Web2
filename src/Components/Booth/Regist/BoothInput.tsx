@@ -44,7 +44,7 @@ export default function BoothInput({
           <textarea
             placeholder={placeholder}
             value={value}
-            className={`h-20 border-b-2 border-r-2 pl-1 mb-5  ${
+            className={`h-20 border-b-2 border-r-2 pl-1 pt-1 mb-5 ${
               button || select ? "w-3/4" : "w-full"
             }`}
           />
