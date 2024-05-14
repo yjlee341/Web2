@@ -1,4 +1,4 @@
-import Modal from "../../../Hooks/Modal";
+import Modal from "../../Util/Modal";
 import BoothRegistInput from "./BoothRegistInput";
 import { MdStorefront } from "react-icons/md";
 import { FaHashtag } from "react-icons/fa";
@@ -8,8 +8,21 @@ import { MdDriveFileRenameOutline } from "react-icons/md";
 import { FaRegCreditCard } from "react-icons/fa6";
 import { MdOutlineDescription } from "react-icons/md";
 import { SlLocationPin } from "react-icons/sl";
+import { useState } from "react";
 
 export default function BoothRegistPage() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  function switchModal() {
+    if (!isOpen) {
+      setIsOpen(true);
+    } else {
+      if (window.confirm("취소하시겠습니까?")) {
+        setIsOpen(false);
+      }
+    }
+  }
+
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="flex flex-col w-1/2 my-5 h-full justify-center items-center shadow-md border-b-2 border-r-2 p-5">
@@ -80,17 +93,23 @@ export default function BoothRegistPage() {
           value=""
         />
         <div className="flex gap-4 w-1/2 justify-center">
-          <button className="p-1 w-full font-bold h-8 hover:cursor-pointer bg-[#5E1675] rounded-lg text-white mb-4">
+          <button
+            onClick={switchModal}
+            className="p-1 w-full font-bold h-8 hover:cursor-pointer bg-[#5E1675] rounded-lg text-white mb-4"
+          >
             물품 등록 및 관리
           </button>
-          <button className="p-1 w-full font-bold h-8 hover:cursor-pointer bg-[#401F71] rounded-lg text-white mb-4">
+          <button
+            onClick={switchModal}
+            className="p-1 w-full font-bold h-8 hover:cursor-pointer bg-[#401F71] rounded-lg text-white mb-4"
+          >
             서비스(예약) 등록 및 관리
           </button>
         </div>
         <button className="py-1 font-bold w-1/2 h-10 hover:cursor-pointer bg-[#0064FF] rounded-md text-white mb-4">
           부스 신청
         </button>
-        <Modal>
+        <Modal isOpen={isOpen} switchModal={switchModal}>
           <div>
             <h1 className="font-bold text-2xl">
               부스 등록부스 등록부스 등록부스 등록부스 등록부스 등록부스
