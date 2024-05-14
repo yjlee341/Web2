@@ -22,7 +22,7 @@ export default function BoothInput({
   select,
 }: Props) {
   return (
-    <div className="flex flex-col w-1/2">
+    <div className="flex flex-col w-2/3">
       <div className="flex gap-2 items-center h-full">
         <Icon size={25} color="#0064FF" />
         <label htmlFor={label} className="font-bold">
