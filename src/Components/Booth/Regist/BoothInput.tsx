@@ -55,7 +55,7 @@ export default function BoothInput({
           </button>
         ) : null}
         {select ? (
-          <select className="h-10 w-1/4">
+          <select className="h-10 w-1/4 mb-4">
             <option value={"카카오뱅크"}>카카오뱅크</option>
             <option value={"신한은행"}>신한은행</option>
             <option value={"우리은행"}>우리은행</option>
