@@ -1,30 +1,25 @@
 import LoginInput from "./LoginInput";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { useLoginUser } from "../../Hooks/useLoginUser";
 
 export default function LoginPage() {
   const navi = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { mutate } = useLoginUser();
+  const { mutate, email, password, setEmail, setPassword } = useLoginUser();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const data = { email, password };
-      mutate(data);
-      console.log("보내짐");
-    } catch (error) {
-      console.error("뭔가 문제가 발생함", error);
-    }
+    mutate();
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen font-light">
       <div className="flex flex-col w-1/2 h-full justify-center items-center shadow-md border-b-2 border-r-2 p-5">
-        <img src="/images/logos/logo_wide.png" className="w-1/3" />
-        <h1 className="font-bold">로그인</h1>
+        <img
+          src="/images/logos/logo_wide.png"
+          className="w-1/3"
+          alt="로그인이미지"
+        />
+        <h1 className="font-bold text-xl">로그인</h1>
         <form className="flex flex-col w-1/2" onSubmit={handleSubmit}>
           <LoginInput
             type="text"
