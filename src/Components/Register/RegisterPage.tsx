@@ -21,19 +21,13 @@ export default function RegisterPage() {
     }
   };
 
-  function emailCheck(email_address: string) {
+  function emailCheck(emailAddress: string) {
     const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
-    if (!email_regex.test(email_address)) {
-      return false;
-    } else {
-      return true;
-    }
+    return email_regex.test(emailAddress);
   }
 
-  function passwordSameCheck() {
-    const passwordSame = password === passwordCheck;
-    if (!passwordSame) return false;
-    else return true;
+  function isPasswordSame() {
+    return password === passwordCheck;
   }
 
   return (
@@ -77,7 +71,7 @@ export default function RegisterPage() {
             type="password"
             value={passwordCheck}
             setValue={setPasswordCheck}
-            validate={passwordSameCheck}
+            validate={isPasswordSame}
           />
           <input
             type="submit"
