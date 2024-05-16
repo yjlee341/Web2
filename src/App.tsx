@@ -1,15 +1,14 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import LoginPage from "./Components/Login/LoginPage";
-import { useNavigate } from "react-router-dom";
 import RegisterPage from "./Components/Register/RegisterPage";
 import MainPage from "./Components/Main/Main";
 import EventDetailPage from "./Components/Event/EventDetail";
 import AddEventPage from "./Components/Event/AddEvent";
+import BoothRegistPage from "./Components/Booth/Regist/BoothRegistPage";
+import BoothDetailPage from "./Components/Booth/Detail/BoothDetailPage";
 
 function App() {
-  const navi = useNavigate();
-
   return (
     <div>
       <Routes>
@@ -19,6 +18,8 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/event/:id" element={<EventDetailPage />} />
         <Route path="/addEvent" element={<AddEventPage />} />
+        <Route path="/boothRegist" element={<BoothRegistPage />} />
+        <Route path="/boothDetail" element={<BoothDetailPage />} />
       </Routes>
     </div>
   );
