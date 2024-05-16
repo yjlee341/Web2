@@ -71,6 +71,7 @@ export default function AddEventPage() {
                   defaultChecked={true}
                   onChange={(e) => {
                     setBoothType("ALPHABET");
+                    setMaxNumber(1);
                   }}
                 />
                 알파벳 형
