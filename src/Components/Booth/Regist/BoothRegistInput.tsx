@@ -3,10 +3,10 @@ import { useRef } from "react";
 
 interface Props {
   label: string;
-  placeholder: string;
+  placeholder?: string;
   setValue: (value: any) => void;
   Icon: IconType;
-  type: "button" | "select" | "text" | "textarea" | "image";
+  type: "button" | "select" | "text" | "textarea" | "image" | "time";
   imageName?: string;
 }
 
@@ -44,6 +44,21 @@ export default function BoothRegistInput({
             onChange={(e) => setValue(e.target.value)}
           />
         )}
+        {type === "time" && (
+          <div className="flex justify-between items-center w-3/4 gap-3">
+            <input
+              type="time"
+              className={INPUT_CLASSNAME}
+              onChange={(e) => setValue(e.target.value)}
+            />
+            <div className="pb-3 font-bold"> ~ </div>
+            <input
+              type="time"
+              className={INPUT_CLASSNAME}
+              onChange={(e) => setValue(e.target.value)}
+            />
+          </div>
+        )}
         {type === "text" && (
           <input
             placeholder={placeholder}
@@ -71,7 +86,6 @@ export default function BoothRegistInput({
               선택된 이미지 :
               {imageName && <div className="font-bold ml-2">{imageName}</div>}
             </div>
-
             <button
               onClick={() => {
                 onCickImageUploadHandler();
@@ -85,6 +99,7 @@ export default function BoothRegistInput({
               className="hidden"
               onChange={setValue}
               ref={imageInputRef}
+              accept="image/*"
             />
           </div>
         )}

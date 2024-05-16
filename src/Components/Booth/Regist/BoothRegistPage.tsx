@@ -15,7 +15,7 @@ import { boothImageState } from "../../../Recoil/Booth/boothRegistAtom";
 export default function BoothRegistPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [boothImage, setBoothImage] = useRecoilState(boothImageState);
-  const [imageName, setImageName] = useState("없음");
+  const [imageName, setImageName] = useState("X");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files && event.target.files[0];
@@ -24,7 +24,7 @@ export default function BoothRegistPage() {
       setImageName(selectedFile.name);
     } else {
       setBoothImage(null);
-      setImageName("없음");
+      setImageName("X");
     }
   };
 
@@ -50,18 +50,16 @@ export default function BoothRegistPage() {
           type="text"
         />
         <BoothRegistInput
-          placeholder=""
           label="행사명"
           Icon={MdStorefront}
           setValue={() => {}}
           type="text"
         />
         <BoothRegistInput
-          placeholder="부스 운영 일정을 선택해주세요"
-          label="부스 운영 일정"
+          label="부스 운영 시간"
           Icon={FaCalendarCheck}
           setValue={() => {}}
-          type="button"
+          type="time"
         />
         <BoothRegistInput
           placeholder="원하는 부스 신청 위치를 선택해주세요"
