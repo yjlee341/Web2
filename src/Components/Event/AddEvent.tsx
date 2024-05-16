@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import BoothTable from "./BoothTable";
 import EventFormInput from "./EventFormInput";
 
@@ -33,8 +33,15 @@ export default function AddEventPage() {
     setMaxNumber(e.target.value);
   };
 
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
+
+    console.log("부스정보");
+    console.log("부스이미지", boothType, maxAlphabet, maxNumber);
+  };
+
   return (
-    <section className="flex min-h-screen justify-center">
+    <form className="flex min-h-screen justify-center" onSubmit={onSubmit}>
       <div className="w-full max-w-screen-lg border h-full p-10">
         <h2>행사 등록</h2>
         <div className="flex flex-col mt-5">
@@ -124,9 +131,13 @@ export default function AddEventPage() {
               alphabet={maxAlphabet}
               number={maxNumber}
             />
+
+            <button className="w-44 mx-auto bg-blue-500 rounded-md p-2 text-3xl text-white">
+              등록
+            </button>
           </div>
         </div>
       </div>
-    </section>
+    </form>
   );
 }
