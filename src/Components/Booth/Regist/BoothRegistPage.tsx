@@ -9,12 +9,12 @@ import { FaRegCreditCard } from "react-icons/fa6";
 import { MdOutlineDescription } from "react-icons/md";
 import { SlLocationPin } from "react-icons/sl";
 import { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { boothImageState } from "../../../Recoil/Booth/boothRegistAtom";
 
 export default function BoothRegistPage() {
   const [isOpen, setIsOpen] = useState(false);
-  const [boothImage, setBoothImage] = useRecoilState(boothImageState);
+  const setBoothImage = useSetRecoilState(boothImageState);
   const [imageName, setImageName] = useState("X");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
