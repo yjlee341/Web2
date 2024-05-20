@@ -32,11 +32,9 @@ export default function FinishedEvents({ sortOrder }: FinishedEventsProps) {
       dataLength={events.length}
       next={fetchMoreEvents}
       hasMore={hasMore}
-      loader={<h4>로딩 중...</h4>}
+      loader={<h4 className="text-center my-4">로딩 중...</h4>}
       endMessage={
-        <p style={{ textAlign: "center" }}>
-          <b>모든 행사를 불러왔습니다</b>
-        </p>
+        <p className="text-center font-bold my-4">모든 행사를 불러왔습니다</p>
       }
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -4,9 +4,10 @@ import OngoingEvents from "./OngoingEvents";
 import RecruitingEvents from "./RecruitingEvents";
 import FinishedEvents from "./FinishedEvents";
 import RadioButtons from "./RadioButtons";
+import { Progress } from "./types"; // Progress 타입 임포트
 
 export default function App() {
-  const [selectedTab, setSelectedTab] = useState("진행중");
+  const [selectedTab, setSelectedTab] = useState<Progress>("진행중");
   const [sortOrder, setSortOrder] = useState("최신순");
 
   const renderTabContent = () => {

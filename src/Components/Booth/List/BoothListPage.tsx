@@ -48,14 +48,14 @@ export default function BoothListPage() {
           dataLength={booths.length}
           next={fetchMoreBooths}
           hasMore={hasMore}
-          loader={<h4>로딩 중...</h4>}
+          loader={<h4 className="text-center my-4">로딩 중...</h4>}
           endMessage={
-            <p style={{ textAlign: "center" }}>
-              <b>모든 부스를 불러왔습니다</b>
+            <p className="text-center font-bold my-4">
+              모든 부스를 불러왔습니다
             </p>
           }
         >
-          <div className="grid grid-cols-2 md:grid-cols-2 gap-10 mx-10">
+          <div className="grid grid-cols-2 gap-10 mx-10">
             {booths.map((booth, index) => (
               <BoothCard key={index} name={booth.name} />
             ))}
