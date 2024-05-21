@@ -8,9 +8,9 @@ const boothDate = atom({
   key: "boothRegistDate", //이때 key는 중복되지 않는 값
   default: "", //초기값
 });
-const boothImage = atom({
-  key: "boothRegistImage", //이때 key는 중복되지 않는 값
-  default: "", //초기값
+export const boothImageState = atom<File | null>({
+  key: "boothRegistImage", // key는 전역에서 유일해야 합니다.
+  default: null, // 초기값은 null
 });
 
 const boothLocation = atom({
@@ -27,12 +27,3 @@ const boothAccount = atom({
   key: "boothRegistAccount", //이때 key는 중복되지 않는 값
   default: "", //초기값
 });
-
-export {
-  boothAccount,
-  boothDate,
-  boothDescription,
-  boothImage,
-  boothLocation,
-  boothName,
-};
