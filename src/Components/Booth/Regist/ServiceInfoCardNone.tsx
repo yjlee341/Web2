@@ -1,6 +1,6 @@
 export default function ServiceInfoCardNone() {
   return (
-    <div className="flex flex-col p-3 pb-5 w-full gap-6 items-center rounded-md font-bold shadow-lg">
+    <div className="flex h-80 flex-col p-3 pb-5 w-full gap-6 items-center rounded-md font-bold shadow-lg">
       <button className="flex flex-col gap-28">
         <div className="flex p-8 bg-slate-100 rounded-lg justify-center">
           <img

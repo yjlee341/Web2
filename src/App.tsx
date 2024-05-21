@@ -10,6 +10,7 @@ import BoothDetailPage from "./Components/Booth/Detail/BoothDetailPage";
 import GoodsManagementPage from "./Components/Booth/Regist/GoodsMangementPage";
 import GoodsInfoInputPage from "./Components/Booth/Regist/GoodsInfoInputPage";
 import ServiceInfoInputPage from "./Components/Booth/Regist/ServiceInfoInputPage";
+import ServiceManagementPage from "./Components/Booth/Regist/ServiceManagementPage";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/boothDetail" element={<BoothDetailPage />} />
         {/* 추후 Modal로 변경 페이지*/}
         <Route path="/boothGoodsTest" element={<GoodsManagementPage />} />
+        <Route path="/boothServiceTest" element={<ServiceManagementPage />} />
         <Route path="/GoodsInfoPage" element={<GoodsInfoInputPage />} />
         <Route path="/ServiceInfoPage" element={<ServiceInfoInputPage />} />
       </Routes>

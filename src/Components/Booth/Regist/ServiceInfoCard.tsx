@@ -11,8 +11,8 @@ export default function ServiceInfoCard() {
       <div>A 서비스</div>
       <div>가격 : 15000원</div>
       <div className="flex justify-center gap-5 w-full">
-        <button className="bg-[#0064FF] rounded-md w-full">수정</button>
-        <button className="bg-red-700 rounded-md w-full">삭제</button>
+        <button className="bg-[rgb(96,165,250)] rounded-md w-full">수정</button>
+        <button className="bg-red-600 rounded-md w-full">삭제</button>
       </div>
     </div>
   );
