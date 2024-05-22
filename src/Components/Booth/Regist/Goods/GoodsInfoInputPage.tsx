@@ -1,7 +1,7 @@
 import GoodsInfoInput from "./GoodsInfoInput";
 import { useSetRecoilState } from "recoil";
 import { useState } from "react";
-import { boothImageState } from "../../../Recoil/Booth/boothRegistAtom";
+import { boothImageState } from "../../../../Recoil/Booth/boothRegistAtom";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import { IoIosPricetags } from "react-icons/io";
 import { MdOutlineDescription } from "react-icons/md";

@@ -1,5 +1,5 @@
 import GoodsInfoCard from "./GoodsInfoCard";
-import GoodsInfoCardNone from "./GoodsInfoCardNone";
+import GoodsInfoCardAdd from "./GoodsInfoCardAdd";
 
 export default function GoodsManagementPage() {
   return (
@@ -16,10 +16,9 @@ export default function GoodsManagementPage() {
           <GoodsInfoCard />
           <GoodsInfoCard />
           <GoodsInfoCard />
-          <GoodsInfoCardNone />
           <GoodsInfoCard />
           <GoodsInfoCard />
-          <GoodsInfoCardNone />
+          <GoodsInfoCardAdd />
         </div>
         <button className="mt-5 font-bold w-1/3 h-10 hover:cursor-pointer bg-[#0064FF] rounded-md text-white">
           확인
