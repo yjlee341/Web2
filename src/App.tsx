@@ -10,8 +10,8 @@ import BoothDetailPage from "./Components/Booth/Detail/BoothDetailPage";
 import GoodsManagementPage from "./Components/Booth/Regist/Goods/GoodsMangementPage";
 import GoodsInfoInputPage from "./Components/Booth/Regist/Goods/GoodsInfoInputPage";
 import ServiceInfoInputPage from "./Components/Booth/Regist/Service/ServiceInfoInputPage";
-import ServiceManagementPage from "./Components/Booth/Regist/Service/ServiceManagementPage";
-import ServiceTimeManagementPage from "./Components/Booth/Regist/Service/ServiceTimeManagementPage";
+import ServiceManagementPage from "./Components/Booth/Regist/Service/ServiceManagementPage ";
+import ServiceTimeAdd from "./Components/Booth/Regist/Service/ServiceTimeAdd";
 
 function App() {
   return (
@@ -28,13 +28,20 @@ function App() {
         {/* 추후 Modal로 변경 페이지*/}
         <Route path="/boothGoodsTest" element={<GoodsManagementPage />} />
         <Route
-          path="/boothServiceTimeTest"
-          element={<ServiceTimeManagementPage />}
+          path="/ServiceManagementPage"
+          element={<ServiceManagementPage />}
         />
-        <Route path="/boothGoodsTest" element={<GoodsManagementPage />} />
-        <Route path="/boothServiceTest" element={<ServiceManagementPage />} />
         <Route path="/GoodsInfoPage" element={<GoodsInfoInputPage />} />
         <Route path="/ServiceInfoPage" element={<ServiceInfoInputPage />} />
+        <Route
+          path="/ServiceTimeAdd"
+          element={
+            <ServiceTimeAdd
+              startDate={new Date(2024, 5, 23)}
+              endDate={new Date(2024, 5, 30)}
+            />
+          }
+        />
       </Routes>
     </div>
   );

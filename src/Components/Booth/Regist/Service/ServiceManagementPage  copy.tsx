@@ -5,14 +5,18 @@ interface Props {
   price: number;
   volume: string;
   description: string;
+  rating: number;
+  reviews: number;
   imageUrl: string;
 }
 
-export default function ServiceInfoCard({
+export default function ServiceManagementPage({
   name,
   price,
   volume,
   description,
+  rating,
+  reviews,
   imageUrl,
 }: Props) {
   return (
@@ -40,6 +44,10 @@ export default function ServiceInfoCard({
           </div>
         </div>
         <p className="text-gray-600">{description}</p>
+        <div className="flex justify-between items-center mt-2">
+          <span className="text-yellow-500">{rating} ★</span>
+          <span className="text-gray-500">{reviews} 리뷰</span>
+        </div>
       </div>
     </div>
   );
