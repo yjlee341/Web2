@@ -16,16 +16,52 @@ interface Props {
   endDate: Date;
 }
 
-interface ServiceTime {
+interface ServiceDateAndTime {
   date: Date;
   timeList: string[];
 }
 
 export default function ServiceTimeAdd({ startDate, endDate }: Props) {
-  const [serviceTimeList, setServiceTimeList] = useState<ServiceTime[]>();
+  const [serviceDateAndTimeList, setServiceDateAndTimeList] = useState<
+    ServiceDateAndTime[]
+  >([]);
   const [time, setTime] = useState("");
 
-  const addServiceTime = () => {};
+  const addServiceTime = (selectDate: Date, time: string) => {
+    setServiceDateAndTimeList((prevServiceDateAndTimeList) => {
+      const existingService = prevServiceDateAndTimeList.find(
+        (element) => element.date.getTime() === selectDate.getTime()
+      );
+
+      if (existingService) {
+        // 같은 시간이 있는지 확인
+        if (existingService.timeList.includes(time)) {
+          alert("해당 시간은 이미 등록되어 있습니다.");
+          return prevServiceDateAndTimeList; // 상태 변경 없이 기존 상태 반환
+        }
+        // 같은 시간이 없으면 추가
+        return prevServiceDateAndTimeList.map((element) =>
+          element.date.getTime() === selectDate.getTime()
+            ? { ...element, timeList: [...element.timeList, time].sort() }
+            : element
+        );
+      } else {
+        // 날짜가 존재하지 않는 경우 새로운 날짜와 시간 추가
+        return [
+          ...prevServiceDateAndTimeList,
+          { date: selectDate, timeList: [time] },
+        ];
+      }
+    });
+  };
+
+  const getServiceTimeList = (selectedDate: Date | null) => {
+    if (!selectedDate) return [];
+    const serviceTimeList = serviceDateAndTimeList.find(
+      (serviceTime) => serviceTime.date.getTime() === selectedDate.getTime()
+    );
+    return serviceTimeList ? serviceTimeList.timeList.slice().sort() : [];
+  };
 
   // Month index is adjusted by subtracting 1
   const adjustedStartDate = new Date(
@@ -69,16 +105,14 @@ export default function ServiceTimeAdd({ startDate, endDate }: Props) {
     }
   };
 
-  //시간 변경
+  // 시간 변경
   const handleTimeChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTime(event.target.value);
   };
 
-  const a = (selectedDate: Date, time: string) => {};
-
   return (
     <div className="flex justify-center items-center h-screen">
-      <div className="flex flex-col items-center w-1/3 ">
+      <div className="flex flex-col items-center w-1/3">
         <div className="flex justify-between items-center w-full mb-2">
           <button
             onClick={handlePreviousMonth}
@@ -110,7 +144,7 @@ export default function ServiceTimeAdd({ startDate, endDate }: Props) {
                   isActive
                     ? "bg-white cursor-pointer"
                     : "bg-gray-300 cursor-not-allowed"
-                } ${isTodayDate ? "border-blue-500" : "border-gray-200"}`}
+                } border-gray-200`}
                 onClick={() => handleDateClick(day)}
               >
                 {format(day, "d")}
@@ -119,27 +153,48 @@ export default function ServiceTimeAdd({ startDate, endDate }: Props) {
           })}
         </div>
       </div>
-      {selectedDate && (
-        <div className="flex flex-col gap-4 items-center bg-white w-1/3 p-4 mt-4">
+
+      <div className="flex flex-col gap-4 items-center bg-white w-1/3 p-4 mt-4">
+        {selectedDate ? (
           <p className="font-bold text-xl">
             선택된 날짜: {format(selectedDate, "yyyy-MM-dd")}
           </p>
-          <div className="flex gap-5">
-            <h1 className="font-bold text-xl">시간 추가</h1>
-            <input type="time" value={time} onChange={handleTimeChange} />
-            <button
-              onClick={() => {}}
-              className="bg-blue-500 font-bold px-4 rounded-md text-white"
-            >
-              추가
-            </button>
-          </div>
-
-          <div className="mt-2 px-4 py-2 font-bold w-1/2 bg-blue-500 text-white rounded">
-            Action Button
-          </div>
+        ) : (
+          <p className="font-bold text-xl">날짜를 선택해 주세요</p>
+        )}
+        <div className="flex gap-5">
+          <h1 className="font-bold text-xl">시간 추가</h1>
+          <input
+            type="time"
+            className="font-bold border-2 border-black rounded-md px-1"
+            value={time}
+            onChange={handleTimeChange}
+          />
+          <button
+            onClick={() => {
+              if (selectedDate) {
+                addServiceTime(selectedDate, time);
+              }
+            }}
+            className="bg-blue-500 font-bold px-4 rounded-md text-white"
+          >
+            추가
+          </button>
         </div>
-      )}
+
+        {selectedDate && (
+          <div className="w-full flex flex-col items-center gap-1 text-center">
+            {getServiceTimeList(selectedDate).map((time, i) => (
+              <div
+                key={i}
+                className="px-4 py-2 font-bold w-1/3 bg-blue-500 text-white rounded"
+              >
+                {time}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
