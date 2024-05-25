@@ -12,6 +12,7 @@ import GoodsInfoInputPage from "./Components/Booth/Regist/Goods/GoodsInfoInputPa
 import ServiceInfoInputPage from "./Components/Booth/Regist/Service/ServiceInfoInputPage";
 import ServiceManagementPage from "./Components/Booth/Regist/Service/ServiceManagementPage ";
 import ServiceTimeAdd from "./Components/Booth/Regist/Service/ServiceTimeAdd";
+import RegistLocationPage from "./Components/Booth/Regist/Location/RegistLocationPage";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         />
         <Route path="/GoodsInfoPage" element={<GoodsInfoInputPage />} />
         <Route path="/ServiceInfoPage" element={<ServiceInfoInputPage />} />
+        <Route path="/RegistLocation" element={<RegistLocationPage />} />
         <Route
           path="/ServiceTimeAdd"
           element={
