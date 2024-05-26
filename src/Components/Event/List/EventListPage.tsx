@@ -26,7 +26,7 @@ export default function App() {
   return (
     <div className="p-4 m-8">
       <Tabs selectedTab={selectedTab} onTabChange={setSelectedTab} />
-      <div className="border-2 border-t-0 border-blue-500 rounded-b">
+      <div className="border-b-2 border-r-2 shadow-md">
         <div className="p-4">
           <form
             className="flex justify-between items-center mx-4 my-4"
