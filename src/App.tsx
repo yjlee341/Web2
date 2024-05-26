@@ -13,6 +13,9 @@ import ServiceInfoInputPage from "./Components/Booth/Regist/Service/ServiceInfoI
 import ServiceManagementPage from "./Components/Booth/Regist/Service/ServiceManagementPage";
 import ServiceTimeManagementPage from "./Components/Booth/Regist/Service/ServiceTimeManagementPage";
 import EventManage from "./Components/Event/Manage/EventManage";
+import EventListPage from "./Components/Event/List/EventListPage";
+import BoothListPage from "./Components/Booth/List/BoothListPage";
+import SearchResultPage from "./Components/Search/SearchResultPage";
 
 function App() {
   return (
@@ -37,6 +40,9 @@ function App() {
         <Route path="/boothServiceTest" element={<ServiceManagementPage />} />
         <Route path="/GoodsInfoPage" element={<GoodsInfoInputPage />} />
         <Route path="/ServiceInfoPage" element={<ServiceInfoInputPage />} />
+        <Route path="/EventListPage" element={<EventListPage />} />
+        <Route path="/BoothListPage" element={<BoothListPage />} />
+        <Route path="/SearchResultPage" element={<SearchResultPage />} />
       </Routes>
     </div>
   );

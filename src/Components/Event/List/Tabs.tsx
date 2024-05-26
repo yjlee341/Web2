@@ -10,7 +10,7 @@ export default function Tabs({ selectedTab, onTabChange }: TabsProps) {
   const tabs: Progress[] = ["진행중", "모집중", "종료된 행사"];
 
   return (
-    <div className="flex space-x-4 border-b-2 border-blue-500">
+    <div className="flex space-x-4">
       {tabs.map((tab) => (
         <button
           key={tab}
