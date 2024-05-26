@@ -14,7 +14,11 @@ export default function SearchSection({
 }: SearchSectionProps) {
   return (
     <div className="max-w-screen-lg">
+<<<<<<< HEAD
       <div className="flex justify-between items-center mb-2 px-2">
+=======
+      <div className="flex justify-between items-center mb-2 px-2 mx-44">
+>>>>>>> 9dd4a13df4831aa6c23220b038a98d1b36cc97c7
         <h2 className="text-lg font-semibold">{title}</h2>
         <button>{buttonText} &gt;</button>
       </div>
