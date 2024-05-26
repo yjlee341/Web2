@@ -50,13 +50,15 @@ export default function SearchResultPage() {
         </h1>
       </header>
 
-      <SearchSection title="행사" items={events} buttonText="행사 더보기" />
-      <SearchSection title="부스" items={booths} buttonText="부스 더보기" />
-      <SearchSection
-        title="#검색된_해시태그"
-        items={hashtags}
-        buttonText="부스 더보기"
-      />
+      <div className="flex flex-col items-center gap-8 w-full">
+        <SearchSection title="행사" items={events} buttonText="행사 더보기" />
+        <SearchSection title="부스" items={booths} buttonText="부스 더보기" />
+        <SearchSection
+          title="#검색된_해시태그"
+          items={hashtags}
+          buttonText="부스 더보기"
+        />
+      </div>
     </div>
   );
 }

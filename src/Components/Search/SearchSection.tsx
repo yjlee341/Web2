@@ -13,18 +13,16 @@ export default function SearchSection({
   buttonText,
 }: SearchSectionProps) {
   return (
-    <section className="mb-8">
-      <div className="flex justify-between items-center mb-2 px-2 mx-44">
+    <div className="max-w-screen-lg">
+      <div className="flex justify-between items-center mb-2 px-2">
         <h2 className="text-lg font-semibold">{title}</h2>
         <button>{buttonText} &gt;</button>
       </div>
-      <div className="flex justify-center">
-        <div className="grid grid-cols-4 gap-8">
-          {items.map((item, index) => (
-            <SearchCard key={index} title={item.title} />
-          ))}
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {items.map((item, index) => (
+          <SearchCard key={index} title={item.title} />
+        ))}
       </div>
-    </section>
+    </div>
   );
 }
