@@ -15,6 +15,15 @@ import ServiceTimeAdd from "./Components/Booth/Regist/Service/ServiceTimeAdd";
 import RegistLocationPage from "./Components/Booth/Regist/Location/RegistLocationPage";
 
 function App() {
+  //TODO: 임시 데이터. 나중에 모달 연결하면 지울 것
+  const rows = ["A", "B", "C"];
+  const seatsPerRow = [3, 2, 4];
+  const bookingStatus = {
+    confirmed: ["A1", "A2", "A3"],
+    reserved: ["B1", "C1"],
+    available: ["B2", "C2"],
+  };
+
   return (
     <div>
       <Routes>
@@ -34,7 +43,17 @@ function App() {
         />
         <Route path="/GoodsInfoPage" element={<GoodsInfoInputPage />} />
         <Route path="/ServiceInfoPage" element={<ServiceInfoInputPage />} />
-        <Route path="/RegistLocation" element={<RegistLocationPage />} />
+        <Route
+          path="/RegistLocation"
+          element={
+            <RegistLocationPage
+              imageSrc="https://via.placeholder.com/96"
+              rows={rows}
+              seatsPerRow={seatsPerRow}
+              bookingStatus={bookingStatus}
+            />
+          }
+        />
         <Route
           path="/ServiceTimeAdd"
           element={
