@@ -97,7 +97,7 @@ const EventBooking: React.FC<EventBookingProps> = ({
       <div className="bg-white p-4 rounded shadow-lg w-3/4">
         <div className="flex w-full gap-4">
           <div className="w-1/2 py-5 flex flex-col items-center bg-blue-100 rounded-lg">
-            <div className="text-3xl font-bold">행사장 이미지</div>
+            <div className="text-3xl font-bold">행사장 구조도</div>
             <img
               src={imageSrc}
               alt="Event Venue"
@@ -105,7 +105,7 @@ const EventBooking: React.FC<EventBookingProps> = ({
             />
           </div>
           <div className="w-1/2 flex flex-col items-center pt-5 bg-blue-100 rounded-lg">
-            <div className="text-3xl font-bold">행사 신청 현황</div>
+            <div className="text-3xl font-bold">부스 신청 현황</div>
             <div className="w-full items-start pl-5 pt-3">{renderSeats()}</div>
           </div>
         </div>
