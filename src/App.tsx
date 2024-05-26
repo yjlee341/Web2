@@ -12,6 +12,7 @@ import GoodsInfoInputPage from "./Components/Booth/Regist/Goods/GoodsInfoInputPa
 import ServiceInfoInputPage from "./Components/Booth/Regist/Service/ServiceInfoInputPage";
 import ServiceManagementPage from "./Components/Booth/Regist/Service/ServiceManagementPage";
 import ServiceTimeManagementPage from "./Components/Booth/Regist/Service/ServiceTimeManagementPage";
+import EventManage from "./Components/Event/Manage/EventManage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/event/:id" element={<EventDetailPage />} />
+        <Route path="/event/:id/manage" element={<EventManage />} />
         <Route path="/addEvent" element={<AddEventPage />} />
         <Route path="/boothRegist" element={<BoothRegistPage />} />
         <Route path="/boothDetail" element={<BoothDetailPage />} />
