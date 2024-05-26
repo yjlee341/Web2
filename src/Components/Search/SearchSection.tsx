@@ -13,7 +13,7 @@ export default function SearchSection({
   buttonText,
 }: SearchSectionProps) {
   return (
-    <section className="mb-8">
+    <div className="max-w-screen-lg">
       <div className="flex justify-between items-center mb-2 px-2 mx-44">
         <h2 className="text-lg font-semibold">{title}</h2>
         <button>{buttonText} &gt;</button>
