@@ -12,13 +12,16 @@ interface Token {
 }
 
 const fetchLogin = (loginData: loginData): Promise<Token> => {
-  const response = fetch("http://52.79.91.214:8080/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(loginData),
-  }).then((response) => {
+  const response = fetch(
+    "https://bbf17e96-e094-43ee-9957-471b288f2aac.mock.pstmn.io/login",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(loginData),
+    }
+  ).then((response) => {
     if (!response.ok) throw new Error("err");
     return response.json();
   });

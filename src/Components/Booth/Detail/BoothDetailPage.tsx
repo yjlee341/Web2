@@ -9,4 +9,3 @@ export default function BoothDetailPage() {
 //TODO: 부스 신청 버튼에 데이터 담아서 보내기 2
 //TODO: 이미지 미리보기 1
 //TODO: 유효성 검사 2
-//http://52.79.91.214:8080/
