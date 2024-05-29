@@ -47,7 +47,7 @@ function App() {
           path="/RegistLocation"
           element={
             <RegistLocationPage
-              imageSrc="https://via.placeholder.com/96"
+              imageSrc="https://www.gyeongju.go.kr/design/sillafestival/img/content/art_market211013.jpg"
               rows={rows}
               seatsPerRow={seatsPerRow}
               bookingStatus={bookingStatus}
