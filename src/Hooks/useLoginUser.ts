@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { setAccessToken } from "../Api/Util/token";
+import { useNavigate } from "react-router-dom";
 
 interface loginData {
   email: string;
@@ -27,6 +28,7 @@ const fetchLogin = (loginData: loginData): Promise<Token> => {
 };
 
 export const useLoginUser = () => {
+  const navi = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { mutate } = useMutation({
@@ -35,6 +37,7 @@ export const useLoginUser = () => {
       alert("아이디나 비밀번호를 잘못 입력하였습니다.");
     },
     onSuccess: (data: Token) => {
+      navi("/");
       setAccessToken(data.token);
     },
   });

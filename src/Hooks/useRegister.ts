@@ -1,4 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 interface registerData {
   email: string;
@@ -7,20 +9,49 @@ interface registerData {
   password: string;
 }
 
-const registerUser = async (registerData: registerData): Promise<void> => {
-  const response = await fetch("http://52.79.91.214:8080/signup", {
+const fetchSignUp = (registerData: registerData): Promise<void> => {
+  const response = fetch("http://52.79.91.214:8080/signup", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(registerData),
+  }).then((response) => {
+    if (!response.ok) throw new Error("err");
+    return response.json();
   });
 
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
+  return response;
 };
 
-export function useRegisterUser() {
-  return useMutation({ mutationFn: registerUser });
-}
+export const useRegisterUser = () => {
+  const navi = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [nickname, setNickName] = useState("");
+  const [name, setName] = useState("");
+  const [passwordCheck, setPasswordCheck] = useState("");
+  const { mutate } = useMutation({
+    mutationFn: () => fetchSignUp({ email, password, nickname, name }),
+    onError() {
+      alert("회원가입 오류");
+    },
+    onSuccess: () => {
+      navi("/");
+    },
+  });
+
+  return {
+    mutate,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    nickname,
+    setNickName,
+    name,
+    setName,
+    passwordCheck,
+    setPasswordCheck,
+  };
+};
