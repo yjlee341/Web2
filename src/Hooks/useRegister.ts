@@ -34,7 +34,7 @@ export const useRegisterUser = () => {
   const { mutate } = useMutation({
     mutationFn: () => fetchSignUp({ email, password, nickname, name }),
     onError() {
-      alert("회원가입 오류");
+      alert("입력값 중 형식에 맞지 않는 입력값이 있습니다.");
     },
     onSuccess: () => {
       navi("/");

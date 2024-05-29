@@ -19,6 +19,9 @@ export default function RegisterPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isPasswordSame()) {
+      return alert("비밀번호가 일치하지 않습니다.");
+    }
     try {
       mutate();
     } catch (error) {
