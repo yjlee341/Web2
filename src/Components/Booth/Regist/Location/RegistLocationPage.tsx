@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import LocationStateInfo from "./LocationStateInfo";
 
 interface EventBookingProps {
   imageSrc: string;
@@ -110,18 +111,9 @@ const EventBooking: React.FC<EventBookingProps> = ({
           </div>
         </div>
         <div className="flex justify-end pr-1 mt-4">
-          <div className="flex items-center mr-4">
-            <div className="w-4 h-4 bg-yellow-400 mr-2"></div>
-            <span>비어있음</span>
-          </div>
-          <div className="flex items-center mr-4">
-            <div className="w-4 h-4 bg-red-400 mr-2"></div>
-            <span>예약됨</span>
-          </div>
-          <div className="flex items-center">
-            <div className="w-4 h-4 bg-gray-400 mr-2"></div>
-            <span>승인됨</span>
-          </div>
+          <LocationStateInfo color="yellow-400" state={"비어있음"} />
+          <LocationStateInfo color="red-400" state={"예약됨"} />
+          <LocationStateInfo color="gray-400" state={"승인됨"} />
         </div>
         <div className="flex justify-center gap-4 mt-4 w-full">
           <button className="w-1/4 bg-blue-500 text-white py-2 rounded">
