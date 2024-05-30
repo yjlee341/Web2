@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import BoothTable from "./BoothTable";
 import EventFormInput from "./EventFormInput";
+import { ALL_ALPHABETS } from "../../Constants/Alphabet";
 
 export function getNumbers(maxNumber: number) {
   const NUMBERS = [];
@@ -18,6 +19,8 @@ export function getAlphabets(maxAlphabet: string) {
   return ALPHABETS;
 }
 
+type AreaData = Array<{ area: string; maxNumber: number }>;
+
 interface EventData {
   name: string;
   location: string;
@@ -27,7 +30,7 @@ interface EventData {
   boothRecruitmentStartDate: string;
   boothRecruitmentEndDate: string;
   layoutType: "ALPHABET" | "NUMBER";
-  areaClassifications: Array<{ area: string; maxNumber: number }>;
+  areaClassifications: AreaData;
 }
 
 export default function AddEventPage() {
@@ -47,21 +50,25 @@ export default function AddEventPage() {
     boothRecruitmentStartDate: "",
     boothRecruitmentEndDate: "",
     layoutType: "ALPHABET",
-    areaClassifications: [
-      { area: "A", maxNumber: 12 },
-      { area: "B", maxNumber: 5 },
-      { area: "C", maxNumber: 5 },
-    ],
+    areaClassifications: [{ area: "A", maxNumber: 1 }],
   });
+
+  console.log(eventDetails.areaClassifications);
 
   const [mainImage, setMainImage] = useState<File>();
   const [layoutImages, setLayoutImages] = useState<File[]>([]);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
-    console.log(name, value);
 
     setEventDetails({ ...eventDetails, [name]: value });
+  };
+
+  const handleAreaTableChange = (alpha: string, number: number) => {
+    let newAreas = [...eventDetails.areaClassifications];
+    const index = newAreas.findIndex(({ area }) => area === alpha);
+    newAreas[index].maxNumber = number;
+    setEventDetails({ ...eventDetails, areaClassifications: newAreas });
   };
 
   const handleImageChange = (e: any) => {
@@ -75,6 +82,22 @@ export default function AddEventPage() {
 
   const changeAlphabet = (e: any) => {
     setMaxAlphabet(e.target.value);
+    let newAreas: AreaData = [];
+    const alphabets = getAlphabets(e.target.value);
+
+    // 지금 선택한 알파뱃이 이전 선택한 알파벳보다 크면
+    alphabets.forEach((alphabet) => {
+      const inIncludeAlphabet = eventDetails.areaClassifications.find(
+        ({ area }) => area === alphabet
+      );
+      const initAreaValue = { area: alphabet, maxNumber: 0 };
+      newAreas.push(inIncludeAlphabet ? inIncludeAlphabet : initAreaValue);
+    });
+
+    setEventDetails({
+      ...eventDetails,
+      areaClassifications: newAreas,
+    });
   };
 
   const changeNumber = (e: any) => {
@@ -151,27 +174,32 @@ export default function AddEventPage() {
               onChange={handleChange}
               name="description"
             />
+
             <input type="file" name="mainImage" onChange={handleImageChange} />
 
             <EventFormInput
               placeholder="시작날짜"
               onChange={handleChange}
               name="openDate"
+              DateInput
             />
             <EventFormInput
               placeholder="마감날짜"
               onChange={handleChange}
               name="closeDate"
+              DateInput
             />
             <EventFormInput
               placeholder="부스 모집 시작날짜"
               onChange={handleChange}
               name="boothRecruitmentStartDate"
+              DateInput
             />
             <EventFormInput
               placeholder="부스 모집 마감날짜"
               onChange={handleChange}
               name="boothRecruitmentEndDate"
+              DateInput
             />
           </div>
         </div>
@@ -253,6 +281,7 @@ export default function AddEventPage() {
               boothType={boothType}
               alphabet={maxAlphabet}
               number={maxNumber}
+              handleAreaTableChange={handleAreaTableChange}
             />
 
             <button className="w-44 mx-auto bg-blue-500 rounded-md p-2 text-3xl text-white">
