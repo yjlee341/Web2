@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import BoothTable from "./BoothTable";
 import EventFormInput from "./EventFormInput";
 
@@ -17,6 +17,19 @@ export function getAlphabets(maxAlphabet: string) {
   }
   return ALPHABETS;
 }
+
+interface EventData {
+  name: string;
+  location: string;
+  description: string;
+  openDate: string;
+  closeDate: string;
+  boothRecruitmentStartDate: string;
+  boothRecruitmentEndDate: string;
+  layoutType: "ALPHABET" | "NUMBER";
+  areaClassifications: Array<{ area: string; maxNumber: number }>;
+}
+
 export default function AddEventPage() {
   const [boothType, setBoothType] = useState<"ALPHABET" | "NUMBER">("ALPHABET");
   const [maxAlphabet, setMaxAlphabet] = useState("A");
@@ -24,6 +37,41 @@ export default function AddEventPage() {
 
   const ALPHABETS = getAlphabets("Z");
   const NUMBERS = getNumbers(boothType === "ALPHABET" ? 20 : 100);
+
+  const [eventDetails, setEventDetails] = useState<EventData>({
+    name: "",
+    location: "",
+    description: "",
+    openDate: "",
+    closeDate: "",
+    boothRecruitmentStartDate: "",
+    boothRecruitmentEndDate: "",
+    layoutType: "ALPHABET",
+    areaClassifications: [
+      { area: "A", maxNumber: 12 },
+      { area: "B", maxNumber: 5 },
+      { area: "C", maxNumber: 5 },
+    ],
+  });
+
+  const [mainImage, setMainImage] = useState<File>();
+  const [layoutImages, setLayoutImages] = useState<File[]>([]);
+
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    console.log(name, value);
+
+    setEventDetails({ ...eventDetails, [name]: value });
+  };
+
+  const handleImageChange = (e: any) => {
+    setMainImage(e.target.files[0]);
+  };
+
+  const handleLayoutImagesChange = (e: any) => {
+    // @ts-ignore
+    setLayoutImages([...e.target.files]);
+  };
 
   const changeAlphabet = (e: any) => {
     setMaxAlphabet(e.target.value);
@@ -36,8 +84,47 @@ export default function AddEventPage() {
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    console.log("부스정보");
-    console.log("부스이미지", boothType, maxAlphabet, maxNumber);
+    const formData = new FormData();
+    formData.append("name", eventDetails.name);
+    formData.append("location", eventDetails.location);
+    formData.append("description", eventDetails.description);
+    mainImage && formData.append("mainImage", mainImage);
+    formData.append("openDate", eventDetails.openDate);
+    formData.append("closeDate", eventDetails.closeDate);
+    formData.append(
+      "boothRecruitmentStartDate",
+      eventDetails.boothRecruitmentStartDate
+    );
+    formData.append(
+      "boothRecruitmentEndDate",
+      eventDetails.boothRecruitmentEndDate
+    );
+    formData.append("layoutType", eventDetails.layoutType);
+
+    layoutImages.forEach((image) => {
+      formData.append(`layoutImages`, image);
+    });
+
+    eventDetails.areaClassifications.forEach((areaClassification) => {
+      formData.append("areaClassifications", areaClassification.area);
+      formData.append("areaMaxNumbers", `${areaClassification.maxNumber}`);
+    });
+
+    fetch("http://52.79.91.214:8080/events", {
+      method: "POST",
+      body: formData,
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEwLCJpYXQiOjE3MTcwNjI2NTcsImV4cCI6MTcxNzE0OTA1N30.qns-mRMIh-O70UEM2pZvTn2Faf2FDmvWQerzwiFq2EI",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
   return (
@@ -49,12 +136,43 @@ export default function AddEventPage() {
             행사 정보 입력
           </span>
           <div className="w-full border border-blue-400 p-10 flex flex-col gap-5">
-            <EventFormInput placeholder="" />
-            <EventFormInput placeholder="" />
-            <EventFormInput placeholder="" />
-            <EventFormInput placeholder="" />
-            <EventFormInput placeholder="" />
-            <EventFormInput placeholder="" />
+            <EventFormInput
+              placeholder="행사명"
+              onChange={handleChange}
+              name="name"
+            />
+            <EventFormInput
+              placeholder="장소"
+              onChange={handleChange}
+              name="location"
+            />
+            <EventFormInput
+              placeholder="설명"
+              onChange={handleChange}
+              name="description"
+            />
+            <input type="file" name="mainImage" onChange={handleImageChange} />
+
+            <EventFormInput
+              placeholder="시작날짜"
+              onChange={handleChange}
+              name="openDate"
+            />
+            <EventFormInput
+              placeholder="마감날짜"
+              onChange={handleChange}
+              name="closeDate"
+            />
+            <EventFormInput
+              placeholder="부스 모집 시작날짜"
+              onChange={handleChange}
+              name="boothRecruitmentStartDate"
+            />
+            <EventFormInput
+              placeholder="부스 모집 마감날짜"
+              onChange={handleChange}
+              name="boothRecruitmentEndDate"
+            />
           </div>
         </div>
         <div className="flex flex-col mt-10">
@@ -65,7 +183,12 @@ export default function AddEventPage() {
           {/* 이미지 첨부 */}
 
           <div className="w-full border border-blue-400 p-10 flex flex-col gap-5">
-            <EventFormInput placeholder="" />
+            <input
+              type="file"
+              name="layoutImages"
+              multiple
+              onChange={handleLayoutImagesChange}
+            />
 
             {/* 부스 타입 */}
 
