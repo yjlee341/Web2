@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import LocationStateInfo from "./LocationStateInfo";
+import ModalButton from "./ModalButton";
 
 interface EventBookingProps {
   imageSrc: string;
@@ -116,12 +117,8 @@ const EventBooking: React.FC<EventBookingProps> = ({
           <LocationStateInfo color="gray-400" state={"승인됨"} />
         </div>
         <div className="flex justify-center gap-4 mt-4 w-full">
-          <button className="w-1/4 bg-blue-500 text-white py-2 rounded">
-            확인
-          </button>
-          <button className="w-1/4 bg-red-500 text-white py-2 rounded">
-            취소
-          </button>
+          <ModalButton action={() => {}} color="blue-500" text="확인" />
+          <ModalButton action={() => {}} color="red-500" text="취소" />
         </div>
       </div>
     </div>
