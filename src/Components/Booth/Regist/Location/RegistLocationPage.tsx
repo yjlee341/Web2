@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import LocationStateInfo from "./LocationStateInfo";
 import ModalButton from "./ModalButton";
+import "../../../../index.css"; // 사용자 정의 CSS 파일 포함
 
 interface EventBookingProps {
   imageSrc: string;
@@ -76,7 +77,7 @@ const EventBooking: React.FC<EventBookingProps> = ({
             key={seatKey}
             className={`w-16 h-16 ${getColorClass(
               transformedStatus[seatKey] || "available"
-            )} m-1 flex items-center justify-center ${
+            )} m-1 flex items-center justify-center text-center text-sm font-mono ${
               selectedSeats.includes(seatKey) ? "border-4 border-blue-500" : ""
             } ${!isConfirmed ? "cursor-pointer" : ""}`}
             onClick={() => !isConfirmed && handleSeatClick(seatKey)}
@@ -97,8 +98,8 @@ const EventBooking: React.FC<EventBookingProps> = ({
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-4 rounded shadow-lg w-3/4">
-        <div className="flex w-full gap-4">
-          <div className="w-1/2 py-5 flex flex-col items-center bg-blue-100 rounded-lg">
+        <div className="flex w-full gap-4 h-full">
+          <div className="w-1/2 py-5 flex flex-col h-[700px] items-center bg-blue-100 rounded-lg ">
             <div className="text-3xl font-bold">행사장 구조도</div>
             <img
               src={imageSrc}
@@ -106,9 +107,11 @@ const EventBooking: React.FC<EventBookingProps> = ({
               className="w-2/3 h-auto rounded mt-3"
             />
           </div>
-          <div className="w-1/2 flex flex-col items-center pt-5 bg-blue-100 rounded-lg">
+          <div className="w-1/2 flex flex-col items-center pt-5 bg-blue-100 rounded-lg h-[700px] overflow-x-scroll overflow-y-scroll scrollbar-custom">
             <div className="text-3xl font-bold">부스 신청 현황</div>
-            <div className="w-full items-start pl-5 pt-3">{renderSeats()}</div>
+            <div className="w-full flex flex-col items-start pl-5 pt-3">
+              {renderSeats()}
+            </div>
           </div>
         </div>
         <div className="flex justify-end pr-1 mt-4">
