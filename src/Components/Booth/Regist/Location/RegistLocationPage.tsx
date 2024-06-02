@@ -21,6 +21,7 @@ const EventBooking: React.FC<EventBookingProps> = ({
   bookingStatus,
 }) => {
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
+  const maxSelectableSeats = 3;
 
   const getColorClass = (status: string) => {
     switch (status) {
@@ -36,11 +37,16 @@ const EventBooking: React.FC<EventBookingProps> = ({
   };
 
   const handleSeatClick = (seat: string) => {
-    setSelectedSeats((prevSelectedSeats) =>
-      prevSelectedSeats.includes(seat)
-        ? prevSelectedSeats.filter((s) => s !== seat)
-        : [...prevSelectedSeats, seat]
-    );
+    setSelectedSeats((prevSelectedSeats) => {
+      if (prevSelectedSeats.includes(seat)) {
+        return prevSelectedSeats.filter((s) => s !== seat);
+      } else if (prevSelectedSeats.length < maxSelectableSeats) {
+        return [...prevSelectedSeats, seat];
+      } else {
+        alert(`부스는 최대 3개까지 신청 가능합니다.`);
+        return prevSelectedSeats;
+      }
+    });
   };
 
   const transformBookingStatus = (statusData: {
@@ -108,7 +114,7 @@ const EventBooking: React.FC<EventBookingProps> = ({
             />
           </div>
           <div className="w-1/2 flex flex-col items-center pt-5 bg-blue-100 rounded-lg h-[700px] overflow-x-scroll overflow-y-scroll scrollbar-custom">
-            <div className="text-3xl font-bold">부스 신청 현황</div>
+            <div className="text-3xl font-bold">부스 위치 선택</div>
             <div className="w-full flex flex-col items-start pl-5 pt-3">
               {renderSeats()}
             </div>
