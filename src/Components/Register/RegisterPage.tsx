@@ -22,11 +22,7 @@ export default function RegisterPage() {
     if (!isPasswordSame()) {
       return alert("비밀번호가 일치하지 않습니다.");
     }
-    try {
-      mutate();
-    } catch (error) {
-      console.error("뭔가 문제가 발생함", error);
-    }
+    mutate();
   };
 
   function emailCheck(emailAddress: string) {
