@@ -163,7 +163,7 @@ function App() {
         <Route
           path="/RegistLocation"
           element={
-            <EventBooking
+            <RegistLocationPage
               imageSrc="https://via.placeholder.com/96"
               rows={rows}
               seatsPerRow={seatsPerRow}
