@@ -29,7 +29,7 @@ export default function BoothListPage() {
 
   return (
     <div className="p-4 m-8">
-      <div className="border-2 border-blue-500 p-4 mt-4 rounded">
+      <div className="p-4 mt-4 border-b-2 border-r-2 shadow-md">
         <form
           className="flex justify-between items-center my-4 mb-4 mx-10"
           onSubmit={(e) => e.preventDefault()}
