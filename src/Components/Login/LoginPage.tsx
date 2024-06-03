@@ -8,11 +8,7 @@ export default function LoginPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      mutate();
-    } catch (err) {
-      console.log(err);
-    }
+    mutate();
   };
 
   return (
