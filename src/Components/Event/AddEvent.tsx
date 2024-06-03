@@ -1,7 +1,10 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { FormEvent, useMemo, useState } from "react";
 import BoothTable from "./BoothTable";
 import EventFormInput from "./EventFormInput";
-import { ALL_ALPHABETS } from "../../Constants/Alphabet";
+
+import { MdDescription, MdStorefront } from "react-icons/md";
+import { MdOutlineDescription } from "react-icons/md";
+import { SlLocationPin } from "react-icons/sl";
 
 export function getNumbers(maxNumber: number) {
   const NUMBERS = [];
@@ -53,10 +56,16 @@ export default function AddEventPage() {
     areaClassifications: [{ area: "A", maxNumber: 1 }],
   });
 
-  console.log(eventDetails.areaClassifications);
-
   const [mainImage, setMainImage] = useState<File>();
   const [layoutImages, setLayoutImages] = useState<File[]>([]);
+
+  const mainImageView = useMemo(() => {
+    if (mainImage) {
+      return URL.createObjectURL(mainImage);
+    }
+  }, [mainImage]);
+
+  console.log(mainImageView);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -138,7 +147,7 @@ export default function AddEventPage() {
       body: formData,
       headers: {
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEwLCJpYXQiOjE3MTcwNjI2NTcsImV4cCI6MTcxNzE0OTA1N30.qns-mRMIh-O70UEM2pZvTn2Faf2FDmvWQerzwiFq2EI",
+          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEwLCJpYXQiOjE3MTc0MTkzOTEsImV4cCI6MTcxNzUwNTc5MX0.cpi5Xr1wFymnuIPmH3bXztvVc-WkI0zBzllMwk9_Am0",
       },
     })
       .then((response) => response.json())
@@ -153,7 +162,6 @@ export default function AddEventPage() {
   return (
     <form className="flex min-h-screen justify-center" onSubmit={onSubmit}>
       <div className="w-full max-w-screen-lg border h-full p-10">
-        <h2>행사 등록</h2>
         <div className="flex flex-col mt-5">
           <span className="bg-blue-400 w-fit p-1 rounded-t">
             행사 정보 입력
@@ -163,43 +171,74 @@ export default function AddEventPage() {
               placeholder="행사명"
               onChange={handleChange}
               name="name"
+              label="행사명"
+              Icon={MdStorefront}
             />
             <EventFormInput
               placeholder="장소"
               onChange={handleChange}
               name="location"
+              label="장소"
+              Icon={SlLocationPin}
             />
             <EventFormInput
               placeholder="설명"
               onChange={handleChange}
               name="description"
+              label="행사 상세 설명"
+              Icon={MdDescription}
             />
-
-            <input type="file" name="mainImage" onChange={handleImageChange} />
+            <label>
+              <input
+                type="file"
+                name="mainImage"
+                onChange={handleImageChange}
+                hidden
+              />
+              {mainImage ? (
+                <img
+                  src={URL.createObjectURL(mainImage)}
+                  alt="메인이미지"
+                  className="w-full h-80 object-contain"
+                />
+              ) : (
+                <div className="w-full h-8 p-10 border-2 border-dashed flex justify-center items-center whitespace-nowrap">
+                  메인이미지 업로드
+                </div>
+              )}
+            </label>
 
             <EventFormInput
               placeholder="시작날짜"
               onChange={handleChange}
               name="openDate"
+              label="행사 시작 날짜"
               DateInput
+              Icon={MdOutlineDescription}
             />
             <EventFormInput
               placeholder="마감날짜"
               onChange={handleChange}
               name="closeDate"
+              label="행사 마감 날짜"
               DateInput
+              Icon={MdOutlineDescription}
             />
             <EventFormInput
               placeholder="부스 모집 시작날짜"
               onChange={handleChange}
               name="boothRecruitmentStartDate"
+              label="부스 모집 시작 날짜"
               DateInput
+              Icon={MdOutlineDescription}
             />
             <EventFormInput
-              placeholder="부스 모집 마감날짜"
+              placeholder="부스 모집마감날짜"
               onChange={handleChange}
               name="boothRecruitmentEndDate"
+              label="부스 모집 마감날짜"
               DateInput
+              Icon={MdOutlineDescription}
             />
           </div>
         </div>
@@ -211,12 +250,28 @@ export default function AddEventPage() {
           {/* 이미지 첨부 */}
 
           <div className="w-full border border-blue-400 p-10 flex flex-col gap-5">
-            <input
-              type="file"
-              name="layoutImages"
-              multiple
-              onChange={handleLayoutImagesChange}
-            />
+            <label className="grid grid-cols-3 gap-2">
+              <input
+                type="file"
+                name="layoutImages"
+                multiple
+                onChange={handleLayoutImagesChange}
+                hidden
+              />
+              {layoutImages.length !== 0 ? (
+                layoutImages.map((layoutImage) => (
+                  <img
+                    src={URL.createObjectURL(layoutImage)}
+                    alt="행사 배치도"
+                    className="w-full h-80 object-contain"
+                  />
+                ))
+              ) : (
+                <div className="w-full h-8 p-10 border-2 border-dashed flex justify-center items-center whitespace-nowrap">
+                  행사 배치도 업로드
+                </div>
+              )}
+            </label>
 
             {/* 부스 타입 */}
 

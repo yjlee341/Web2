@@ -1,9 +1,13 @@
+import { IconType } from "react-icons";
+
 interface Props {
   placeholder: string;
+  label: string;
   required?: boolean;
   onChange: (e: any) => void;
   name: string;
   DateInput?: boolean;
+  Icon: IconType;
 }
 export default function EventFormInput({
   placeholder,
@@ -11,12 +15,18 @@ export default function EventFormInput({
   onChange,
   name,
   DateInput = false,
+  label,
+  Icon,
 }: Props) {
   return (
-    <div className="flex gap-2 w-full">
-      <img alt="icon" src="../../logo.svg" />
+    <div className="flex flex-col gap-1 w-full">
+      <div className="flex gap-2 items-center">
+        <Icon size={23} />
+        <span>{label}</span>
+      </div>
+
       <input
-        className="border rounded-md flex-1 p-1"
+        className="border rounded-md p-1 w-full"
         required={required}
         placeholder={placeholder}
         onChange={onChange}
