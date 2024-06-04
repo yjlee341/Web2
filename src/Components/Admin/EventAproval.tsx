@@ -15,44 +15,6 @@ interface EventAprovalType {
   totalPages: number;
 }
 
-const booths = [
-  {
-    name: "Name",
-    location: "서울시 구로구",
-    date: "2024.05.10",
-    description: "부스 설명 내용",
-    status: "승인 대기",
-  },
-  {
-    name: "Name",
-    location: "서울시 구로구",
-    date: "2024.05.11",
-    description: "부스 설명 내용",
-    status: "승인 대기",
-  },
-  {
-    name: "Name",
-    location: "서울시 구로구",
-    date: "2024.05.11",
-    description: "부스 설명 내용",
-    status: "승인 대기",
-  },
-  {
-    name: "Name",
-    location: "서울시 구로구1",
-    date: "2024.05.11",
-    description: "부스 설명 내용",
-    status: "승인 반려",
-  },
-  {
-    name: "Name",
-    location: "서울시 구로구서울시 구로구서울시 구로구서울시 구로구E1",
-    date: "2024.05.11",
-    description: "부스 설명 내용",
-    status: "승인 완료",
-  },
-];
-
 const fetcher = () =>
   fetch("http://52.79.91.214:8080/admin/events?page=0&status=all", {
     method: "GET",
