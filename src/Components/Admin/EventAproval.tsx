@@ -66,6 +66,7 @@ const setEventState = (id: number, status: string) =>
   fetch(`http://52.79.91.214:8080/admin/events/${id}/status`, {
     method: "PUT",
     headers: {
+      "Content-Type": "application/json",
       Authorization:
         "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcxNzUxMjg0NywiZXhwIjoxNzE3NTk5MjQ3fQ.BDW1tDnJTZxOQDK73plj9TDxUgX30Zkglgyy7KBy-wY",
     },
