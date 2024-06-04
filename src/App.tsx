@@ -17,6 +17,9 @@ import EventListPage from "./Components/Event/List/EventListPage";
 import BoothListPage from "./Components/Booth/List/BoothListPage";
 import SearchResultPage from "./Components/Search/SearchResultPage";
 import RegistLocationPage from "./Components/Booth/Regist/Location/RegistLocationPage";
+import RequestLayout from "./Components/Layout/RequestLayout";
+import BoothAproval from "./Components/Event/Manage/BoothAproval";
+import EventAproval from "./Components/Admin/EventAproval";
 
 function App() {
   //TODO: 임시 데이터. 나중에 모달 연결하면 지울 것
@@ -148,7 +151,22 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/event/:id" element={<EventDetailPage />} />
-        <Route path="/event/:id/manage" element={<EventManage />} />
+        <Route
+          path="/event/:id/manage"
+          element={
+            <RequestLayout header="부스 신청" side="부스 신청 현황">
+              <BoothAproval />
+            </RequestLayout>
+          }
+        />
+        <Route
+          path="/admin/eventmanage"
+          element={
+            <RequestLayout header="행사 신청" side="행사 신청 현황">
+              <EventAproval />
+            </RequestLayout>
+          }
+        />
         <Route path="/addEvent" element={<AddEventPage />} />
         <Route path="/boothRegist" element={<BoothRegistPage />} />
         <Route path="/boothDetail" element={<BoothDetailPage />} />
