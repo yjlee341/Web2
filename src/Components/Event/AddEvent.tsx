@@ -293,3 +293,39 @@ export default function AddEventPage() {
     </form>
   );
 }
+
+/*
+행사 상태변경API
+fetch("http://52.79.91.214:8080/admin/events/5/status", {
+      method: "PUT",
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjE2LCJpYXQiOjE3MTc1MDA4NzAsImV4cCI6MTcxNzU4NzI3MH0.SFuRQZ_xk8u-CyNRYkrXBu1nU9dx9eoxkdDPltC7ug4",
+      },
+    body:JSON.stringify({"status" : "APPROVE"})
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+
+  행사 신청목록 API
+  fetch("http://52.79.91.214:8080/admin/events?page=0&status=all", {
+      method: "GET",
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjE2LCJpYXQiOjE3MTc1MDA4NzAsImV4cCI6MTcxNzU4NzI3MH0.SFuRQZ_xk8u-CyNRYkrXBu1nU9dx9eoxkdDPltC7ug4",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+ 
+ */
