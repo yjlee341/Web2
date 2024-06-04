@@ -5,6 +5,8 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
     "./node_modules/flowbite/**/*.js",
   ],
+  purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
+  darkMode: false, // or 'media' or 'class',
   theme: {
     extend: {},
     fontFamily: {
