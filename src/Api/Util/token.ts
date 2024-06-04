@@ -1,9 +1,9 @@
 const getAccessToken = (): string | null => {
-  return localStorage.getItem("accessToken");
+  return localStorage.getItem("token");
 };
 
 const setAccessToken = (accessToken: string): void => {
-  localStorage.setItem("accessToken", accessToken);
+  localStorage.setItem("token", accessToken);
 };
 
 export { getAccessToken, setAccessToken };

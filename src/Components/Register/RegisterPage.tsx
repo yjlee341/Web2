@@ -1,21 +1,29 @@
 import RegisterInput from "./RegisterInput";
 import { useRegisterUser } from "../../Hooks/useRegister";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [nickname, setNickName] = useState("");
-  const [name, setName] = useState("");
-  const [passwordCheck, setPasswordCheck] = useState("");
-  const { mutate } = useRegisterUser();
+  const {
+    mutate,
+    email,
+    name,
+    nickname,
+    password,
+    passwordCheck,
+    setEmail,
+    setName,
+    setNickName,
+    setPassword,
+    setPasswordCheck,
+  } = useRegisterUser();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isPasswordSame()) {
+      return alert("비밀번호가 일치하지 않습니다.");
+    }
     try {
-      const data = { email, password, name, nickname };
-      mutate(data);
-      console.log("보내짐");
+      mutate();
     } catch (error) {
       console.error("뭔가 문제가 발생함", error);
     }
