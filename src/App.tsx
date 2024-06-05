@@ -10,9 +10,7 @@ import BoothDetailPage from "./Components/Booth/Detail/BoothDetailPage";
 import GoodsManagementPage from "./Components/Booth/Regist/Goods/GoodsMangementPage";
 import GoodsInfoInputPage from "./Components/Booth/Regist/Goods/GoodsInfoInputPage";
 import ServiceInfoInputPage from "./Components/Booth/Regist/Service/ServiceInfoInputPage";
-import ServiceManagementPage from "./Components/Booth/Regist/Service/ServiceManagementPage ";
-import ServiceTimeAdd from "./Components/Booth/Regist/Service/ServiceTimeAdd";
-import EventManage from "./Components/Event/Manage/EventManage";
+import ServiceManagementPage from "./Components/Booth/Regist/Service/ServiceManagementPage";
 import EventListPage from "./Components/Event/List/EventListPage";
 import BoothListPage from "./Components/Booth/List/BoothListPage";
 import SearchResultPage from "./Components/Search/SearchResultPage";
@@ -20,6 +18,7 @@ import RegistLocationPage from "./Components/Booth/Regist/Location/RegistLocatio
 import RequestLayout from "./Components/Layout/RequestLayout";
 import BoothAproval from "./Components/Event/Manage/BoothAproval";
 import EventAproval from "./Components/Admin/EventAproval";
+import ServiceTimeAdd from "./Components/Booth/Regist/Service/ServiceTimeAdd";
 
 function App() {
   //TODO: 임시 데이터. 나중에 모달 연결하면 지울 것
