@@ -33,7 +33,7 @@ export const useRegisterUser = () => {
   const [passwordCheck, setPasswordCheck] = useState("");
   const { mutate } = useMutation({
     mutationFn: () => fetchSignUp({ email, password, nickname, name }),
-    onError() {
+    onError: () => {
       alert("입력값 중 형식에 맞지 않는 입력값이 있습니다.");
     },
     onSuccess: () => {

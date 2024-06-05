@@ -33,7 +33,7 @@ export const useLoginUser = () => {
   const [password, setPassword] = useState("");
   const { mutate } = useMutation({
     mutationFn: () => fetchLogin({ email, password }),
-    onError() {
+    onError: () => {
       alert("아이디나 비밀번호를 잘못 입력하였습니다.");
     },
     onSuccess: (data: Token) => {

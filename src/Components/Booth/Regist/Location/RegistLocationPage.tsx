@@ -3,7 +3,7 @@ import LocationStateInfo from "./LocationStateInfo";
 import ModalButton from "./ModalButton";
 import "../../../../index.css"; // 사용자 정의 CSS 파일 포함
 
-interface EventBookingProps {
+interface Props {
   imageSrc: string;
   rows: string[];
   seatsPerRow: number[];
@@ -14,12 +14,12 @@ interface EventBookingProps {
   };
 }
 
-const EventBooking: React.FC<EventBookingProps> = ({
+export default function RegistLocationPage({
   imageSrc,
   rows,
   seatsPerRow,
   bookingStatus,
-}) => {
+}: Props) {
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
   const maxSelectableSeats = 3;
 
@@ -132,6 +132,4 @@ const EventBooking: React.FC<EventBookingProps> = ({
       </div>
     </div>
   );
-};
-
-export default EventBooking;
+}
