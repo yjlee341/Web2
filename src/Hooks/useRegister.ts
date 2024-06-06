@@ -37,7 +37,7 @@ export const useRegisterUser = () => {
       alert("입력값 중 형식에 맞지 않는 입력값이 있습니다.");
     },
     onSuccess: () => {
-      navi("/");
+      navi("/login");
     },
   });
 
