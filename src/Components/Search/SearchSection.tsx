@@ -3,7 +3,7 @@ import SearchCard from "./SearchCard";
 
 interface SearchSectionProps {
   title: string;
-  items: { title: string }[];
+  items: { title: string; endDate: string }[]; // 종료일 추가
   buttonText: string;
 }
 
@@ -20,7 +20,7 @@ export default function SearchSection({
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {items.map((item, index) => (
-          <SearchCard key={index} title={item.title} />
+          <SearchCard key={index} title={item.title} endDate={item.endDate} />
         ))}
       </div>
     </div>
