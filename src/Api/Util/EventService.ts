@@ -1,6 +1,21 @@
-// eventService.ts
-import { EventResponse } from "./Interfaces";
-import { getAccessToken } from "../../../Api/Util/token";
+import { getAccessToken } from "./token";
+
+export interface Event {
+  id: number;
+  name: string;
+  mainImageUrl: string;
+  openDate: string;
+  closeDate: string;
+  recruitStartDate: string;
+  recruitEndDate: string;
+}
+
+export interface EventResponse {
+  hasNext: boolean;
+  sliceNumber: number;
+  numberOfElements: number;
+  content: Event[];
+}
 
 export const fetchEvents = async (
   sliceNumber: number,

@@ -1,5 +1,19 @@
-import { BoothResponse } from "./Interfaces";
-import { getAccessToken } from "../../../Api/Util/token";
+import { getAccessToken } from "./token";
+
+export interface Booth {
+  id: number;
+  name: string;
+  openDate: string;
+  closeDate: string;
+  mainImageUrl: string;
+}
+
+export interface BoothResponse {
+  hasNext: boolean;
+  sliceNumber: number;
+  numberOfElements: number;
+  content: Booth[];
+}
 
 export const fetchBooths = async (
   sliceNumber: number

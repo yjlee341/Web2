@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../NavBar/logo_wide.png";
-import { useLoginUser } from "../../Hooks/useLoginUser";
 import { getAccessToken, removeAccessToken } from "../../Api/Util/token";
 
 export default function NavBar() {
@@ -11,7 +10,6 @@ export default function NavBar() {
   };
 
   const isLoggedIn = !!getAccessToken();
-  const { mutate: logout } = useLoginUser();
 
   const handleLogout = () => {
     removeAccessToken();

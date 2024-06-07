@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import EventCard from "./EventCard";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { fetchEvents } from "./EventService";
-import { Event } from "./Interfaces";
+import { Event, fetchEvents } from "../../../Api/Util/EventService";
 
 interface RecruitingEventsProps {
   sortOrder: string;
@@ -13,9 +12,12 @@ export default function RecruitingEvents({ sortOrder }: RecruitingEventsProps) {
   const [hasMore, setHasMore] = useState(true);
   const [sliceNumber, setSliceNumber] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   const fetchMoreEvents = async () => {
     try {
+      setLoading(true);
+      setIsError(false);
       const response = await fetchEvents(sliceNumber, sortOrder, "recruiting");
       if (sliceNumber === 0) {
         setEvents(response.content);
@@ -26,6 +28,7 @@ export default function RecruitingEvents({ sortOrder }: RecruitingEventsProps) {
       setSliceNumber(sliceNumber + 1);
     } catch (error) {
       console.error("Error fetching events:", error);
+      setIsError(true);
     } finally {
       setLoading(false);
     }
@@ -38,6 +41,14 @@ export default function RecruitingEvents({ sortOrder }: RecruitingEventsProps) {
     setLoading(true);
     fetchMoreEvents();
   }, [sortOrder]);
+
+  if (isError) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <h2>데이터를 가져오는데 문제가 발생했습니다.</h2>
+      </div>
+    );
+  }
 
   return (
     <InfiniteScroll
