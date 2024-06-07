@@ -33,17 +33,17 @@ const setEventState = (id: number, status: string) =>
     },
     body: JSON.stringify({ status }),
   })
-    .then((response) => response.json())
+    .then((response) => {
+      if (response.ok) return response.json();
+      else throw new Error();
+    })
     .then((data) => {
       console.log("Success:", data);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
     });
 
 // TODO: 관리자 계정이 아닐경우 return
 export default function EventAproval() {
-  const { data } = useQuery<EventAprovalType>({
+  const { data, isError } = useQuery<EventAprovalType>({
     queryKey: ["event-aproval"],
     queryFn: fetcher,
   });
@@ -58,6 +58,8 @@ export default function EventAproval() {
   const onReject = (boothId: number) => {
     setEventState(boothId, "REJECT");
   };
+
+  if (isError) return <>행사 요청 데이터를 가져오는데 실패했습니다.</>;
   return (
     <div className="flex-1 flex flex-col p-2">
       <div className="w-full inline-flex gap-3 p-2">
