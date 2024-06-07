@@ -3,7 +3,7 @@ import EventInfo from "./EventInfo";
 import BoothInEventInfo from "./BoothsInEventInfo";
 import EventReviewList from "./EventReviewList";
 import { useQuery } from "@tanstack/react-query";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { getAccessToken } from "../../Api/Util/token";
 import { IoIosSettings } from "react-icons/io";
 
@@ -27,7 +27,10 @@ const fetcher = (id: string | undefined) => {
     headers: {
       Authorization: `Bearer ${getAccessToken()}`,
     },
-  }).then((response) => response.json());
+  }).then((response) => {
+    if (response.ok) return response.json();
+    else throw new Error();
+  });
 };
 
 export default function EventDetailPage() {
@@ -37,15 +40,18 @@ export default function EventDetailPage() {
     e.preventDefault();
   };
 
-  const { data } = useQuery<Event>({
+  const { data, isError } = useQuery<Event>({
     queryKey: ["event", id],
     enabled: !!id,
     queryFn: () => fetcher(id),
   });
 
-  console.log(data);
+  if (!data || isError) {
+    alert("존재하지 않는 행사입니다.");
+    window.history.back();
+    return <></>;
+  }
 
-  if (!data) return <>행사를 찾을 수 없음!</>;
   const {
     boothCount,
     closeDate,

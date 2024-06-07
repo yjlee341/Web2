@@ -41,6 +41,7 @@ const setEventState = (id: number, status: string) =>
       console.error("Error:", error);
     });
 
+// TODO: 관리자 계정이 아닐경우 return
 export default function EventAproval() {
   const { data } = useQuery<EventAprovalType>({
     queryKey: ["event-aproval"],

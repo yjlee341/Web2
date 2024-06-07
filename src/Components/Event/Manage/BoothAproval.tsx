@@ -50,6 +50,7 @@ const setBoothState = (boothId: number, status: string) => {
     });
 };
 
+//TODO: 행사를 만든 계정이 아닌 경우 RETURN
 export default function BoothAproval() {
   const { id } = useParams();
 
