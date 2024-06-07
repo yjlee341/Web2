@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useRadioChecks } from "../../Hooks/useRadioChecks";
+import { getAccessToken } from "../../Api/Util/token";
 
 interface EventAprovalType {
   content: Array<{
@@ -19,8 +20,7 @@ const fetcher = () =>
   fetch("http://52.79.91.214:8080/admin/events?page=0&status=all", {
     method: "GET",
     headers: {
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcxNzUxMjg0NywiZXhwIjoxNzE3NTk5MjQ3fQ.BDW1tDnJTZxOQDK73plj9TDxUgX30Zkglgyy7KBy-wY",
+      Authorization: `Bearer ${getAccessToken()}`,
     },
   }).then((response) => response.json());
 
@@ -29,8 +29,7 @@ const setEventState = (id: number, status: string) =>
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcxNzUxMjg0NywiZXhwIjoxNzE3NTk5MjQ3fQ.BDW1tDnJTZxOQDK73plj9TDxUgX30Zkglgyy7KBy-wY",
+      Authorization: `Bearer ${getAccessToken()}`,
     },
     body: JSON.stringify({ status }),
   })
@@ -49,7 +48,7 @@ export default function EventAproval() {
   });
 
   const { checkList, clickCheckAll, clickCheckbox, isCheckAll } =
-    useRadioChecks(data?.content.length ?? 1);
+    useRadioChecks(data?.content?.length ?? 1);
 
   const onAprove = (boothId: number) => {
     setEventState(boothId, "APPROVE");
