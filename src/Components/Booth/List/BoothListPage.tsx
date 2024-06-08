@@ -88,9 +88,10 @@ export default function BoothListPage() {
             }
           >
             <div className="grid grid-cols-2 gap-10 mx-10">
-              {booths.map((booth, index) => (
+              {booths.map((booth) => (
                 <BoothCard
-                  key={index}
+                  key={booth.id}
+                  id={booth.id}
                   name={booth.name}
                   image={booth.mainImageUrl}
                   endDate={booth.closeDate}
