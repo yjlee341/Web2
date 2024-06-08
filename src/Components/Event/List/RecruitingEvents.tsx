@@ -61,9 +61,10 @@ export default function RecruitingEvents({ sortOrder }: RecruitingEventsProps) {
       }
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {events.map((event, index) => (
+        {events.map((event) => (
           <EventCard
-            key={index}
+            key={event.id}
+            id={event.id}
             name={event.name}
             image={event.mainImageUrl}
             endDate={event.recruitEndDate}
