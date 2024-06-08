@@ -168,7 +168,7 @@ function App() {
         />
         <Route path="/addEvent" element={<AddEventPage />} />
         <Route path="/boothRegist" element={<BoothRegistPage />} />
-        <Route path="/boothDetail" element={<BoothDetailPage />} />
+        <Route path="/boothDetail/:id" element={<BoothDetailPage />} />
         {/* 추후 Modal로 변경 페이지*/}
         <Route path="/boothGoodsTest" element={<GoodsManagementPage />} />
         <Route

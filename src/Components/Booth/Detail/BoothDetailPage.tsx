@@ -7,15 +7,13 @@ import Tag from "./Tag";
 import NoticeEvent from "./NoticeEvent";
 import Location from "./Location";
 import Time from "./Time";
-import { useGetBoothDetail } from "../../../Hooks/useGetBoothDetail";
-
-interface Props {
-  eventId: number;
-}
+import { useParams } from "react-router-dom";
+import { useGetBoothDetail } from "../../../Hooks/Booth/useGetBoothDetail";
 
 export default function BoothDetailPage() {
-  const { isError, data, isLoading } = useGetBoothDetail(3);
+  let { id } = useParams();
 
+  const { isError, data, isLoading } = useGetBoothDetail(id ?? "");
   if (isLoading) return <div>로딩중입니다...</div>;
   if (isError) return <div>에러가 발생했습니다.</div>;
 

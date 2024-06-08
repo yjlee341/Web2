@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAccessToken } from "../Api/Util/token";
+import { getAccessToken } from "../../Api/Util/token";
 
 interface BoothData {
   id: number;
@@ -11,12 +11,12 @@ interface BoothData {
   mainImageUrl: string;
 }
 
-interface LocationData {
+export interface LocationData {
   classification: string;
   number: string;
 }
 
-const fetchBoothData = (eventId: number): Promise<BoothData> => {
+const fetchBoothData = (eventId: string): Promise<BoothData> => {
   const token = getAccessToken();
   const response = fetch(`http://52.79.91.214:8080/booths/${eventId}`, {
     method: "GET",
@@ -30,7 +30,7 @@ const fetchBoothData = (eventId: number): Promise<BoothData> => {
   return response;
 };
 
-export function useGetBoothDetail(eventId: number) {
+export function useGetBoothDetail(eventId: string) {
   const { isLoading, isError, data } = useQuery<BoothData>({
     queryKey: ["getBoothDetail", eventId],
     queryFn: () => fetchBoothData(eventId),
