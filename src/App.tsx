@@ -158,7 +158,7 @@ function App() {
         <Route path="/SearchResultPage" element={<SearchResultPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/event/:id" element={<EventDetailPage />} />
+        <Route path="/events/:id" element={<EventDetailPage />} />
         <Route
           path="/event/:id/manage"
           element={
@@ -176,7 +176,7 @@ function App() {
           }
         />
         <Route path="/boothRegist" element={<BoothRegistPage />} />
-        <Route path="/boothDetail" element={<BoothDetailPage />} />
+        <Route path="/booths/:id" element={<BoothDetailPage />} />
         {/* 추후 Modal로 변경 페이지*/}
         <Route path="/boothGoodsTest" element={<GoodsManagementPage />} />
         <Route
