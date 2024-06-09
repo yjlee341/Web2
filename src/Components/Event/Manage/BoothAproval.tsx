@@ -2,6 +2,7 @@ import { getAccessToken } from "../../../Api/Util/token";
 import { useQuery } from "@tanstack/react-query";
 import { useRadioChecks } from "../../../Hooks/useRadioChecks";
 import { useParams } from "react-router-dom";
+import PageNation from "../../Util/PageNation";
 
 interface BoothAprovalType {
   totalPages: number;
@@ -158,6 +159,7 @@ export default function BoothAproval() {
             ))}
           </tbody>
         </table>
+        {/* {data && <PageNation maxPage={data.totalPages ?? 1} showPage={5} />} */}
       </div>
     </div>
   );
