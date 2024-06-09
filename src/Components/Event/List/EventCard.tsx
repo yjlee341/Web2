@@ -17,7 +17,7 @@ export default function EventCard({
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/events/${id}`);
+    navigate(`/event/${id}`);
   };
 
   return (
