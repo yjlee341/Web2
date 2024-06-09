@@ -17,7 +17,7 @@ export default function BoothCard({
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/booths/${id}`);
+    navigate(`/booth/${id}`);
   };
 
   return (
