@@ -42,8 +42,12 @@ const setBoothState = (boothId: number, status: string) => {
     },
     body: JSON.stringify({ status }),
   })
-    .then((response) => response.json())
+    .then((response) => {
+      if (response.ok) return response.json();
+      else throw new Error();
+    })
     .then((data) => {
+      window.location.reload(); // TODO: 리액트 쿼리로 변경
       console.log("Success:", data);
     })
     .catch((error) => {

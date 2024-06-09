@@ -6,6 +6,7 @@ import { MdDescription, MdStorefront } from "react-icons/md";
 import { MdOutlineDescription } from "react-icons/md";
 import { SlLocationPin } from "react-icons/sl";
 import { getAccessToken } from "../../Api/Util/token";
+import { useNavigate } from "react-router-dom";
 
 export function getNumbers(maxNumber: number) {
   const NUMBERS = [];
@@ -70,7 +71,7 @@ export default function AddEventPage() {
     }
   }, [mainImage]);
 
-  console.log(mainImageView);
+  const navi = useNavigate();
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -154,9 +155,13 @@ export default function AddEventPage() {
         Authorization: `Bearer ${getAccessToken()}`,
       },
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) response.json();
+        else throw new Error();
+      })
       .then((data) => {
         console.log("Success:", data);
+        navi("/");
       })
       .catch((error) => {
         console.error("Error:", error);

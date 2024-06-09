@@ -40,6 +40,7 @@ const setEventState = (id: number, status: string) =>
       else throw new Error();
     })
     .then((data) => {
+      window.location.reload(); // TODO: 리액트 쿼리로 변경
       console.log("Success:", data);
     });
 
