@@ -6,4 +6,8 @@ const setAccessToken = (accessToken: string): void => {
   localStorage.setItem("token", accessToken);
 };
 
-export { getAccessToken, setAccessToken };
+const removeAccessToken = (): void => {
+  localStorage.removeItem("token");
+};
+
+export { getAccessToken, setAccessToken, removeAccessToken };

@@ -4,16 +4,23 @@ import tempBanner from "../../logo.svg";
 interface SearchCardProps {
   title: string;
   image?: string;
+  endDate: string;
 }
 
 export default function SearchCard({
   title,
   image = tempBanner,
+  endDate,
 }: SearchCardProps) {
   return (
-    <article className="w-56 h-64 flex flex-col rounded overflow-hidden bg-gray-200">
-      <div className="bg-blue-500 text-white text-center py-1">{title}</div>
-      <img src={image} alt={title} className="w-full h-full object-cover" />
-    </article>
+    <div className="border rounded overflow-hidden shadow-md w-full h-88 flex flex-col">
+      <div className="flex-grow bg-gray-300 flex items-center justify-center h-56">
+        <img src={image} alt={title} className="object-contain h-48 w-full" />
+      </div>
+      <div className="p-4">
+        <p className="text-gray-600">종료일: {endDate}</p>
+        <p className="text-black font-bold">{title}</p>
+      </div>
+    </div>
   );
 }

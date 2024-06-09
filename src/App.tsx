@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import LoginPage from "./Components/Login/LoginPage";
 import RegisterPage from "./Components/Register/RegisterPage";
 import MainPage from "./Components/Main/Main";
@@ -19,6 +19,7 @@ import RequestLayout from "./Components/Layout/RequestLayout";
 import BoothAproval from "./Components/Event/Manage/BoothAproval";
 import EventAproval from "./Components/Admin/EventAproval";
 import ServiceTimeAdd from "./Components/Booth/Regist/Service/ServiceTimeAdd";
+import NavBar from "./Components/NavBar/NavBar";
 
 function App() {
   //TODO: 임시 데이터. 나중에 모달 연결하면 지울 것
@@ -142,14 +143,22 @@ function App() {
     ],
   };
 
+  const location = useLocation();
+  const isAuthPage =
+    location.pathname === "/login" || location.pathname === "/register";
+
   return (
     <div>
+      {!isAuthPage && <NavBar />}
       <Routes>
         <Route path="/" element={<MainPage state="main" />} />
-        <Route path="/list" element={<MainPage state="list" />} />
+        <Route path="/EventListPage" element={<EventListPage />} />
+        <Route path="/addEvent" element={<AddEventPage />} />
+        <Route path="/BoothListPage" element={<BoothListPage />} />
+        <Route path="/SearchResultPage" element={<SearchResultPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/event/:id" element={<EventDetailPage />} />
+        <Route path="/events/:id" element={<EventDetailPage />} />
         <Route
           path="/event/:id/manage"
           element={
@@ -166,9 +175,8 @@ function App() {
             </RequestLayout>
           }
         />
-        <Route path="/addEvent" element={<AddEventPage />} />
         <Route path="/boothRegist" element={<BoothRegistPage />} />
-        <Route path="/boothDetail" element={<BoothDetailPage />} />
+        <Route path="/booths/:id" element={<BoothDetailPage />} />
         {/* 추후 Modal로 변경 페이지*/}
         <Route path="/boothGoodsTest" element={<GoodsManagementPage />} />
         <Route
@@ -197,9 +205,6 @@ function App() {
             />
           }
         />
-        <Route path="/EventListPage" element={<EventListPage />} />
-        <Route path="/BoothListPage" element={<BoothListPage />} />
-        <Route path="/SearchResultPage" element={<SearchResultPage />} />
       </Routes>
     </div>
   );
