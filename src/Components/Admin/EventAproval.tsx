@@ -53,7 +53,7 @@ export default function EventAproval() {
   });
 
   const { checkList, clickCheckAll, clickCheckbox, isCheckAll } =
-    useRadioChecks(data?.content?.length ?? 1);
+    useRadioChecks(data?.content.length ?? 1);
 
   const onAprove = (boothId: number) => {
     setEventState(boothId, "APPROVE");
@@ -102,7 +102,7 @@ export default function EventAproval() {
             </tr>
           </thead>
           <tbody>
-            {data?.content?.map((booth, index) => (
+            {data?.content.map((booth, index) => (
               <tr key={index} className="text-center">
                 <td className="py-2 px-4 border-b">
                   <input
