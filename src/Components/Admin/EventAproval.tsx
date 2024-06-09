@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useRadioChecks } from "../../Hooks/useRadioChecks";
+import { getAccessToken } from "../../Api/Util/token";
 
 interface EventAprovalType {
   content: Array<{
@@ -19,8 +20,7 @@ const fetcher = () =>
   fetch("http://52.79.91.214:8080/admin/events?page=0&status=all", {
     method: "GET",
     headers: {
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcxNzUxMjg0NywiZXhwIjoxNzE3NTk5MjQ3fQ.BDW1tDnJTZxOQDK73plj9TDxUgX30Zkglgyy7KBy-wY",
+      Authorization: `Bearer ${getAccessToken()}`,
     },
   }).then((response) => response.json());
 
@@ -29,27 +29,27 @@ const setEventState = (id: number, status: string) =>
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcxNzUxMjg0NywiZXhwIjoxNzE3NTk5MjQ3fQ.BDW1tDnJTZxOQDK73plj9TDxUgX30Zkglgyy7KBy-wY",
+      Authorization: `Bearer ${getAccessToken()}`,
     },
     body: JSON.stringify({ status }),
   })
-    .then((response) => response.json())
+    .then((response) => {
+      if (response.ok) return response.json();
+      else throw new Error();
+    })
     .then((data) => {
       console.log("Success:", data);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
     });
 
+// TODO: 관리자 계정이 아닐경우 return
 export default function EventAproval() {
-  const { data } = useQuery<EventAprovalType>({
+  const { data, isError } = useQuery<EventAprovalType>({
     queryKey: ["event-aproval"],
     queryFn: fetcher,
   });
 
   const { checkList, clickCheckAll, clickCheckbox, isCheckAll } =
-    useRadioChecks(data?.content.length ?? 1);
+    useRadioChecks(data?.content?.length ?? 1);
 
   const onAprove = (boothId: number) => {
     setEventState(boothId, "APPROVE");
@@ -58,6 +58,8 @@ export default function EventAproval() {
   const onReject = (boothId: number) => {
     setEventState(boothId, "REJECT");
   };
+
+  if (isError) return <>행사 요청 데이터를 가져오는데 실패했습니다.</>;
   return (
     <div className="flex-1 flex flex-col p-2">
       <div className="w-full inline-flex gap-3 p-2">

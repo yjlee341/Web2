@@ -4,22 +4,22 @@ import SearchSection from "./SearchSection";
 export default function SearchResultPage() {
   const searchQuery = "가나다";
   const events = [
-    { title: "행사명" },
-    { title: "행사명" },
-    { title: "행사명" },
-    { title: "행사명" },
+    { title: "행사명1", endDate: "2024.09.01" },
+    { title: "행사명2", endDate: "2024.09.02" },
+    { title: "행사명3", endDate: "2024.09.03" },
+    { title: "행사명4", endDate: "2024.09.04" },
   ];
   const booths = [
-    { title: "부스명" },
-    { title: "부스명" },
-    { title: "부스명" },
-    { title: "부스명" },
+    { title: "부스명1", endDate: "2024.10.01" },
+    { title: "부스명2", endDate: "2024.10.02" },
+    { title: "부스명3", endDate: "2024.10.03" },
+    { title: "부스명4", endDate: "2024.10.04" },
   ];
   const hashtags = [
-    { title: "부스명" },
-    { title: "부스명" },
-    { title: "부스명" },
-    { title: "부스명" },
+    { title: "부스명1", endDate: "2024.11.01" },
+    { title: "부스명2", endDate: "2024.11.02" },
+    { title: "부스명3", endDate: "2024.11.03" },
+    { title: "부스명4", endDate: "2024.11.04" },
   ];
 
   const handleSearchSubmit = (event: FormEvent) => {

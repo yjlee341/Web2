@@ -5,6 +5,7 @@ import EventFormInput from "./EventFormInput";
 import { MdDescription, MdStorefront } from "react-icons/md";
 import { MdOutlineDescription } from "react-icons/md";
 import { SlLocationPin } from "react-icons/sl";
+import { getAccessToken } from "../../Api/Util/token";
 
 export function getNumbers(maxNumber: number) {
   const NUMBERS = [];
@@ -150,8 +151,7 @@ export default function AddEventPage() {
       method: "POST",
       body: formData,
       headers: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEwLCJpYXQiOjE3MTc0MTkzOTEsImV4cCI6MTcxNzUwNTc5MX0.cpi5Xr1wFymnuIPmH3bXztvVc-WkI0zBzllMwk9_Am0",
+        Authorization: `Bearer ${getAccessToken()}`,
       },
     })
       .then((response) => response.json())

@@ -1,16 +1,26 @@
-export default function BoothInEventInfo() {
+import Carousel from "../Carousel";
+
+interface Props {
+  boothCount: number;
+  layoutImageUrls: Array<string>;
+}
+export default function BoothInEventInfo({
+  boothCount,
+  layoutImageUrls,
+}: Props) {
   return (
     <div className="flex flex-col w-full gap-2">
       <div className="flex justify-between w-full items-center">
-        <span>등록된 부스 : N개 금일 이용 가능 부스 수 : N개</span>
+        <span>등록된 부스 : {boothCount}개</span>
         <button className="bg-blue-500 rounded-md p-2 text-white font-bold">
           부스 목록
         </button>
       </div>
-      <img
-        src=""
-        alt="행사장 배치도"
-        className="w-full h-52 border rounded-md"
+      <Carousel
+        className="h-[300x]"
+        imgs={layoutImageUrls}
+        dot={layoutImageUrls.length !== 1}
+        button={layoutImageUrls.length !== 1}
       />
     </div>
   );

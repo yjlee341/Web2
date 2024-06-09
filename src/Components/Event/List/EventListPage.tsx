@@ -4,24 +4,48 @@ import OngoingEvents from "./OngoingEvents";
 import RecruitingEvents from "./RecruitingEvents";
 import FinishedEvents from "./FinishedEvents";
 import RadioButtons from "./RadioButtons";
-import { Progress } from "./types"; // Progress 타입 임포트
+import { Progress } from "./types";
+import { getAccessToken } from "../../../Api/Util/token";
 
-export default function App() {
+export default function EventListPage() {
   const [selectedTab, setSelectedTab] = useState<Progress>("진행중");
   const [sortOrder, setSortOrder] = useState("최신순");
 
   const renderTabContent = () => {
     switch (selectedTab) {
       case "진행중":
-        return <OngoingEvents sortOrder={sortOrder} />;
+        return (
+          <OngoingEvents
+            key={`${selectedTab}-${sortOrder}`}
+            sortOrder={sortOrder}
+          />
+        );
       case "모집중":
-        return <RecruitingEvents sortOrder={sortOrder} />;
+        return (
+          <RecruitingEvents
+            key={`${selectedTab}-${sortOrder}`}
+            sortOrder={sortOrder}
+          />
+        );
       case "종료된 행사":
-        return <FinishedEvents sortOrder={sortOrder} />;
+        return (
+          <FinishedEvents
+            key={`${selectedTab}-${sortOrder}`}
+            sortOrder={sortOrder}
+          />
+        );
       default:
         return null;
     }
   };
+
+  if (!getAccessToken()) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <h2>로그인 후 이용해주세요.</h2>
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 m-8">
@@ -32,19 +56,31 @@ export default function App() {
             className="flex justify-between items-center mx-4 my-4"
             onSubmit={(e) => e.preventDefault()}
           >
-            <label htmlFor="search" className="sr-only">
-              특정 기간 내 행사 찾기
-            </label>
-            <input
-              type="text"
-              id="search"
-              placeholder="특정 기간 내 행사 찾기"
-              className="border p-2 rounded w-3/4"
-            />
-            <RadioButtons
-              sortOrder={sortOrder}
-              onSortOrderChange={setSortOrder}
-            />
+            {selectedTab === "종료된 행사" && (
+              <div className="flex justify-between w-full">
+                <label htmlFor="search" className="sr-only">
+                  특정 기간 내 행사 찾기
+                </label>
+                <input
+                  type="text"
+                  id="search"
+                  placeholder="특정 기간 내 행사 찾기"
+                  className="border p-2 rounded w-3/4"
+                />
+                <RadioButtons
+                  sortOrder={sortOrder}
+                  onSortOrderChange={setSortOrder}
+                />
+              </div>
+            )}
+            {selectedTab !== "종료된 행사" && (
+              <div className="flex justify-end w-full">
+                <RadioButtons
+                  sortOrder={sortOrder}
+                  onSortOrderChange={setSortOrder}
+                />
+              </div>
+            )}
           </form>
           <div className="mx-4">{renderTabContent()}</div>
         </div>

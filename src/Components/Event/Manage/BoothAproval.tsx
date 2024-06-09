@@ -1,66 +1,78 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { getAccessToken } from "../../../Api/Util/token";
+import { useQuery } from "@tanstack/react-query";
+import { useRadioChecks } from "../../../Hooks/useRadioChecks";
+import { useParams } from "react-router-dom";
 
-const booths = [
-  {
-    name: "Name",
-    location: "A1",
-    date: "2024.05.10",
-    description: "부스 설명 내용",
-    status: "승인 대기",
-  },
-  {
-    name: "Name",
-    location: "B1",
-    date: "2024.05.11",
-    description: "부스 설명 내용",
-    status: "승인 대기",
-  },
-  {
-    name: "Name",
-    location: "C1",
-    date: "2024.05.11",
-    description: "부스 설명 내용",
-    status: "승인 대기",
-  },
-  {
-    name: "Name",
-    location: "D1",
-    date: "2024.05.11",
-    description: "부스 설명 내용",
-    status: "승인 반려",
-  },
-  {
-    name: "Name",
-    location: "E1",
-    date: "2024.05.11",
-    description: "부스 설명 내용",
-    status: "승인 완료",
-  },
-];
-export default function BoothAproval() {
-  const [checkList, setCheckList] = useState<boolean[]>(
-    new Array(booths.length).fill(false)
-  );
-  const [isCheckAll, setIsCheckAll] = useState(false);
+interface BoothAprovalType {
+  totalPages: number;
+  pageNumber: number;
+  content: Array<{
+    id: number;
+    name: string;
+    registrationDate: string;
+    description: string;
+    status: string;
+    boothLocationData: Array<{
+      classification: string;
+      number: string;
+    }>;
+  }>;
+}
 
-  const clickCheckbox = (e: ChangeEvent<HTMLInputElement>, index: number) => {
-    setCheckList((prevList) => {
-      const newList = [...prevList];
-      newList[index] = e.target.checked;
-      setIsCheckAll(newList.every((check) => check));
-      return newList;
+const fetcher = (eventId: string | undefined) => {
+  if (!eventId) return Promise.reject();
+  return fetch(`http://52.79.91.214:8080/events/${eventId}/managed/booths`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${getAccessToken()}`,
+    },
+  }).then((response) => {
+    if (response.ok) return response.json();
+    else throw new Error();
+  });
+};
+
+const setBoothState = (boothId: number, status: string) => {
+  fetch(`http://52.79.91.214:8080/events/booths/${boothId}/status`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${getAccessToken()}`,
+    },
+    body: JSON.stringify({ status }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Success:", data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
     });
+};
+
+//TODO: 행사를 만든 계정이 아닌 경우 RETURN
+//TODO: 로그인 필요
+export default function BoothAproval() {
+  const { id } = useParams();
+
+  const { data, isError } = useQuery<BoothAprovalType>({
+    queryKey: ["event-aproval"],
+    enabled: !!id,
+    queryFn: () => fetcher(id),
+  });
+
+  const { checkList, clickCheckAll, clickCheckbox, isCheckAll } =
+    useRadioChecks(data?.content?.length ?? 1);
+
+  const onAprove = (boothId: number) => {
+    setBoothState(boothId, "APPROVE");
   };
 
-  const clickCheckAll = (e: ChangeEvent<HTMLInputElement>) => {
-    const isAll = e.target.checked;
-    setIsCheckAll(isAll);
-    setCheckList(new Array(booths.length).fill(isAll));
+  const onReject = (boothId: number) => {
+    setBoothState(boothId, "REJECT");
   };
 
-  useEffect(() => {
-    console.log(checkList);
-  }, [checkList]);
+  if (!data || isError) return <>부스 데이터를 찾을 수 없습니다.</>;
 
   return (
     <div className="flex-1 flex flex-col p-2">
@@ -96,8 +108,8 @@ export default function BoothAproval() {
             </tr>
           </thead>
           <tbody>
-            {booths.map((booth, index) => (
-              <tr key={index}>
+            {data?.content?.map((booth, index) => (
+              <tr key={index} className="text-center">
                 <td className="py-2 px-4 border-b">
                   <input
                     type="checkbox"
@@ -106,25 +118,39 @@ export default function BoothAproval() {
                   />
                 </td>
                 <td className="py-2 px-4 border-b">{booth.name}</td>
-                <td className="py-2 px-4 border-b">{booth.location}</td>
-                <td className="py-2 px-4 border-b">{booth.date}</td>
+                <td className="py-2 px-4 border-b">
+                  {booth.boothLocationData?.map(
+                    ({ classification, number }) => (
+                      <span>
+                        {classification}-{number}
+                      </span>
+                    )
+                  )}
+                </td>
+                <td className="py-2 px-4 border-b">{booth.registrationDate}</td>
                 <td className="py-2 px-4 border-b">{booth.description}</td>
                 <td
                   className={`py-2 px-4 border-b ${
-                    booth.status === "승인 반려"
+                    booth.status === "APPROVE"
                       ? "text-red-500"
-                      : booth.status === "승인 완료"
+                      : booth.status === "REJECT"
                       ? "text-blue-500"
-                      : ""
+                      : "text-black"
                   }`}
                 >
                   {booth.status}
                 </td>
                 <td className="py-2 px-4 border-b">
-                  <button className="text-blue-500 hover:underline mr-2">
+                  <button
+                    className="w-full text-blue-500 hover:underline mr-2 border rounded-md px-2 whitespace-nowrap"
+                    onClick={() => onAprove(booth.id)}
+                  >
                     승인
                   </button>
-                  <button className="text-blue-500 hover:underline">
+                  <button
+                    className="w-full text-blue-500 hover:underline border rounded-md px-2 whitespace-nowrap"
+                    onClick={() => onReject(booth.id)}
+                  >
                     반려
                   </button>
                 </td>
