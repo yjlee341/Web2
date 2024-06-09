@@ -11,6 +11,7 @@ interface BoothRegistData {
   name: string;
   description: string;
   accountNumber: string;
+  boothName: string;
 }
 
 const fetchSignUp = (boothRegistData: BoothRegistData): Promise<void> => {
@@ -30,7 +31,7 @@ const fetchSignUp = (boothRegistData: BoothRegistData): Promise<void> => {
 
 //TODO: linkedEvent : Props + location 분리
 
-export const useRegisteBooth = () => {
+export const useRegisteBooth = (initBoothName?: string) => {
   const navi = useNavigate();
   const [description, setDescription] = useState("");
   const [linkedEvent, setLinkedEvent] = useState(0);
@@ -40,6 +41,7 @@ export const useRegisteBooth = () => {
   const [endTime, setEndTime] = useState("");
   const [name, setName] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
+  const [boothName, setBoothName] = useState(initBoothName ?? "");
   const { mutate } = useMutation({
     mutationFn: () =>
       fetchSignUp({
@@ -51,6 +53,7 @@ export const useRegisteBooth = () => {
         accountNumber,
         locations,
         mainImage,
+        boothName,
       }),
 
     onError: () => {
@@ -70,5 +73,7 @@ export const useRegisteBooth = () => {
     setEndTime,
     setDescription,
     setAccountNumber,
+    boothName,
+    setBoothName,
   };
 };

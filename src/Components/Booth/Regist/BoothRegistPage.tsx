@@ -10,6 +10,7 @@ import { MdOutlineDescription } from "react-icons/md";
 import { SlLocationPin } from "react-icons/sl";
 import { useState } from "react";
 import { useRegisteBooth } from "../../../Hooks/Booth/useRegistBooth";
+import { useLocation } from "react-router-dom";
 import RegistLocationPage from "./Location/RegistLocationPage";
 
 interface Props {
@@ -18,6 +19,7 @@ interface Props {
 }
 
 export default function BoothRegistPage() {
+  const { state } = useLocation();
   const {
     mutate,
     setName,
@@ -26,7 +28,9 @@ export default function BoothRegistPage() {
     setOpenTime,
     setEndTime,
     setDescription,
-  } = useRegisteBooth();
+    boothName,
+    setBoothName,
+  } = useRegisteBooth(state?.name);
   const [isOpen, setIsOpen] = useState(false);
   const [imageName, setImageName] = useState("X");
 
@@ -65,7 +69,8 @@ export default function BoothRegistPage() {
         <BoothRegistInput
           label="행사명"
           Icon={MdStorefront}
-          setValue={() => {}}
+          setValue={setBoothName}
+          value={boothName}
           //Props 적용
           type="text"
         />

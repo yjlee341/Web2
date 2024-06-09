@@ -10,6 +10,7 @@ interface Props {
   type: "button" | "select" | "text" | "textarea" | "image" | "time";
   imageName?: string;
   switchModal?: () => void;
+  value?: string;
 }
 
 export default function BoothRegistInput({
@@ -20,6 +21,7 @@ export default function BoothRegistInput({
   Icon,
   imageName,
   setValue2,
+  value,
 }: Props) {
   const imageInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -68,6 +70,7 @@ export default function BoothRegistInput({
           <input
             placeholder={placeholder}
             type="text"
+            value={value}
             className={INPUT_CLASSNAME}
             onChange={(e) => setValue(e.target.value)}
           />
