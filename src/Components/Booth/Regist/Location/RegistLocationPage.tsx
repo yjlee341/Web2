@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import LocationStateInfo from "./LocationStateInfo";
-import ModalButton from "./ModalButton";
 import "../../../../index.css"; // 사용자 정의 CSS 파일 포함
 import { useGetLocation } from "../../../../Hooks/Event/useGetLocation";
 
@@ -13,6 +12,7 @@ export default function RegistLocationPage({ eventId }: Props) {
   const { isLoading, isError, data } = useGetLocation(eventId);
   const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
   const maxSelectableSeats = 3;
+  console.log(selectedSeats);
 
   if (isLoading) {
     return <div>로딩중입니다...</div>;
@@ -75,7 +75,7 @@ export default function RegistLocationPage({ eventId }: Props) {
   };
 
   return (
-    <div className="bg-white p-4 rounded shadow-lg w-3/4">
+    <div>
       {data ? (
         <div>
           <div className="flex w-full gap-4 h-full">
@@ -98,10 +98,6 @@ export default function RegistLocationPage({ eventId }: Props) {
             <LocationStateInfo color="yellow-400" state={"비어있음"} />
             <LocationStateInfo color="red-400" state={"예약됨"} />
             <LocationStateInfo color="gray-400" state={"승인됨"} />
-          </div>
-          <div className="flex justify-center gap-4 mt-4 w-full">
-            <ModalButton action={() => {}} color="blue-500" text="확인" />
-            <ModalButton action={() => {}} color="red-500" text="취소" />
           </div>
         </div>
       ) : null}

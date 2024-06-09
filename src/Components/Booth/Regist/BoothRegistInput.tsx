@@ -9,6 +9,7 @@ interface Props {
   Icon: IconType;
   type: "button" | "select" | "text" | "textarea" | "image" | "time";
   imageName?: string;
+  switchModal?: () => void;
 }
 
 export default function BoothRegistInput({
@@ -79,6 +80,7 @@ export default function BoothRegistInput({
               className={INPUT_CLASSNAME}
               onChange={(e) => setValue(e.target.value)}
             />
+            {}
             <button className="h-8 w-1/4 hover:cursor-pointer bg-[#0064FF] rounded-md text-white  mb-4">
               선택
             </button>

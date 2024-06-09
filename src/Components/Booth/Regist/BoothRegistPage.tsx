@@ -82,6 +82,7 @@ export default function BoothRegistPage() {
           Icon={SlLocationPin}
           setValue={() => {}}
           type="button"
+          switchModal={switchModal}
         />
         <BoothRegistInput
           placeholder="부스를 대표할 이미지를 선택해주세요"

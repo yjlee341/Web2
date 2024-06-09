@@ -36,7 +36,7 @@ export const useRegisteBooth = () => {
   const [linkedEvent, setLinkedEvent] = useState(0);
   const [openTime, setOpenTime] = useState("");
   const [mainImage, setMainImage] = useState<File | null>();
-  const [locations, setLocations] = useState([]);
+  const [locations, setLocations] = useState([1, 2, 3]);
   const [endTime, setEndTime] = useState("");
   const [name, setName] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
