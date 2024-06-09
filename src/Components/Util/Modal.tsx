@@ -14,18 +14,10 @@ export default function Modal({ children, switchModal, isOpen }: Props) {
         shouldCloseOnOverlayClick={false}
         isOpen={isOpen}
         onRequestClose={switchModal}
-        className="flex flex-col items-center justify-center bg-white rounded-md p-5"
+        className="flex flex-col items-center justify-center"
         overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
       >
         {children}
-        <div className="w-full text-center mt-4">
-          <button
-            onClick={switchModal}
-            className="hover:cursor-pointer bg-red-700 rounded-md text-white h-10 font-bold w-1/5 m-3"
-          >
-            닫기
-          </button>
-        </div>
       </ReactModal>
     </div>
   );

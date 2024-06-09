@@ -6,6 +6,7 @@ import { useGetLocation } from "../../../../Hooks/Event/useGetLocation";
 
 interface Props {
   eventId: string;
+  switchModal: () => void;
 }
 
 export default function RegistLocationPage({ eventId }: Props) {
@@ -74,9 +75,9 @@ export default function RegistLocationPage({ eventId }: Props) {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="bg-white p-4 rounded shadow-lg w-3/4">
       {data ? (
-        <div className="bg-white p-4 rounded shadow-lg w-3/4">
+        <div>
           <div className="flex w-full gap-4 h-full">
             <div className="w-1/2 py-5 flex flex-col h-[600px] items-center bg-blue-100 rounded-lg ">
               <div className="text-3xl h-1/3 font-bold">행사장 구조도</div>
