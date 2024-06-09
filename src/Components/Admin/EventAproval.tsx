@@ -3,6 +3,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useRadioChecks } from "../../Hooks/useRadioChecks";
 import { getAccessToken } from "../../Api/Util/token";
 import PageNation from "../Util/PageNation";
+import { useSearchParams } from "react-router-dom";
 
 interface EventAprovalType {
   content: Array<{
@@ -17,8 +18,8 @@ interface EventAprovalType {
   totalPages: number;
 }
 
-const fetcher = () =>
-  fetch("http://52.79.91.214:8080/admin/events?page=0&status=all", {
+const fetcher = (page: number) =>
+  fetch(`http://52.79.91.214:8080/admin/events?page=${page - 1}&status=all`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${getAccessToken()}`,
@@ -44,9 +45,11 @@ const setEventState = (id: number, status: string) =>
 
 // TODO: 관리자 계정이 아닐경우 return
 export default function EventAproval() {
-  const { data, isError } = useQuery<EventAprovalType>({
+  const [searchParams] = useSearchParams();
+  const page = searchParams.get("page") ?? 1;
+  const { data, isError, refetch } = useQuery<EventAprovalType>({
     queryKey: ["event-aproval"],
-    queryFn: fetcher,
+    queryFn: () => fetcher(+page),
   });
 
   const { checkList, clickCheckAll, clickCheckbox, isCheckAll } =
@@ -59,6 +62,10 @@ export default function EventAproval() {
   const onReject = (boothId: number) => {
     setEventState(boothId, "REJECT");
   };
+
+  useEffect(() => {
+    refetch();
+  }, [refetch, page]);
 
   if (isError) return <>행사 요청 데이터를 가져오는데 실패했습니다.</>;
   return (
