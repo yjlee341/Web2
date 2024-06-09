@@ -10,7 +10,7 @@ interface Props {
 
 export default function RegistLocationPage({ eventId }: Props) {
   const { isLoading, isError, data } = useGetLocation(eventId);
-  const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
+  const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
   const maxSelectableSeats = 3;
 
   if (isLoading) {
@@ -34,12 +34,12 @@ export default function RegistLocationPage({ eventId }: Props) {
     }
   };
 
-  const handleSeatClick = (seat: string) => {
+  const handleSeatClick = (seatId: number) => {
     setSelectedSeats((prevSelectedSeats) => {
-      if (prevSelectedSeats.includes(seat)) {
-        return prevSelectedSeats.filter((s) => s !== seat);
+      if (prevSelectedSeats.includes(seatId)) {
+        return prevSelectedSeats.filter((id) => id !== seatId);
       } else if (prevSelectedSeats.length < maxSelectableSeats) {
-        return [...prevSelectedSeats, seat];
+        return [...prevSelectedSeats, seatId];
       } else {
         alert(`You can select up to ${maxSelectableSeats} seats.`);
         return prevSelectedSeats;
@@ -57,13 +57,9 @@ export default function RegistLocationPage({ eventId }: Props) {
           className={`w-16 h-16 ${getColorClass(
             area.status
           )} m-1 flex items-center justify-center text-center text-sm font-mono ${
-            selectedSeats.includes(area.number)
-              ? "border-4 border-blue-500"
-              : ""
+            selectedSeats.includes(area.id) ? "border-4 border-blue-500" : ""
           } ${area.status !== "APPROVE" ? "cursor-pointer" : ""}`}
-          onClick={() =>
-            area.status !== "APPROVE" && handleSeatClick(area.number)
-          }
+          onClick={() => area.status !== "APPROVE" && handleSeatClick(area.id)}
         >
           {area.number}
         </div>
@@ -82,15 +78,15 @@ export default function RegistLocationPage({ eventId }: Props) {
       {data ? (
         <div className="bg-white p-4 rounded shadow-lg w-3/4">
           <div className="flex w-full gap-4 h-full">
-            <div className="w-1/2 py-5 flex flex-col h-[700px] items-center bg-blue-100 rounded-lg ">
-              <div className="text-3xl font-bold">행사장 구조도</div>
+            <div className="w-1/2 py-5 flex flex-col h-[600px] items-center bg-blue-100 rounded-lg ">
+              <div className="text-3xl h-1/3 font-bold">행사장 구조도</div>
               <img
                 src={data.layoutImageUrls[0]}
                 alt="Event Venue"
                 className="w-2/3 h-auto rounded mt-3"
               />
             </div>
-            <div className="w-1/2 flex flex-col items-center pt-5 bg-blue-100 rounded-lg h-[700px] overflow-x-scroll overflow-y-scroll scrollbar-custom">
+            <div className="w-1/2 flex flex-col items-center pt-5 bg-blue-100 rounded-lg h-[600px] overflow-x-scroll overflow-y-scroll scrollbar-custom">
               <div className="text-3xl font-bold">부스 신청 현황</div>
               <div className="w-full flex flex-col items-start pl-5 pt-3">
                 {renderSeats()}
