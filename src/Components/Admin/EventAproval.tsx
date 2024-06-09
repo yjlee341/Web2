@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useRadioChecks } from "../../Hooks/useRadioChecks";
 import { getAccessToken } from "../../Api/Util/token";
+import PageNation from "../Util/PageNation";
 
 interface EventAprovalType {
   content: Array<{
@@ -136,6 +137,7 @@ export default function EventAproval() {
             ))}
           </tbody>
         </table>
+        {data && <PageNation maxPage={data.totalPages} showPage={5} />}
       </div>
     </div>
   );
