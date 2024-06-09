@@ -40,15 +40,20 @@ export default function EventDetailPage() {
     e.preventDefault();
   };
 
-  const { data, isError } = useQuery<Event>({
+  const { data, isError, isLoading } = useQuery<Event>({
     queryKey: ["event", id],
     enabled: !!id,
     queryFn: () => fetcher(id),
+    retry: 1,
   });
 
-  if (!data || isError) {
+  if (isError) {
     alert("존재하지 않는 행사입니다.");
     window.history.back();
+    return <></>;
+  }
+
+  if (!data) {
     return <></>;
   }
 
