@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import LocationStateInfo from "./LocationStateInfo";
 import "../../../../index.css"; // 사용자 정의 CSS 파일 포함
 import { useGetLocation } from "../../../../Hooks/Event/useGetLocation";

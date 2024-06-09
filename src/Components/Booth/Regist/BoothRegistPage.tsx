@@ -29,7 +29,6 @@ export default function BoothRegistPage() {
     setEndTime,
     setDescription,
     boothName,
-    setBoothName,
   } = useRegisteBooth(state?.name);
   const [isOpen, setIsOpen] = useState(false);
   const [imageName, setImageName] = useState("X");
@@ -69,9 +68,8 @@ export default function BoothRegistPage() {
         <BoothRegistInput
           label="행사명"
           Icon={MdStorefront}
-          setValue={setBoothName}
+          setValue={() => {}}
           value={boothName}
-          //Props 적용
           type="text"
         />
         <BoothRegistInput
@@ -81,14 +79,26 @@ export default function BoothRegistPage() {
           setValue2={setEndTime}
           type="time"
         />
-        <BoothRegistInput
-          placeholder="원하는 부스 신청 위치를 선택해주세요"
-          label="부스 위치"
-          Icon={SlLocationPin}
-          setValue={() => {}}
-          type="button"
-          switchModal={switchModal}
-        />
+        <div className="flex flex-col w-1/2 mb-5">
+          <div className="flex gap-2 items-center h-full mb-2">
+            <SlLocationPin size={25} color="#0064FF" />
+            <label className="font-bold">부스 위치</label>
+          </div>
+          <div className="flex items-center w-full gap-2">
+            <input
+              placeholder="원하는 부스 신청 위치를 선택해주세요"
+              type="text"
+              className="h-10 border-b-2 pl-1 w-3/4"
+              onChange={(e) => {}}
+            />
+            <button
+              className="h-8 w-1/4 hover:cursor-pointer bg-[#0064FF] rounded-md text-white"
+              onClick={switchModal}
+            >
+              선택
+            </button>
+          </div>
+        </div>
         <BoothRegistInput
           placeholder="부스를 대표할 이미지를 선택해주세요"
           label="부스 대표이미지"
@@ -119,16 +129,16 @@ export default function BoothRegistPage() {
           setValue={setAccountNumber}
           type="select"
         />
-        <div className="flex gap-4 w-1/2 justify-center">
+        <div className="flex gap-4 w-full justify-center">
           <button
             onClick={switchModal}
-            className="p-1 w-full font-bold h-8 hover:cursor-pointer bg-[#5E1675] rounded-lg text-white mb-4"
+            className="p-1 w-1/4 font-bold h-8 hover:cursor-pointer bg-[#5E1675] rounded-lg text-white mb-4"
           >
             물품 등록 및 관리
           </button>
           <button
             onClick={switchModal}
-            className="p-1 w-full font-bold h-8 hover:cursor-pointer bg-[#401F71] rounded-lg text-white mb-4"
+            className="p-1 w-1/4 font-bold h-8 hover:cursor-pointer bg-[#401F71] rounded-lg text-white mb-4"
           >
             서비스(예약) 등록 및 관리
           </button>
@@ -137,7 +147,7 @@ export default function BoothRegistPage() {
           onClick={() => {
             mutate();
           }}
-          className="py-1 font-bold w-1/2 h-10 hover:cursor-pointer bg-[#0064FF] rounded-md text-white mb-4"
+          className="py-1 font-bold w-1/3 h-10 hover:cursor-pointer bg-[#0064FF] rounded-md text-white mb-4"
         >
           부스 신청
         </button>

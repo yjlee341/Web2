@@ -7,9 +7,8 @@ interface Props {
   setValue: (value: any) => void;
   setValue2?: (value: any) => void;
   Icon: IconType;
-  type: "button" | "select" | "text" | "textarea" | "image" | "time";
+  type: "button" | "select" | "text" | "textarea" | "image" | "time" | "modal";
   imageName?: string;
-  switchModal?: () => void;
   value?: string;
 }
 
@@ -83,11 +82,18 @@ export default function BoothRegistInput({
               className={INPUT_CLASSNAME}
               onChange={(e) => setValue(e.target.value)}
             />
-            {}
             <button className="h-8 w-1/4 hover:cursor-pointer bg-[#0064FF] rounded-md text-white  mb-4">
               선택
             </button>
           </>
+        )}
+        {type === "modal" && (
+          <input
+            placeholder={placeholder}
+            type="text"
+            className="h-10 border-b-2 pl-1 mb-5 w-3/4"
+            onChange={(e) => setValue(e.target.value)}
+          />
         )}
         {type === "image" && (
           <div className="flex w-full justify-between items-center mb-4">
