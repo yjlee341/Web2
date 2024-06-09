@@ -159,7 +159,7 @@ export default function BoothAproval() {
             ))}
           </tbody>
         </table>
-        {data && <PageNation maxPage={data.totalPages} showPage={5} />}
+        {/* {data && <PageNation maxPage={data.totalPages ?? 1} showPage={5} />} */}
       </div>
     </div>
   );
