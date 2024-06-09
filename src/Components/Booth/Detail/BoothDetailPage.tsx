@@ -25,12 +25,12 @@ export default function BoothDetailPage() {
             <div className="text-3xl font-bold my-5">{data.name}</div>
             <div className="flex w-full justify-center gap-5">
               <img
-                className="w-1/3"
+                className="w-1/3 h-full"
                 src={data.mainImageUrl}
                 alt="부스 이미지"
               />
               <div className="flex flex-col w-2/3">
-                <div className="flex flex-col h-1/2 gap-3 mt-2">
+                <div className="flex flex-col h-2/3 gap-3 mt-2">
                   <div>
                     <div className="flex gap-2">
                       <div className="font-bold">부스위치 : </div>
@@ -61,7 +61,7 @@ export default function BoothDetailPage() {
                     </div>
                   </div>
                 </div>
-                <div className="h-1/2 flex flex-col gap-2 ">
+                <div className="h-1/3 flex flex-col gap-2 ">
                   <div className="font-bold">부스 설명</div>
                   <div>{data.description}</div>
                 </div>

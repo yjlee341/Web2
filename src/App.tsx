@@ -14,7 +14,6 @@ import ServiceManagementPage from "./Components/Booth/Regist/Service/ServiceMana
 import EventListPage from "./Components/Event/List/EventListPage";
 import BoothListPage from "./Components/Booth/List/BoothListPage";
 import SearchResultPage from "./Components/Search/SearchResultPage";
-import RegistLocationPage from "./Components/Booth/Regist/Location/RegistLocationPage";
 import RequestLayout from "./Components/Layout/RequestLayout";
 import BoothAproval from "./Components/Event/Manage/BoothAproval";
 import EventAproval from "./Components/Admin/EventAproval";
@@ -56,7 +55,7 @@ function App() {
           }
         />
         <Route path="/boothRegist" element={<BoothRegistPage />} />
-        <Route path="/boothDetail/:id" element={<BoothDetailPage />} />
+        <Route path="/booths/:id" element={<BoothDetailPage />} />
         {/* 추후 Modal로 변경 페이지*/}
         <Route path="/boothGoodsTest" element={<GoodsManagementPage />} />
         <Route
@@ -65,10 +64,6 @@ function App() {
         />
         <Route path="/GoodsInfoPage" element={<GoodsInfoInputPage />} />
         <Route path="/ServiceInfoPage" element={<ServiceInfoInputPage />} />
-        <Route
-          path="/RegistLocation"
-          element={<RegistLocationPage eventId="17" />}
-        />
         <Route
           path="/ServiceTimeAdd"
           element={
