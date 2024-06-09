@@ -5,6 +5,7 @@ interface Props {
   label: string;
   placeholder?: string;
   setValue: (value: any) => void;
+  setValue2?: (value: any) => void;
   Icon: IconType;
   type: "button" | "select" | "text" | "textarea" | "image" | "time";
   imageName?: string;
@@ -17,6 +18,7 @@ export default function BoothRegistInput({
   setValue,
   Icon,
   imageName,
+  setValue2,
 }: Props) {
   const imageInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -52,11 +54,13 @@ export default function BoothRegistInput({
               onChange={(e) => setValue(e.target.value)}
             />
             <div className="pb-3 font-bold"> ~ </div>
-            <input
-              type="time"
-              className={INPUT_CLASSNAME}
-              onChange={(e) => setValue(e.target.value)}
-            />
+            {setValue2 && (
+              <input
+                type="time"
+                className={INPUT_CLASSNAME}
+                onChange={(e) => setValue2(e.target.value)}
+              />
+            )}
           </div>
         )}
         {type === "text" && (

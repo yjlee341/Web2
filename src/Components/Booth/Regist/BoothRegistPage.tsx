@@ -9,21 +9,32 @@ import { FaRegCreditCard } from "react-icons/fa6";
 import { MdOutlineDescription } from "react-icons/md";
 import { SlLocationPin } from "react-icons/sl";
 import { useState } from "react";
-import { useSetRecoilState } from "recoil";
-import { boothImageState } from "../../../Recoil/Booth/boothRegistAtom";
+import { useRegisteBooth } from "../../../Hooks/Booth/useRegistBooth";
+
+interface Props {
+  eventName: string;
+}
 
 export default function BoothRegistPage() {
+  const {
+    mutate,
+    setName,
+    setMainImage,
+    setAccountNumber,
+    setOpenTime,
+    setEndTime,
+    setDescription,
+  } = useRegisteBooth();
   const [isOpen, setIsOpen] = useState(false);
-  const setBoothImage = useSetRecoilState(boothImageState);
   const [imageName, setImageName] = useState("X");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files && event.target.files[0];
     if (selectedFile) {
-      setBoothImage(selectedFile);
+      setMainImage(selectedFile);
       setImageName(selectedFile.name);
     } else {
-      setBoothImage(null);
+      setMainImage(null);
       setImageName("X");
     }
   };
@@ -46,19 +57,21 @@ export default function BoothRegistPage() {
           placeholder="부스명을 입력해 주세요"
           label="부스명"
           Icon={MdDriveFileRenameOutline}
-          setValue={() => {}}
+          setValue={setName}
           type="text"
         />
         <BoothRegistInput
           label="행사명"
           Icon={MdStorefront}
           setValue={() => {}}
+          //Props 적용
           type="text"
         />
         <BoothRegistInput
           label="부스 운영 시간"
           Icon={FaCalendarCheck}
-          setValue={() => {}}
+          setValue={setOpenTime}
+          setValue2={setEndTime}
           type="time"
         />
         <BoothRegistInput
@@ -80,7 +93,7 @@ export default function BoothRegistPage() {
           placeholder="부스에 대한 간단한 설명을 입력해주세요"
           label="부스 설명"
           Icon={MdOutlineDescription}
-          setValue={() => {}}
+          setValue={setDescription}
           type="textarea"
         />
         <BoothRegistInput
@@ -88,13 +101,14 @@ export default function BoothRegistPage() {
           label="부스 태그"
           Icon={FaHashtag}
           setValue={() => {}}
+          //추후 적용
           type="button"
         />
         <BoothRegistInput
           placeholder="사용하시는 은행 및 계좌번호를 입력해주세요"
           label="계좌번호"
           Icon={FaRegCreditCard}
-          setValue={() => {}}
+          setValue={setAccountNumber}
           type="select"
         />
         <div className="flex gap-4 w-1/2 justify-center">
@@ -111,7 +125,12 @@ export default function BoothRegistPage() {
             서비스(예약) 등록 및 관리
           </button>
         </div>
-        <button className="py-1 font-bold w-1/2 h-10 hover:cursor-pointer bg-[#0064FF] rounded-md text-white mb-4">
+        <button
+          onClick={() => {
+            mutate();
+          }}
+          className="py-1 font-bold w-1/2 h-10 hover:cursor-pointer bg-[#0064FF] rounded-md text-white mb-4"
+        >
           부스 신청
         </button>
         <Modal isOpen={isOpen} switchModal={switchModal}>

@@ -16,9 +16,9 @@ export interface LocationData {
   number: string;
 }
 
-const fetchBoothData = (eventId: string): Promise<BoothData> => {
+const fetchBoothData = (boothId: string): Promise<BoothData> => {
   const token = getAccessToken();
-  const response = fetch(`http://52.79.91.214:8080/booths/${eventId}`, {
+  const response = fetch(`http://52.79.91.214:8080/booths/${boothId}`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -30,11 +30,10 @@ const fetchBoothData = (eventId: string): Promise<BoothData> => {
   return response;
 };
 
-export function useGetBoothDetail(eventId: string) {
+export function useGetBoothDetail(boothId: string) {
   const { isLoading, isError, data } = useQuery<BoothData>({
-    queryKey: ["getBoothDetail", eventId],
-    queryFn: () => fetchBoothData(eventId),
+    queryKey: ["getBoothDetail", boothId],
+    queryFn: () => fetchBoothData(boothId),
   });
-  console.log(data);
   return { isLoading, isError, data };
 }
