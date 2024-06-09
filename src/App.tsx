@@ -55,7 +55,7 @@ function App() {
           }
         />
         <Route path="/boothRegist" element={<BoothRegistPage />} />
-        <Route path="/booths/:id" element={<BoothDetailPage />} />
+        <Route path="/booth/:id" element={<BoothDetailPage />} />
         {/* 추후 Modal로 변경 페이지*/}
         <Route path="/boothGoodsTest" element={<GoodsManagementPage />} />
         <Route
