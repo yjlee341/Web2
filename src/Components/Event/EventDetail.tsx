@@ -76,6 +76,13 @@ export default function EventDetailPage() {
         <div className="flex flex-col mt-5">
           <div className="w-full px-10 py-4 flex flex-col gap-5">
             <Link
+              to={"/boothRegist"}
+              className="flex gap-2 items-center ml-auto p-2 rounded-md bg-green-500 text-white"
+              state={{ name }}
+            >
+              부스 신청
+            </Link>
+            <Link
               to={"manage"}
               className="flex gap-2 items-center ml-auto p-2 rounded-md bg-orange-500 text-white"
             >

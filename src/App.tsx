@@ -38,7 +38,7 @@ function App() {
         <Route path="/SearchResultPage" element={<SearchResultPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/events/:id" element={<EventDetailPage />} />
+        <Route path="/event/:id" element={<EventDetailPage />} />
         <Route
           path="/event/:id/manage"
           element={
