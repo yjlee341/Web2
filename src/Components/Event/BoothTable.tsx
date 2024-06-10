@@ -43,7 +43,10 @@ export default function BoothTable({
             </div>
           ))
         : numberLines.map((numberline, i) => (
-            <div className="flex justify-between border border-blue-200 rounded-md font-bold text-2xl text-center">
+            <div
+              className="flex justify-between border border-blue-200 rounded-md font-bold text-2xl text-center"
+              key={i}
+            >
               {numberline.map((number) => (
                 <div
                   key={number}

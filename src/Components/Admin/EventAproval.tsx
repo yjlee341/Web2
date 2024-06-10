@@ -3,7 +3,8 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useRadioChecks } from "../../Hooks/useRadioChecks";
 import { getAccessToken } from "../../Api/Util/token";
 import PageNation from "../Util/PageNation";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
+import PleaseLogin from "../Login/PleaseLogin";
 
 interface EventAprovalType {
   content: Array<{
@@ -67,6 +68,10 @@ export default function EventAproval() {
   useEffect(() => {
     refetch();
   }, [refetch, page]);
+
+  if (!getAccessToken()) {
+    return <PleaseLogin />;
+  }
 
   if (isError) return <>행사 요청 데이터를 가져오는데 실패했습니다.</>;
   return (

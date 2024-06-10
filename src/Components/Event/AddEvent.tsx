@@ -6,7 +6,8 @@ import { MdDescription, MdStorefront } from "react-icons/md";
 import { MdOutlineDescription } from "react-icons/md";
 import { SlLocationPin } from "react-icons/sl";
 import { getAccessToken } from "../../Api/Util/token";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import PleaseLogin from "../Login/PleaseLogin";
 
 export function getNumbers(maxNumber: number) {
   const NUMBERS = [];
@@ -38,10 +39,7 @@ interface EventData {
   areaClassifications: AreaData;
 }
 
-//TODO: 부스 배치도에서 숫자를 줄였을 때 업로드 되는 최대 숫자도 줄어들 것
 //TODO: 부스 배치도 이미지 업로드 3장제한
-//TODO: 테두리 디자인
-
 export default function AddEventPage() {
   const [boothType, setBoothType] = useState<"ALPHABET" | "NUMBER">("ALPHABET");
   const [maxAlphabet, setMaxAlphabet] = useState("A");
@@ -91,8 +89,9 @@ export default function AddEventPage() {
   };
 
   const handleLayoutImagesChange = (e: any) => {
+    const images = [...e.target.files].splice(0, 3);
     // @ts-ignore
-    setLayoutImages([...e.target.files]);
+    setLayoutImages(images);
   };
 
   const changeAlphabet = (e: any) => {
@@ -145,7 +144,10 @@ export default function AddEventPage() {
 
     eventDetails.areaClassifications.forEach((areaClassification) => {
       formData.append("areaClassifications", areaClassification.area);
-      formData.append("areaMaxNumbers", `${areaClassification.maxNumber}`);
+      formData.append(
+        "areaMaxNumbers",
+        `${Math.min(areaClassification.maxNumber, maxNumber)}`
+      );
     });
 
     fetch("http://52.79.91.214:8080/events", {
@@ -168,14 +170,18 @@ export default function AddEventPage() {
       });
   };
 
+  if (!getAccessToken()) {
+    return <PleaseLogin />;
+  }
+
   return (
     <form className="flex min-h-screen justify-center" onSubmit={onSubmit}>
-      <div className="w-full max-w-screen-lg border h-full p-10">
+      <div className="w-full max-w-screen-lg h-full p-10">
         <div className="flex flex-col mt-5">
-          <span className="bg-blue-400 w-fit p-1 rounded-t">
+          <span className="bg-blue-400 w-fit p-2 rounded-t text-white font-bold">
             행사 정보 입력
           </span>
-          <div className="w-full border border-blue-400 p-10 flex flex-col gap-5">
+          <div className="w-full shadow-lg p-10 flex flex-col gap-5">
             <EventFormInput
               placeholder="행사명"
               onChange={handleChange}
@@ -217,48 +223,52 @@ export default function AddEventPage() {
               )}
             </label>
 
-            <EventFormInput
-              placeholder="시작날짜"
-              onChange={handleChange}
-              name="openDate"
-              label="행사 시작 날짜"
-              DateInput
-              Icon={MdOutlineDescription}
-            />
-            <EventFormInput
-              placeholder="마감날짜"
-              onChange={handleChange}
-              name="closeDate"
-              label="행사 마감 날짜"
-              DateInput
-              Icon={MdOutlineDescription}
-            />
-            <EventFormInput
-              placeholder="부스 모집 시작날짜"
-              onChange={handleChange}
-              name="boothRecruitmentStartDate"
-              label="부스 모집 시작 날짜"
-              DateInput
-              Icon={MdOutlineDescription}
-            />
-            <EventFormInput
-              placeholder="부스 모집마감날짜"
-              onChange={handleChange}
-              name="boothRecruitmentEndDate"
-              label="부스 모집 마감날짜"
-              DateInput
-              Icon={MdOutlineDescription}
-            />
+            <div className="flex gap-2 flex-col sm:flex-row">
+              <EventFormInput
+                placeholder="시작날짜"
+                onChange={handleChange}
+                name="openDate"
+                label="행사 시작 날짜"
+                DateInput
+                Icon={MdOutlineDescription}
+              />
+              <EventFormInput
+                placeholder="마감날짜"
+                onChange={handleChange}
+                name="closeDate"
+                label="행사 마감 날짜"
+                DateInput
+                Icon={MdOutlineDescription}
+              />
+            </div>
+            <div className="flex gap-2 flex-col sm:flex-row">
+              <EventFormInput
+                placeholder="부스 모집 시작날짜"
+                onChange={handleChange}
+                name="boothRecruitmentStartDate"
+                label="부스 모집 시작 날짜"
+                DateInput
+                Icon={MdOutlineDescription}
+              />
+              <EventFormInput
+                placeholder="부스 모집 마감날짜"
+                onChange={handleChange}
+                name="boothRecruitmentEndDate"
+                label="부스 모집 마감날짜"
+                DateInput
+                Icon={MdOutlineDescription}
+              />
+            </div>
           </div>
         </div>
         <div className="flex flex-col mt-10">
-          <span className="bg-blue-400 w-fit p-1 rounded-t">
+          <span className="bg-blue-400 w-fit p-2 rounded-t text-white font-bold">
             행사 배치도 입력
           </span>
 
           {/* 이미지 첨부 */}
 
-          <div className="w-full border border-blue-400 p-10 flex flex-col gap-5">
+          <div className="w-full shadow-lg p-10 flex flex-col gap-5">
             <label className="grid grid-cols-3 gap-2">
               <input
                 type="file"
@@ -268,8 +278,9 @@ export default function AddEventPage() {
                 hidden
               />
               {layoutImages.length !== 0 ? (
-                layoutImages.map((layoutImage) => (
+                layoutImages.map((layoutImage, i) => (
                   <img
+                    key={layoutImage.name + i}
                     src={URL.createObjectURL(layoutImage)}
                     alt="행사 배치도"
                     className="w-full h-80 object-contain"
