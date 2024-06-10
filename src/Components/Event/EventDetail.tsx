@@ -20,7 +20,7 @@ export interface Event {
   isUserManager: boolean;
 }
 
-const fetcher = (id: string | undefined) => {
+export const eventFetcher = (id: string | undefined) => {
   if (!id) return Promise.reject();
   return fetch(`http://52.79.91.214:8080/events/${id}`, {
     method: "GET",
@@ -43,7 +43,7 @@ export default function EventDetailPage() {
   const { data, isError, isLoading } = useQuery<Event>({
     queryKey: ["event", id],
     enabled: !!id,
-    queryFn: () => fetcher(id),
+    queryFn: () => eventFetcher(id),
     retry: 1,
   });
 
@@ -82,13 +82,15 @@ export default function EventDetailPage() {
             >
               부스 신청
             </Link>
-            <Link
-              to={"manage"}
-              className="flex gap-2 items-center ml-auto p-2 rounded-md bg-orange-500 text-white"
-            >
-              <IoIosSettings size={20} />
-              행사 관리
-            </Link>
+            {data?.isUserManager && (
+              <Link
+                to={"manage"}
+                className="flex gap-2 items-center ml-auto p-2 rounded-md bg-orange-500 text-white"
+              >
+                <IoIosSettings size={20} />
+                행사 관리
+              </Link>
+            )}
 
             <EventInfo
               mainImageUrl={mainImageUrl}
