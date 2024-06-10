@@ -85,7 +85,7 @@ export default function NavBar() {
           </div>
         </div>
       </nav>
-      <div className="bg-blue-500 text-white flex justify-around py-2">
+      <div className="bg-blue-500 text-white flex justify-around py-2 h-10">
         <Link to="/EventListPage" className={getNavLinkClass("/EventListPage")}>
           행사 둘러보기
         </Link>
