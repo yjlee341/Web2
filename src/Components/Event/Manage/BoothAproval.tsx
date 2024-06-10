@@ -1,10 +1,25 @@
 import { getAccessToken } from "../../../Api/Util/token";
 import { useQuery } from "@tanstack/react-query";
 import { useRadioChecks } from "../../../Hooks/useRadioChecks";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import PageNation from "../../Util/PageNation";
+import { Event, eventFetcher } from "../EventDetail";
+import BoothAprovalTable from "./BoothAprovalTable";
+import { useAproval } from "../../../Hooks/useAproval";
+import { useEffect } from "react";
 
-interface BoothAprovalType {
+export type BoothAprovalContent = Array<{
+  id: number;
+  name: string;
+  registrationDate: string;
+  description: string;
+  status: string;
+  boothLocationData: Array<{
+    classification: string;
+    number: string;
+  }>;
+}>;
+export interface BoothAprovalType {
   totalPages: number;
   pageNumber: number;
   content: Array<{
@@ -33,7 +48,7 @@ const fetcher = (eventId: string | undefined) => {
   });
 };
 
-const setBoothState = (boothId: number, status: string) => {
+const setBoothState = (boothId: number, status: string) =>
   fetch(`http://52.79.91.214:8080/events/booths/${boothId}/status`, {
     method: "PUT",
     headers: {
@@ -46,37 +61,62 @@ const setBoothState = (boothId: number, status: string) => {
       if (response.ok) return response.json();
       else throw new Error();
     })
-    .then((data) => {
-      window.location.reload(); // TODO: 리액트 쿼리로 변경
-      console.log("Success:", data);
-    })
     .catch((error) => {
       console.error("Error:", error);
     });
-};
 
-//TODO: 행사를 만든 계정이 아닌 경우 RETURN
-//TODO: 로그인 필요
 export default function BoothAproval() {
   const { id } = useParams();
-
-  const { data, isError } = useQuery<BoothAprovalType>({
+  const [searchParams] = useSearchParams();
+  const page = searchParams.get("page") ?? 1;
+  const { data, isError, refetch } = useQuery<BoothAprovalType>({
     queryKey: ["event-aproval"],
     enabled: !!id,
-    queryFn: () => fetcher(id),
+    queryFn: () => fetcher(id), //TODO: page 추가
   });
 
-  const { checkList, clickCheckAll, clickCheckbox, isCheckAll } =
-    useRadioChecks(data?.content?.length ?? 1);
+  const {
+    data: eventData,
+    isError: eventError,
+    isLoading: eventLoading,
+  } = useQuery<Event>({
+    queryKey: ["event", id],
+    enabled: !!id,
+    queryFn: () => eventFetcher(id),
+    retry: 1,
+  });
 
-  const onAprove = (boothId: number) => {
-    setBoothState(boothId, "APPROVE");
+  const {
+    checkList,
+    clickCheckAll,
+    clickCheckbox,
+    isCheckAll,
+    disableAllCheck,
+  } = useRadioChecks(data?.content?.length ?? 1);
+  const {
+    changeStates: cs,
+    onAprove,
+    onReject,
+  } = useAproval(setBoothState, refetch);
+
+  useEffect(() => {
+    refetch();
+    disableAllCheck();
+  }, [refetch, page, disableAllCheck]);
+
+  const changeStates = (state: "APPROVE" | "REJECT") => {
+    if (!data?.content) return console.error("행사를 찾을 수 없음");
+    const eventIds = data.content
+      .filter((_, index) => checkList[index])
+      .map((event) => event.id);
+
+    cs(eventIds, state);
   };
 
-  const onReject = (boothId: number) => {
-    setBoothState(boothId, "REJECT");
-  };
-
+  if (!eventLoading && !eventData?.isUserManager) {
+    alert("행사 관리자만 이용 가능합니다");
+    window.history.back();
+  }
   if (!data || isError) return <>부스 데이터를 찾을 수 없습니다.</>;
 
   return (
@@ -88,82 +128,56 @@ export default function BoothAproval() {
           alt="설정"
           onClick={() => console.log(checkList)}
         ></img>
-        <button className="border p-2 rounded-md">승인 대기</button>
-        <button className="border p-2 rounded-md">승인 완료</button>
-        <button className="border p-2 rounded-md">승인 반려</button>
+        {/* <button className="border p-2 rounded-md">승인 대기</button> */}
+        <button
+          className="border p-2 px-4 rounded-md font-bold text-white bg-green-400"
+          onClick={() => changeStates("APPROVE")}
+        >
+          승인
+        </button>
+        <button
+          className="border p-2 px-4 rounded-md font-bold text-white bg-red-400"
+          onClick={() => changeStates("REJECT")}
+        >
+          반려
+        </button>
         <button className="border p-2 rounded-md ml-auto">선택 삭제</button>
       </div>
       <div className="container mx-auto">
-        <table className="min-w-full bg-white border-y border-gray-200">
-          <thead>
-            <tr className="border-b">
-              <th className="py-2 w-1">
-                <input
-                  type="checkbox"
-                  checked={isCheckAll}
-                  onChange={clickCheckAll}
-                />
-              </th>
-              <th className="py-2 px-4">부스명</th>
-              <th className="py-2 px-4">부스 위치</th>
-              <th className="py-2 px-4">부스 신청일</th>
-              <th className="py-2 px-4">부스 설명</th>
-              <th className="py-2 px-4">상태</th>
-              <th className="py-2 px-4">관리</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data?.content?.map((booth, index) => (
-              <tr key={index} className="text-center">
-                <td className="py-2 px-4 border-b">
+        {data.content.length === 0 ? (
+          <div className="text-center text-2xl bold mt-20">
+            신청된 부스가 없습니다😂
+          </div>
+        ) : (
+          <table className="min-w-full bg-white border-y border-gray-200">
+            <thead>
+              <tr className="border-b">
+                <th className="py-2 w-1">
                   <input
                     type="checkbox"
-                    onChange={(e) => clickCheckbox(e, index)}
-                    checked={checkList[index]}
+                    checked={isCheckAll}
+                    onChange={clickCheckAll}
                   />
-                </td>
-                <td className="py-2 px-4 border-b">{booth.name}</td>
-                <td className="py-2 px-4 border-b">
-                  {booth.boothLocationData?.map(
-                    ({ classification, number }) => (
-                      <span>
-                        {classification}-{number}
-                      </span>
-                    )
-                  )}
-                </td>
-                <td className="py-2 px-4 border-b">{booth.registrationDate}</td>
-                <td className="py-2 px-4 border-b">{booth.description}</td>
-                <td
-                  className={`py-2 px-4 border-b ${
-                    booth.status === "APPROVE"
-                      ? "text-red-500"
-                      : booth.status === "REJECT"
-                      ? "text-blue-500"
-                      : "text-black"
-                  }`}
-                >
-                  {booth.status}
-                </td>
-                <td className="py-2 px-4 border-b">
-                  <button
-                    className="w-full text-blue-500 hover:underline mr-2 border rounded-md px-2 whitespace-nowrap"
-                    onClick={() => onAprove(booth.id)}
-                  >
-                    승인
-                  </button>
-                  <button
-                    className="w-full text-blue-500 hover:underline border rounded-md px-2 whitespace-nowrap"
-                    onClick={() => onReject(booth.id)}
-                  >
-                    반려
-                  </button>
-                </td>
+                </th>
+                <th className="py-2 px-4">부스명</th>
+                <th className="py-2 px-4">부스 위치</th>
+                <th className="py-2 px-4">부스 신청일</th>
+                <th className="py-2 px-4">부스 설명</th>
+                <th className="py-2 px-4">상태</th>
+                <th className="py-2 px-4">관리</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        {/* {data && <PageNation maxPage={data.totalPages ?? 1} showPage={5} />} */}
+            </thead>
+
+            <BoothAprovalTable
+              booths={data?.content}
+              checkList={checkList}
+              clickCheckbox={clickCheckbox}
+              onAprove={onAprove}
+              onReject={onReject}
+            />
+          </table>
+        )}
+        {data && <PageNation maxPage={data.totalPages ?? 1} showPage={5} />}
       </div>
     </div>
   );
