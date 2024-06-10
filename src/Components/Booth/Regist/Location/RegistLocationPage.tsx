@@ -1,18 +1,26 @@
-import { useState } from "react";
-import LocationStateInfo from "./LocationStateInfo";
 import "../../../../index.css"; // 사용자 정의 CSS 파일 포함
 import { useGetLocation } from "../../../../Hooks/Event/useGetLocation";
+import LocationStateInfo from "./LocationStateInfo";
 
 interface Props {
   eventId: string;
   switchModal: () => void;
+  selectedSeatIds: number[];
+  selectedSeatNumbers: string[];
+  setSelectedSeatIds: (ids: number[] | ((prev: number[]) => number[])) => void;
+  setSelectedSeatNumbers: (
+    numbers: string[] | ((prev: string[]) => string[])
+  ) => void;
 }
 
-export default function RegistLocationPage({ eventId }: Props) {
+export default function RegistLocationPage({
+  eventId,
+  setSelectedSeatIds,
+  setSelectedSeatNumbers,
+  selectedSeatIds,
+}: Props) {
   const { isLoading, isError, data } = useGetLocation(eventId);
-  const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
   const maxSelectableSeats = 3;
-  console.log(selectedSeats);
 
   if (isLoading) {
     return <div>로딩중입니다...</div>;
@@ -35,21 +43,33 @@ export default function RegistLocationPage({ eventId }: Props) {
     }
   };
 
-  const handleSeatClick = (seatId: number) => {
-    setSelectedSeats((prevSelectedSeats) => {
-      if (prevSelectedSeats.includes(seatId)) {
-        return prevSelectedSeats.filter((id) => id !== seatId);
-      } else if (prevSelectedSeats.length < maxSelectableSeats) {
-        return [...prevSelectedSeats, seatId];
+  const handleSeatClick = (seatId: number, seatNumber: string) => {
+    setSelectedSeatIds((prevSelectedSeatIds: number[]) => {
+      if (prevSelectedSeatIds.includes(seatId)) {
+        return prevSelectedSeatIds.filter((id) => id !== seatId);
+      } else if (prevSelectedSeatIds.length < maxSelectableSeats) {
+        return [...prevSelectedSeatIds, seatId];
       } else {
         alert(`You can select up to ${maxSelectableSeats} seats.`);
-        return prevSelectedSeats;
+        return prevSelectedSeatIds;
+      }
+    });
+
+    setSelectedSeatNumbers((prevSelectedSeatNumbers: string[]) => {
+      if (prevSelectedSeatNumbers.includes(seatNumber)) {
+        return prevSelectedSeatNumbers.filter(
+          (number) => number !== seatNumber
+        );
+      } else if (prevSelectedSeatNumbers.length < maxSelectableSeats) {
+        return [...prevSelectedSeatNumbers, seatNumber];
+      } else {
+        return prevSelectedSeatNumbers;
       }
     });
   };
 
   const renderSeats = () => {
-    if (!data) return;
+    if (!data) return null;
     const seatRows = [];
     for (const row in data.areas) {
       const seatElements = data.areas[row].map((area) => (
@@ -58,9 +78,11 @@ export default function RegistLocationPage({ eventId }: Props) {
           className={`w-16 h-16 ${getColorClass(
             area.status
           )} m-1 flex items-center justify-center text-center text-sm font-mono ${
-            selectedSeats.includes(area.id) ? "border-4 border-blue-500" : ""
+            selectedSeatIds.includes(area.id) ? "border-4 border-blue-500" : ""
           } ${area.status !== "APPROVE" ? "cursor-pointer" : ""}`}
-          onClick={() => area.status !== "APPROVE" && handleSeatClick(area.id)}
+          onClick={() =>
+            area.status !== "APPROVE" && handleSeatClick(area.id, area.number)
+          }
         >
           {area.number}
         </div>

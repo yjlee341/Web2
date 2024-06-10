@@ -13,11 +13,6 @@ import { useRegisteBooth } from "../../../Hooks/Booth/useRegistBooth";
 import { useLocation } from "react-router-dom";
 import RegistLocationPage from "./Location/RegistLocationPage";
 
-interface Props {
-  eventName: string;
-  eventId: string;
-}
-
 export default function BoothRegistPage() {
   const { state } = useLocation();
   const {
@@ -32,6 +27,11 @@ export default function BoothRegistPage() {
   } = useRegisteBooth(state?.name);
   const [isOpen, setIsOpen] = useState(false);
   const [imageName, setImageName] = useState("X");
+  const [selectedSeatIds, setSelectedSeatIds] = useState<number[]>([]);
+  const [selectedSeatNumbers, setSelectedSeatNumbers] = useState<string[]>([]);
+
+  console.log(selectedSeatIds);
+  console.log(selectedSeatNumbers);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files && event.target.files[0];
@@ -90,6 +90,7 @@ export default function BoothRegistPage() {
               type="text"
               className="h-10 border-b-2 pl-1 w-3/4"
               onChange={(e) => {}}
+              value={selectedSeatNumbers.join(", ")}
             />
             <button
               className="h-8 w-1/4 hover:cursor-pointer bg-[#0064FF] rounded-md text-white"
@@ -108,7 +109,7 @@ export default function BoothRegistPage() {
           imageName={imageName}
         />
         <BoothRegistInput
-          placeholder="부스에 대한 간단한 설명을 입력해주세요"
+          placeholder="부스를 대한 간단한 설명을 입력해주세요"
           label="부스 설명"
           Icon={MdOutlineDescription}
           setValue={setDescription}
@@ -119,7 +120,6 @@ export default function BoothRegistPage() {
           label="부스 태그"
           Icon={FaHashtag}
           setValue={() => {}}
-          //추후 적용
           type="button"
         />
         <BoothRegistInput
@@ -152,7 +152,14 @@ export default function BoothRegistPage() {
           부스 신청
         </button>
         <Modal isOpen={isOpen} switchModal={switchModal}>
-          <RegistLocationPage eventId="17" switchModal={switchModal} />
+          <RegistLocationPage
+            selectedSeatIds={selectedSeatIds}
+            selectedSeatNumbers={selectedSeatNumbers}
+            eventId="17"
+            switchModal={switchModal}
+            setSelectedSeatIds={setSelectedSeatIds}
+            setSelectedSeatNumbers={setSelectedSeatNumbers}
+          />
         </Modal>
       </div>
     </div>
