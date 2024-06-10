@@ -15,8 +15,7 @@ import RegistLocationPage from "./Location/RegistLocationPage";
 
 export default function BoothRegistPage() {
   const { state } = useLocation();
-  console.log(state?.eventId); //이벤트 ID 넘겨받기
-
+  const eventId = state?.eventId;
   const {
     mutate,
     setName,
@@ -26,14 +25,18 @@ export default function BoothRegistPage() {
     setEndTime,
     setDescription,
     boothName,
+    setAccountBankName,
+    setLinkedEvent,
+    selectedSeatIds,
+    setSelectedSeatIds,
   } = useRegisteBooth(state?.name);
   const [isOpen, setIsOpen] = useState(false);
   const [imageName, setImageName] = useState("X");
-  const [selectedSeatIds, setSelectedSeatIds] = useState<number[]>([]);
   const [selectedSeatNumbers, setSelectedSeatNumbers] = useState<string[]>([]);
 
-  console.log(selectedSeatIds);
-  console.log(selectedSeatNumbers);
+  //TODO: 숫자형 데이터 확인
+  //TODO: formdata 확인
+  //TODO: 은행명 적용
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files && event.target.files[0];
@@ -50,7 +53,7 @@ export default function BoothRegistPage() {
     if (!isOpen) {
       setIsOpen(true);
     } else {
-      if (window.confirm("취소하시겠습니까?")) {
+      if (window.confirm("저장하시겠습니까?")) {
         setIsOpen(false);
       }
     }
@@ -147,6 +150,7 @@ export default function BoothRegistPage() {
         </div>
         <button
           onClick={() => {
+            setLinkedEvent(eventId);
             mutate();
           }}
           className="py-1 font-bold w-1/3 h-10 hover:cursor-pointer bg-[#0064FF] rounded-md text-white mb-4"
@@ -157,8 +161,7 @@ export default function BoothRegistPage() {
           <RegistLocationPage
             selectedSeatIds={selectedSeatIds}
             selectedSeatNumbers={selectedSeatNumbers}
-            eventId="17"
-            switchModal={switchModal}
+            eventId={eventId}
             setSelectedSeatIds={setSelectedSeatIds}
             setSelectedSeatNumbers={setSelectedSeatNumbers}
           />

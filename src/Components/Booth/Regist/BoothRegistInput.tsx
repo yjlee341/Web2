@@ -53,14 +53,14 @@ export default function BoothRegistInput({
             <input
               type="time"
               className={INPUT_CLASSNAME}
-              onChange={(e) => setValue(e.target.value)}
+              onChange={(e) => setValue(`${e.target.value}:00`)}
             />
             <div className="pb-3 font-bold"> ~ </div>
             {setValue2 && (
               <input
                 type="time"
                 className={INPUT_CLASSNAME}
-                onChange={(e) => setValue2(e.target.value)}
+                onChange={(e) => setValue2(`${e.target.value}:00`)}
               />
             )}
           </div>

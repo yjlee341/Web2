@@ -13,8 +13,8 @@ export default function Modal({ children, switchModal, isOpen }: Props) {
       <ReactModal
         shouldCloseOnOverlayClick={false}
         isOpen={isOpen}
-        onRequestClose={switchModal}
-        className="flex flex-col bg-white p-4 items-center justify-center"
+        onRequestClose={() => {}}
+        className="flex flex-col w-3/4 bg-white p-4 items-center justify-center"
         overlayClassName="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center"
       >
         {children}
@@ -25,13 +25,6 @@ export default function Modal({ children, switchModal, isOpen }: Props) {
             }}
             color="blue-500"
             text="확인"
-          />
-          <ModalButton
-            action={() => {
-              switchModal();
-            }}
-            color="red-500"
-            text="취소"
           />
         </div>
       </ReactModal>

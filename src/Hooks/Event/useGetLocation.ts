@@ -3,7 +3,7 @@ import { getAccessToken } from "../../Api/Util/token";
 
 interface Area {
   id: number;
-  status: "EMPTY" | "WAITING" | "APPROVE";
+  status: "EMPTY" | "WAITING" | "COMPLETE";
   number: string;
 }
 
@@ -13,7 +13,7 @@ interface Areas {
 
 interface LayoutData {
   layoutImageUrls: string[];
-  layoutType: "ALPHABET";
+  layoutType: "ALPHABET" | "NUMBER";
   areas: Areas;
 }
 
