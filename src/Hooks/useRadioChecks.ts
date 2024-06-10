@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 
 export function useRadioChecks(length: number) {
   const [checkList, setCheckList] = useState<boolean[]>(
@@ -21,10 +21,17 @@ export function useRadioChecks(length: number) {
     setCheckList(new Array(length).fill(isAll));
   };
 
+  const disableAllCheck = useCallback(() => {
+    const isAll = false;
+    setIsCheckAll(isAll);
+    setCheckList(new Array(length).fill(isAll));
+  }, [length]);
+
   return {
     clickCheckAll,
     clickCheckbox,
     checkList,
     isCheckAll,
+    disableAllCheck,
   };
 }

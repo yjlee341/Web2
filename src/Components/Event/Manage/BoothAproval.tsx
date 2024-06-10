@@ -46,7 +46,7 @@ const fetcher = (eventId: string | undefined) => {
   });
 };
 
-const setBoothState = (boothId: number, status: string) => {
+const setBoothState = (boothId: number, status: string) =>
   fetch(`http://52.79.91.214:8080/events/booths/${boothId}/status`, {
     method: "PUT",
     headers: {
@@ -59,14 +59,9 @@ const setBoothState = (boothId: number, status: string) => {
       if (response.ok) return response.json();
       else throw new Error();
     })
-    .then((data) => {
-      window.location.reload(); // TODO: 리액트 쿼리로 변경
-      console.log("Success:", data);
-    })
     .catch((error) => {
       console.error("Error:", error);
     });
-};
 
 export default function BoothAproval() {
   const { id } = useParams();
@@ -88,15 +83,36 @@ export default function BoothAproval() {
     retry: 1,
   });
 
-  const { checkList, clickCheckAll, clickCheckbox, isCheckAll } =
-    useRadioChecks(data?.content?.length ?? 1);
+  const {
+    checkList,
+    clickCheckAll,
+    clickCheckbox,
+    isCheckAll,
+    disableAllCheck,
+  } = useRadioChecks(data?.content?.length ?? 1);
 
   const onAprove = (boothId: number) => {
-    setBoothState(boothId, "APPROVE");
+    setBoothState(boothId, "APPROVE").then(() => window.location.reload()); // TODO: 리액트 쿼리로 변경);
   };
 
   const onReject = (boothId: number) => {
-    setBoothState(boothId, "REJECT");
+    setBoothState(boothId, "REJECT").then(() => window.location.reload()); // TODO: 리액트 쿼리로 변경);;
+  };
+
+  const changeStates = (state: "APPROVE" | "REJECT" | "WATING") => {
+    if (!data?.content) return console.error("행사를 찾을 수 없음");
+    const eventIds = data.content
+      .filter((_, index) => checkList[index])
+      .map((event) => event.id);
+
+    Promise.all(
+      eventIds.map((eventId) => {
+        return setBoothState(eventId, state);
+      })
+    ).then((response: any) => {
+      console.log("성동:", response);
+      window.location.reload();
+    });
   };
 
   if (!eventLoading && !eventData?.isUserManager) {
@@ -114,9 +130,19 @@ export default function BoothAproval() {
           alt="설정"
           onClick={() => console.log(checkList)}
         ></img>
-        <button className="border p-2 rounded-md">승인 대기</button>
-        <button className="border p-2 rounded-md">승인 완료</button>
-        <button className="border p-2 rounded-md">승인 반려</button>
+        {/* <button className="border p-2 rounded-md">승인 대기</button> */}
+        <button
+          className="border p-2 px-4 rounded-md font-bold text-white bg-green-400"
+          onClick={() => changeStates("APPROVE")}
+        >
+          승인
+        </button>
+        <button
+          className="border p-2 px-4 rounded-md font-bold text-white bg-red-400"
+          onClick={() => changeStates("REJECT")}
+        >
+          반려
+        </button>
         <button className="border p-2 rounded-md ml-auto">선택 삭제</button>
       </div>
       <div className="container mx-auto">

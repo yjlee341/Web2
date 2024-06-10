@@ -41,7 +41,6 @@ const setEventState = (id: number, status: string) =>
       else throw new Error();
     })
     .then((data) => {
-      window.location.reload(); // TODO: 리액트 쿼리로 변경
       console.log("Success:", data);
     });
 
@@ -54,20 +53,46 @@ export default function EventAproval() {
     queryFn: () => fetcher(+page),
   });
 
-  const { checkList, clickCheckAll, clickCheckbox, isCheckAll } =
-    useRadioChecks(data?.content?.length ?? 1);
+  const {
+    checkList,
+    clickCheckAll,
+    clickCheckbox,
+    isCheckAll,
+    disableAllCheck,
+  } = useRadioChecks(data?.content?.length ?? 1);
 
   const onAprove = (boothId: number) => {
-    setEventState(boothId, "APPROVE");
+    setEventState(boothId, "APPROVE").then(() => {
+      window.location.reload(); // TODO: 리액트 쿼리로 변경
+    });
   };
 
   const onReject = (boothId: number) => {
-    setEventState(boothId, "REJECT");
+    setEventState(boothId, "REJECT").then(() => {
+      window.location.reload(); // TODO: 리액트 쿼리로 변경
+    });
+  };
+
+  const changeStates = (state: "APPROVE" | "REJECT" | "WATING") => {
+    if (!data?.content) return console.error("행사를 찾을 수 없음");
+    const eventIds = data.content
+      .filter((_, index) => checkList[index])
+      .map((event) => event.id);
+
+    Promise.all(
+      eventIds.map((eventId) => {
+        return setEventState(eventId, state);
+      })
+    ).then((response: any) => {
+      console.log("성동:", response);
+      window.location.reload();
+    });
   };
 
   useEffect(() => {
     refetch();
-  }, [refetch, page]);
+    disableAllCheck();
+  }, [refetch, page, disableAllCheck]);
 
   if (!getAccessToken()) {
     return <PleaseLogin />;
@@ -83,9 +108,24 @@ export default function EventAproval() {
           alt="설정"
           onClick={() => console.log(checkList)}
         ></img>
-        <button className="border p-2 rounded-md">승인 대기</button>
-        <button className="border p-2 rounded-md">승인 완료</button>
-        <button className="border p-2 rounded-md">승인 반려</button>
+        {/* <button
+          className="border p-2 rounded-md"
+          onClick={() => changeStates("WATING")}
+        >
+          승인 대기
+        </button> */}
+        <button
+          className="border p-2 px-4 rounded-md font-bold text-white bg-green-400"
+          onClick={() => changeStates("APPROVE")}
+        >
+          승인
+        </button>
+        <button
+          className="border p-2 px-4 rounded-md font-bold text-white bg-red-400"
+          onClick={() => changeStates("REJECT")}
+        >
+          반려
+        </button>
         <button className="border p-2 rounded-md ml-auto">선택 삭제</button>
       </div>
       <div className="container mx-auto">
@@ -114,7 +154,7 @@ export default function EventAproval() {
                   <input
                     type="checkbox"
                     onChange={(e) => clickCheckbox(e, index)}
-                    checked={checkList[index]}
+                    checked={checkList[index] ?? false}
                   />
                 </td>
                 <td className="py-2 px-4 border-b">{booth.name}</td>
@@ -123,10 +163,10 @@ export default function EventAproval() {
                 <td className="py-2 px-4 border-b">{booth.description}</td>
                 <td
                   className={`py-2 px-4 border-b ${
-                    booth.status === "승인 반려"
+                    booth.status === "REJECT"
                       ? "text-red-500"
-                      : booth.status === "승인 완료"
-                      ? "text-blue-500"
+                      : booth.status === "APPROVE"
+                      ? "text-green-500"
                       : ""
                   }`}
                 >
@@ -134,13 +174,13 @@ export default function EventAproval() {
                 </td>
                 <td className="py-2 px-4 border-b">
                   <button
-                    className="w-full text-blue-500 hover:underline mr-2 border rounded-md px-2 whitespace-nowrap"
+                    className="w-full text-white bg-green-400 shadow-md hover:underline mr-2 border rounded-md px-2 whitespace-nowrap"
                     onClick={() => onAprove(booth.id)}
                   >
                     승인
                   </button>
                   <button
-                    className="w-full text-blue-500 hover:underline border rounded-md px-2 whitespace-nowrap"
+                    className="w-full text-white bg-red-400 shadow-md hover:underline border rounded-md px-2 whitespace-nowrap"
                     onClick={() => onReject(booth.id)}
                   >
                     반려
