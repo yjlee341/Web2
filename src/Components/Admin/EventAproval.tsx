@@ -3,7 +3,9 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useRadioChecks } from "../../Hooks/useRadioChecks";
 import { getAccessToken } from "../../Api/Util/token";
 import PageNation from "../Util/PageNation";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
+import PleaseLogin from "../Login/PleaseLogin";
+import { useAproval } from "../../Hooks/useAproval";
 
 interface EventAprovalType {
   content: Array<{
@@ -34,15 +36,10 @@ const setEventState = (id: number, status: string) =>
       Authorization: `Bearer ${getAccessToken()}`,
     },
     body: JSON.stringify({ status }),
-  })
-    .then((response) => {
-      if (response.ok) return response.json();
-      else throw new Error();
-    })
-    .then((data) => {
-      window.location.reload(); // TODO: 리액트 쿼리로 변경
-      console.log("Success:", data);
-    });
+  }).then((response) => {
+    if (response.ok) return response.json();
+    else throw new Error();
+  });
 
 // TODO: 관리자 계정이 아닐경우 return
 export default function EventAproval() {
@@ -53,20 +50,37 @@ export default function EventAproval() {
     queryFn: () => fetcher(+page),
   });
 
-  const { checkList, clickCheckAll, clickCheckbox, isCheckAll } =
-    useRadioChecks(data?.content?.length ?? 1);
+  const {
+    checkList,
+    clickCheckAll,
+    clickCheckbox,
+    isCheckAll,
+    disableAllCheck,
+  } = useRadioChecks(data?.content?.length ?? 1);
 
-  const onAprove = (boothId: number) => {
-    setEventState(boothId, "APPROVE");
-  };
+  const {
+    changeStates: cs,
+    onAprove,
+    onReject,
+  } = useAproval(setEventState, refetch);
 
-  const onReject = (boothId: number) => {
-    setEventState(boothId, "REJECT");
+  const changeStates = (state: "APPROVE" | "REJECT") => {
+    if (!data?.content) return console.error("행사를 찾을 수 없음");
+    const eventIds = data.content
+      .filter((_, index) => checkList[index])
+      .map((event) => event.id);
+
+    cs(eventIds, state);
   };
 
   useEffect(() => {
     refetch();
-  }, [refetch, page]);
+    disableAllCheck();
+  }, [refetch, page, disableAllCheck]);
+
+  if (!getAccessToken()) {
+    return <PleaseLogin />;
+  }
 
   if (isError) return <>행사 요청 데이터를 가져오는데 실패했습니다.</>;
   return (
@@ -78,9 +92,24 @@ export default function EventAproval() {
           alt="설정"
           onClick={() => console.log(checkList)}
         ></img>
-        <button className="border p-2 rounded-md">승인 대기</button>
-        <button className="border p-2 rounded-md">승인 완료</button>
-        <button className="border p-2 rounded-md">승인 반려</button>
+        {/* <button
+          className="border p-2 rounded-md"
+          onClick={() => changeStates("WATING")}
+        >
+          승인 대기
+        </button> */}
+        <button
+          className="border p-2 px-4 rounded-md font-bold text-white bg-green-400"
+          onClick={() => changeStates("APPROVE")}
+        >
+          승인
+        </button>
+        <button
+          className="border p-2 px-4 rounded-md font-bold text-white bg-red-400"
+          onClick={() => changeStates("REJECT")}
+        >
+          반려
+        </button>
         <button className="border p-2 rounded-md ml-auto">선택 삭제</button>
       </div>
       <div className="container mx-auto">
@@ -109,7 +138,7 @@ export default function EventAproval() {
                   <input
                     type="checkbox"
                     onChange={(e) => clickCheckbox(e, index)}
-                    checked={checkList[index]}
+                    checked={checkList[index] ?? false}
                   />
                 </td>
                 <td className="py-2 px-4 border-b">{booth.name}</td>
@@ -118,10 +147,10 @@ export default function EventAproval() {
                 <td className="py-2 px-4 border-b">{booth.description}</td>
                 <td
                   className={`py-2 px-4 border-b ${
-                    booth.status === "승인 반려"
+                    booth.status === "REJECT"
                       ? "text-red-500"
-                      : booth.status === "승인 완료"
-                      ? "text-blue-500"
+                      : booth.status === "APPROVE"
+                      ? "text-green-500"
                       : ""
                   }`}
                 >
@@ -129,13 +158,13 @@ export default function EventAproval() {
                 </td>
                 <td className="py-2 px-4 border-b">
                   <button
-                    className="w-full text-blue-500 hover:underline mr-2 border rounded-md px-2 whitespace-nowrap"
+                    className="w-full text-white bg-green-400 shadow-md hover:underline mr-2 border rounded-md px-2 whitespace-nowrap"
                     onClick={() => onAprove(booth.id)}
                   >
                     승인
                   </button>
                   <button
-                    className="w-full text-blue-500 hover:underline border rounded-md px-2 whitespace-nowrap"
+                    className="w-full text-white bg-red-400 shadow-md hover:underline border rounded-md px-2 whitespace-nowrap"
                     onClick={() => onReject(booth.id)}
                   >
                     반려
