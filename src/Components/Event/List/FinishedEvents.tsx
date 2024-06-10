@@ -25,7 +25,7 @@ export default function FinishedEvents({ sortOrder }: FinishedEventsProps) {
         setEvents((prevEvents) => [...prevEvents, ...response.content]);
       }
       setHasMore(response.hasNext);
-      setSliceNumber(sliceNumber + 1);
+      setSliceNumber((prevSliceNumber) => prevSliceNumber + 1);
     } catch (error) {
       console.error("Error fetching events:", error);
       setIsError(true);
