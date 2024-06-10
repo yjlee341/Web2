@@ -61,7 +61,7 @@ export default function EventDetailPage() {
     boothCount,
     closeDate,
     description,
-    id: eventid,
+    id: eventId,
     isUserManager,
     layoutImageUrls,
     location,
@@ -78,7 +78,7 @@ export default function EventDetailPage() {
             <Link
               to={"/boothRegist"}
               className="flex gap-2 items-center ml-auto p-2 rounded-md bg-green-500 text-white"
-              state={{ name }}
+              state={{ name, eventId }}
             >
               부스 신청
             </Link>
