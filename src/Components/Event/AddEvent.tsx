@@ -41,13 +41,8 @@ interface EventData {
 
 //TODO: 부스 배치도 이미지 업로드 3장제한
 export default function AddEventPage() {
-  const [boothType, setBoothType] = useState<"ALPHABET" | "NUMBER">("ALPHABET");
   const [maxAlphabet, setMaxAlphabet] = useState("A");
   const [maxNumber, setMaxNumber] = useState(1);
-
-  const ALPHABETS = getAlphabets("Z");
-  const NUMBERS = getNumbers(boothType === "ALPHABET" ? 20 : 100);
-
   const [eventDetails, setEventDetails] = useState<EventData>({
     name: "",
     location: "",
@@ -59,6 +54,9 @@ export default function AddEventPage() {
     layoutType: "ALPHABET",
     areaClassifications: [{ area: "A", maxNumber: 1 }],
   });
+
+  const ALPHABETS = getAlphabets("Z");
+  const NUMBERS = getNumbers(eventDetails.layoutType === "ALPHABET" ? 20 : 100);
 
   const [mainImage, setMainImage] = useState<File>();
   const [layoutImages, setLayoutImages] = useState<File[]>([]);
@@ -307,8 +305,11 @@ export default function AddEventPage() {
                   value={"ALPHABET"}
                   name={"type"}
                   defaultChecked={true}
-                  onChange={(e) => {
-                    setBoothType("ALPHABET");
+                  onChange={() => {
+                    setEventDetails({
+                      ...eventDetails,
+                      layoutType: "ALPHABET",
+                    });
                     setMaxNumber(1);
                   }}
                 />
@@ -320,8 +321,11 @@ export default function AddEventPage() {
                   value={"NUMBER"}
                   name={"type"}
                   defaultChecked={false}
-                  onChange={(e) => {
-                    setBoothType("NUMBER");
+                  onChange={() => {
+                    setEventDetails({
+                      ...eventDetails,
+                      layoutType: "NUMBER",
+                    });
                   }}
                 />
                 숫자 형
@@ -334,7 +338,7 @@ export default function AddEventPage() {
               <select
                 onChange={changeAlphabet}
                 className={`w-20 border border-blue-300 p-2 rounded-md ${
-                  boothType === "NUMBER" && "hidden"
+                  eventDetails.layoutType === "NUMBER" && "hidden"
                 }`}
               >
                 {ALPHABETS.map((alphabet) => (
@@ -358,7 +362,7 @@ export default function AddEventPage() {
             {/*  */}
 
             <BoothTable
-              boothType={boothType}
+              boothType={eventDetails.layoutType}
               alphabet={maxAlphabet}
               number={maxNumber}
               handleAreaTableChange={handleAreaTableChange}
