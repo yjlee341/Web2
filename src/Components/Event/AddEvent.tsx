@@ -142,13 +142,18 @@ export default function AddEventPage() {
       formData.append(`layoutImages`, image);
     });
 
-    eventDetails.areaClassifications.forEach((areaClassification) => {
-      formData.append("areaClassifications", areaClassification.area);
-      formData.append(
-        "areaMaxNumbers",
-        `${Math.min(areaClassification.maxNumber, maxNumber)}`
-      );
-    });
+    if (eventDetails.layoutType === "ALPHABET") {
+      eventDetails.areaClassifications.forEach((areaClassification) => {
+        formData.append("areaClassifications", areaClassification.area);
+        formData.append(
+          "areaMaxNumbers",
+          `${Math.min(areaClassification.maxNumber, maxNumber)}`
+        );
+      });
+    } else {
+      formData.append("areaClassifications", "1");
+      formData.append("areaMaxNumbers", `${maxNumber}`);
+    }
 
     fetch("http://52.79.91.214:8080/events", {
       method: "POST",
