@@ -5,6 +5,7 @@ import { getAccessToken } from "../../Api/Util/token";
 import PageNation from "../Util/PageNation";
 import { Link, useSearchParams } from "react-router-dom";
 import PleaseLogin from "../Login/PleaseLogin";
+import { useAproval } from "../../Hooks/useAproval";
 
 interface EventAprovalType {
   content: Array<{
@@ -35,14 +36,10 @@ const setEventState = (id: number, status: string) =>
       Authorization: `Bearer ${getAccessToken()}`,
     },
     body: JSON.stringify({ status }),
-  })
-    .then((response) => {
-      if (response.ok) return response.json();
-      else throw new Error();
-    })
-    .then((data) => {
-      console.log("Success:", data);
-    });
+  }).then((response) => {
+    if (response.ok) return response.json();
+    else throw new Error();
+  });
 
 // TODO: 관리자 계정이 아닐경우 return
 export default function EventAproval() {
@@ -61,32 +58,19 @@ export default function EventAproval() {
     disableAllCheck,
   } = useRadioChecks(data?.content?.length ?? 1);
 
-  const onAprove = (boothId: number) => {
-    setEventState(boothId, "APPROVE").then(() => {
-      window.location.reload(); // TODO: 리액트 쿼리로 변경
-    });
-  };
+  const {
+    changeStates: cs,
+    onAprove,
+    onReject,
+  } = useAproval(setEventState, refetch);
 
-  const onReject = (boothId: number) => {
-    setEventState(boothId, "REJECT").then(() => {
-      window.location.reload(); // TODO: 리액트 쿼리로 변경
-    });
-  };
-
-  const changeStates = (state: "APPROVE" | "REJECT" | "WATING") => {
+  const changeStates = (state: "APPROVE" | "REJECT") => {
     if (!data?.content) return console.error("행사를 찾을 수 없음");
     const eventIds = data.content
       .filter((_, index) => checkList[index])
       .map((event) => event.id);
 
-    Promise.all(
-      eventIds.map((eventId) => {
-        return setEventState(eventId, state);
-      })
-    ).then((response: any) => {
-      console.log("성동:", response);
-      window.location.reload();
-    });
+    cs(eventIds, state);
   };
 
   useEffect(() => {

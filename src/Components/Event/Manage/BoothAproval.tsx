@@ -1,10 +1,12 @@
 import { getAccessToken } from "../../../Api/Util/token";
 import { useQuery } from "@tanstack/react-query";
 import { useRadioChecks } from "../../../Hooks/useRadioChecks";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import PageNation from "../../Util/PageNation";
 import { Event, eventFetcher } from "../EventDetail";
 import BoothAprovalTable from "./BoothAprovalTable";
+import { useAproval } from "../../../Hooks/useAproval";
+import { useEffect } from "react";
 
 export type BoothAprovalContent = Array<{
   id: number;
@@ -65,11 +67,12 @@ const setBoothState = (boothId: number, status: string) =>
 
 export default function BoothAproval() {
   const { id } = useParams();
-
-  const { data, isError } = useQuery<BoothAprovalType>({
+  const [searchParams] = useSearchParams();
+  const page = searchParams.get("page") ?? 1;
+  const { data, isError, refetch } = useQuery<BoothAprovalType>({
     queryKey: ["event-aproval"],
     enabled: !!id,
-    queryFn: () => fetcher(id),
+    queryFn: () => fetcher(id), //TODO: page 추가
   });
 
   const {
@@ -90,29 +93,24 @@ export default function BoothAproval() {
     isCheckAll,
     disableAllCheck,
   } = useRadioChecks(data?.content?.length ?? 1);
+  const {
+    changeStates: cs,
+    onAprove,
+    onReject,
+  } = useAproval(setBoothState, refetch);
 
-  const onAprove = (boothId: number) => {
-    setBoothState(boothId, "APPROVE").then(() => window.location.reload()); // TODO: 리액트 쿼리로 변경);
-  };
+  useEffect(() => {
+    refetch();
+    disableAllCheck();
+  }, [refetch, page, disableAllCheck]);
 
-  const onReject = (boothId: number) => {
-    setBoothState(boothId, "REJECT").then(() => window.location.reload()); // TODO: 리액트 쿼리로 변경);;
-  };
-
-  const changeStates = (state: "APPROVE" | "REJECT" | "WATING") => {
+  const changeStates = (state: "APPROVE" | "REJECT") => {
     if (!data?.content) return console.error("행사를 찾을 수 없음");
     const eventIds = data.content
       .filter((_, index) => checkList[index])
       .map((event) => event.id);
 
-    Promise.all(
-      eventIds.map((eventId) => {
-        return setBoothState(eventId, state);
-      })
-    ).then((response: any) => {
-      console.log("성동:", response);
-      window.location.reload();
-    });
+    cs(eventIds, state);
   };
 
   if (!eventLoading && !eventData?.isUserManager) {
@@ -179,7 +177,7 @@ export default function BoothAproval() {
             />
           </table>
         )}
-        {/* {data && <PageNation maxPage={data.totalPages ?? 1} showPage={5} />} */}
+        {data && <PageNation maxPage={data.totalPages ?? 1} showPage={5} />}
       </div>
     </div>
   );
