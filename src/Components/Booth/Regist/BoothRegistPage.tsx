@@ -15,6 +15,8 @@ import RegistLocationPage from "./Location/RegistLocationPage";
 
 export default function BoothRegistPage() {
   const { state } = useLocation();
+  console.log(state?.eventId); //이벤트 ID 넘겨받기
+
   const {
     mutate,
     setName,
