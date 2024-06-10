@@ -12,6 +12,18 @@ interface Props {
   ) => void;
 }
 
+interface Area {
+  id: number;
+  number: string;
+  status: "EMPTY" | "WAITING" | "COMPLETE";
+}
+
+interface Data {
+  layoutType: "ALPHABET" | "NUMBER";
+  layoutImageUrls: string[];
+  areas: { [key: string]: Area[] };
+}
+
 export default function RegistLocationPage({
   eventId,
   setSelectedSeatIds,
@@ -72,54 +84,102 @@ export default function RegistLocationPage({
 
   const renderSeats = () => {
     if (!data) return null;
-    const seatRows = [];
     const layoutType = data.layoutType;
+    const seatRows: JSX.Element[] = [];
 
-    for (const row in data.areas) {
-      const seatElements = data.areas[row].map((area) => {
-        const seatNumber =
-          layoutType === "ALPHABET" ? `${row}${area.number}` : area.number;
-
-        return (
-          <div
-            key={area.id}
-            className={`w-16 h-16 ${getColorClass(
-              area.status
-            )} m-1 flex items-center justify-center text-center text-sm font-mono ${
-              selectedSeatIds.includes(area.id)
-                ? "border-4 border-blue-500"
-                : ""
-            } ${area.status !== "COMPLETE" ? "cursor-pointer" : ""}`}
-            onClick={() =>
-              area.status !== "COMPLETE" &&
-              handleSeatClick(area.id, seatNumber, row)
-            }
-          >
-            {seatNumber}
+    if (layoutType === "ALPHABET") {
+      for (const row in data.areas) {
+        const seatElements: JSX.Element[] = data.areas[row].map((area) => {
+          const seatNumber = `${row}${area.number}`;
+          return (
+            <div
+              key={area.id}
+              className={`w-16 h-16 ${getColorClass(
+                area.status
+              )} m-1 flex items-center justify-center text-center text-sm font-mono ${
+                selectedSeatIds.includes(area.id)
+                  ? "border-4 border-blue-500"
+                  : ""
+              } ${area.status !== "COMPLETE" ? "cursor-pointer" : ""}`}
+              onClick={() =>
+                area.status !== "COMPLETE" &&
+                handleSeatClick(area.id, seatNumber, row)
+              }
+            >
+              {seatNumber}
+            </div>
+          );
+        });
+        seatRows.push(
+          <div key={row} className="flex justify-start mb-2 font-bold">
+            {seatElements}
           </div>
         );
-      });
-      seatRows.push(
-        <div key={row} className="flex justify-start mb-2 font-bold">
-          {seatElements}
-        </div>
-      );
+      }
+    } else if (layoutType === "NUMBER") {
+      let rowCount = 0;
+      let seatElements: JSX.Element[] = [];
+
+      for (const row in data.areas) {
+        data.areas[row].forEach((area) => {
+          const seatNumber = area.number;
+          seatElements.push(
+            <div
+              key={area.id}
+              className={`w-16 h-16 ${getColorClass(
+                area.status
+              )} m-1 flex items-center justify-center text-center text-sm font-mono ${
+                selectedSeatIds.includes(area.id)
+                  ? "border-4 border-blue-500"
+                  : ""
+              } ${area.status !== "COMPLETE" ? "cursor-pointer" : ""}`}
+              onClick={() =>
+                area.status !== "COMPLETE" &&
+                handleSeatClick(area.id, seatNumber, row)
+              }
+            >
+              {seatNumber}
+            </div>
+          );
+
+          if (seatElements.length === 8) {
+            // 한 줄에 8개씩 배치
+            seatRows.push(
+              <div key={rowCount} className="flex justify-start mb-2 font-bold">
+                {seatElements}
+              </div>
+            );
+            seatElements = [];
+            rowCount++;
+          }
+        });
+      }
+      if (seatElements.length > 0) {
+        seatRows.push(
+          <div key={rowCount} className="flex justify-start mb-2 font-bold">
+            {seatElements}
+          </div>
+        );
+      }
     }
+
     return seatRows;
   };
 
   return data ? (
     <>
       <div className="flex w-full gap-4 h-full">
-        <div className="w-1/2 py-5 flex flex-col h-[600px] items-center bg-blue-100 rounded-lg ">
-          <div className="text-3xl h-1/3 font-bold">행사장 구조도</div>
-          <img
-            src={data.layoutImageUrls[0]}
-            alt="Event Venue"
-            className="w-2/3 h-auto rounded mt-3"
-          />
+        <div className="w-1/2 gap-4 py-5 flex flex-col h-[500px] items-center bg-blue-100 rounded-lg ">
+          <div className="text-3xl font-bold">행사장 구조도</div>
+          <div className="flex justify-center items-center w-full h-3/4">
+            <img
+              src={data.layoutImageUrls[0]}
+              alt="Event Venue"
+              className="w-full h-full object-contain px-5 pb-10 rounded mt-3"
+            />
+          </div>
         </div>
-        <div className="w-1/2 flex flex-col items-center pt-5 bg-blue-100 rounded-lg h-[600px] overflow-x-scroll overflow-y-scroll scrollbar-custom">
+        <div className="w-1/2 flex flex-col items-center pt-5 bg-blue-100 rounded-lg h-[500px] overflow-x-scroll overflow-y-scroll scrollbar-custom">
           <div className="text-3xl font-bold">부스 신청 현황</div>
           <div className="w-full flex flex-col items-start pl-5 pt-3">
             {renderSeats()}
