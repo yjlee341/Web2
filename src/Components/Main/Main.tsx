@@ -1,4 +1,4 @@
-import tempBanner from "../../logo.svg";
+import tempBanner from "../Main/Banner/main_banner1.png";
 import ShowEventList from "./ShowEventList";
 
 interface Props {
