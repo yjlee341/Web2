@@ -55,7 +55,7 @@ const setBoothState = (boothId: number, status: string) =>
       "Content-Type": "application/json",
       Authorization: `Bearer ${getAccessToken()}`,
     },
-    body: JSON.stringify({ status }),
+    body: JSON.stringify({ boothStatus: status }),
   })
     .then((response) => {
       if (response.ok) return response.json();
@@ -122,12 +122,12 @@ export default function BoothAproval() {
   return (
     <div className="flex-1 flex flex-col p-2">
       <div className="w-full inline-flex gap-3 p-2">
-        <img
+        {/* <img
           className="border p-2 rounded-md"
           src=""
           alt="설정"
           onClick={() => console.log(checkList)}
-        ></img>
+        ></img> */}
         {/* <button className="border p-2 rounded-md">승인 대기</button> */}
         <button
           className="border p-2 px-4 rounded-md font-bold text-white bg-green-400"
@@ -141,7 +141,7 @@ export default function BoothAproval() {
         >
           반려
         </button>
-        <button className="border p-2 rounded-md ml-auto">선택 삭제</button>
+        {/* <button className="border p-2 rounded-md ml-auto">선택 삭제</button> */}
       </div>
       <div className="container mx-auto">
         {data.content.length === 0 ? (

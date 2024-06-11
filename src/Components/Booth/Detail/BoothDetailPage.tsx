@@ -20,21 +20,21 @@ export default function BoothDetailPage() {
   return (
     <div className="max-w-screen flex justify-center text-xl">
       {data ? (
-        <div className="shadow-md w-2/3 flex flex-col items-center my-10 pb-5">
-          <div className="w-2/3 flex flex-col mt-10 items-center gap-4">
+        <div className="shadow-md w-full max-w-screen-lg m-2 flex flex-col items-center my-10 pb-5 p-2">
+          <div className="flex flex-col mt-10 items-center gap-4">
             <div className="text-3xl font-bold my-5">{data.name}</div>
-            <div className="flex w-full justify-center gap-5">
+            <div className="flex flex-col lg:flex-row w-full justify-center gap-5">
               <img
-                className="w-1/3 h-full"
+                className="w-full lg:w-60"
                 src={data.mainImageUrl}
                 alt="부스 이미지"
               />
-              <div className="flex flex-col w-2/3">
+              <div className="flex flex-col">
                 <div className="flex flex-col h-2/3 gap-3 mt-2">
                   <div>
-                    <div className="flex gap-2">
-                      <div className="font-bold">부스위치 : </div>
-                      <div className="flex gap-2">
+                    <div className="flex gap-2 flex-col md:flex-row">
+                      <div className="font-bold text-nowrap">부스위치 : </div>
+                      <div className="flex gap-2 flex-wrap">
                         {data.location.map((loc, index) => (
                           <Location
                             key={index}
@@ -44,26 +44,28 @@ export default function BoothDetailPage() {
                       </div>
                     </div>
                   </div>
-                  <div className="flex gap-2">
-                    <div className="font-bold">부스 운영시간 : </div>
-                    <div className="flex gap-2">
+                  <div className="flex gap-2 flex-col md:flex-row">
+                    <div className="font-bold text-nowrap">
+                      부스 운영시간 :{" "}
+                    </div>
+                    <div className="flex gap-2 flex-wrap">
                       <Time text={data.openTime} />
                       <span> ~ </span>
                       <Time text={data.closeTime} />
                     </div>
                   </div>
-                  <div className="flex gap-2">
-                    <div className="font-bold">부스 태그 : </div>
-                    <div className="flex gap-3">
+                  <div className="flex flex-col md:flex-row gap-2">
+                    <div className="font-bold text-nowrap">부스 태그 : </div>
+                    <div className="flex w-full gap-3 flex-wrap">
                       <Tag text="로맨스" />
                       <Tag text="액션" />
                       <Tag text="공포" />
                     </div>
                   </div>
-                </div>
-                <div className="h-1/3 flex flex-col gap-2 ">
-                  <div className="font-bold">부스 설명</div>
-                  <div>{data.description}</div>
+                  <div className="flex flex-col gap-2 ">
+                    <div className="font-bold">부스 설명</div>
+                    <div>{data.description}</div>
+                  </div>
                 </div>
               </div>
             </div>
