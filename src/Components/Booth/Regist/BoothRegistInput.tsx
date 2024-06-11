@@ -7,7 +7,7 @@ interface Props {
   setValue: (value: any) => void;
   setValue2?: (value: any) => void;
   Icon: IconType;
-  type: "button" | "select" | "text" | "textarea" | "image" | "time" | "modal";
+  type: "button" | "select" | "text" | "textarea" | "image" | "time";
   imageName?: string;
   value?: string;
 }
@@ -87,14 +87,7 @@ export default function BoothRegistInput({
             </button>
           </>
         )}
-        {type === "modal" && (
-          <input
-            placeholder={placeholder}
-            type="text"
-            className="h-10 border-b-2 pl-1 mb-5 w-3/4"
-            onChange={(e) => setValue(e.target.value)}
-          />
-        )}
+
         {type === "image" && (
           <div className="flex w-full justify-between items-center mb-4">
             <div className="flex w-3/4 border-b-2 py-2 pl-1">

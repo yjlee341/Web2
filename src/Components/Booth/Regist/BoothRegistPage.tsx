@@ -34,9 +34,7 @@ export default function BoothRegistPage() {
   const [imageName, setImageName] = useState("X");
   const [selectedSeatNumbers, setSelectedSeatNumbers] = useState<string[]>([]);
 
-  //TODO: 숫자형 데이터 확인
-  //TODO: formdata 확인
-  //TODO: 은행명 적용
+  if (!eventId) return <>잘못된 접근입니다.</>;
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files && event.target.files[0];
