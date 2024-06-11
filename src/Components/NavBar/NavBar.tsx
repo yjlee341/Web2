@@ -16,17 +16,14 @@ export default function NavBar() {
     window.location.reload();
   };
 
-  const getNavLinkClass = (path: string) =>
-    location.pathname === path
-      ? "border-b-2 border-white"
-      : "hover:border-b-2 hover:border-gray-300";
+  const NAV_LINK_CLASS = "hover:border-b-4 hover:border-blue-400";
 
   return (
-    <div>
-      <nav className="bg-white p-8 border-b">
-        <div className="grid grid-cols-3 gap-4">
+    <div className="px-2 mb-2">
+      <nav className="bg-white p-8">
+        <div className="flex flex-col md:grid md:grid-cols-3 md:gap-4">
           <div className="flex justify-start items-center">
-            <Link to="/">
+            <Link to="/" className="flex justify-center w-full md:w-fit">
               <img src={logo} alt="로고" className="h-14" />
             </Link>
           </div>
@@ -85,14 +82,14 @@ export default function NavBar() {
           </div>
         </div>
       </nav>
-      <div className="bg-blue-500 text-white flex justify-around py-2 h-10">
-        <Link to="/EventListPage" className={getNavLinkClass("/EventListPage")}>
+      <div className="bg-white text-black text-2xl font-nanumEB flex justify-around items-center py-8 h-10">
+        <Link to="/EventListPage" className={NAV_LINK_CLASS}>
           행사 둘러보기
         </Link>
-        <Link to="/addEvent" className={getNavLinkClass("/addEvent")}>
+        <Link to="/addEvent" className={NAV_LINK_CLASS}>
           행사 등록하기
         </Link>
-        <Link to="/BoothListPage" className={getNavLinkClass("/BoothListPage")}>
+        <Link to="/BoothListPage" className={NAV_LINK_CLASS}>
           부스 둘러보기
         </Link>
       </div>

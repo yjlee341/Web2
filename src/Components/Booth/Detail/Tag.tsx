@@ -4,7 +4,7 @@ interface Props {
 
 export default function Tag({ text }: Props) {
   return (
-    <div className="w-15 shadow-md px-2 rounded-md text-white text-center bg-blue-400">
+    <div className="w-15 inline-flex shadow-md px-2 rounded-md text-white text-center bg-blue-400 text-nowrap">
       {text}
     </div>
   );

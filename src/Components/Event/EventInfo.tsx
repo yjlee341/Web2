@@ -18,11 +18,11 @@ export default function EventInfo({
   openDate,
 }: Props) {
   return (
-    <div className="flex gap-7 w-full">
+    <div className="flex flex-col md:flex-row gap-7 w-full">
       <img
         src={mainImageUrl}
         alt="행사 이미지"
-        className="w-1/3 rounded-md object-cover aspect-square border"
+        className="w-full md:w-1/3 rounded-md object-cover aspect-square border"
       />
       <div className="flex flex-col flex-1 gap-2">
         <div className={EVENT_INFO}>{location}</div>

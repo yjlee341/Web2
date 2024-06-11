@@ -48,7 +48,7 @@ export default function EventListPage() {
   }
 
   return (
-    <div className="p-4 m-8">
+    <div className="p-4 m-2">
       <Tabs selectedTab={selectedTab} onTabChange={setSelectedTab} />
       <div className="border-b-2 border-r-2 shadow-md">
         <div className="p-4">
@@ -82,7 +82,7 @@ export default function EventListPage() {
               </div>
             )}
           </form>
-          <div className="mx-4">{renderTabContent()}</div>
+          <div className="mx-2">{renderTabContent()}</div>
         </div>
       </div>
     </div>

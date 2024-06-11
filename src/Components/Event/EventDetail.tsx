@@ -71,7 +71,7 @@ export default function EventDetailPage() {
   } = data;
   return (
     <form className="flex min-h-screen justify-center" onSubmit={onSubmit}>
-      <div className="w-full max-w-screen-lg shadow-2xl h-full p-10">
+      <div className="w-full max-w-screen-lg shadow-2xl h-full p-2 pt-10">
         <h2 className="text-2xl font-extrabold text-center">{name}</h2>
         <div className="flex flex-col mt-5">
           <div className="w-full px-10 py-4 flex flex-col gap-5">

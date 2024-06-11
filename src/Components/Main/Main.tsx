@@ -12,11 +12,11 @@ export default function MainPage({ state = "main" }: Props) {
   return (
     <section>
       <img
-        className="w-full h-80 bg-slate-600"
+        className="w-full h-80 bg-slate-600 object-cover brightness-95"
         src={tempBanner}
         alt="메인 배너 캐러솔"
       />
-
+      {/* 🎈⏱🌎🎨🥇🎲📢🔔🥇 */}
       <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-10">
         <ShowEventList title="최근 열린 행사" eventList={[]} />
         <ShowEventList title="종료 예정인 행사" eventList={[]} />
