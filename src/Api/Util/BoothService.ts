@@ -20,7 +20,7 @@ export const fetchBooths = async (
 ): Promise<BoothResponse> => {
   const token = getAccessToken();
   const response = await fetch(
-    `http://52.79.91.214:8080/booths?sliceNumber=${sliceNumber}`,
+    `http://52.79.91.214:8080/booths?page=${sliceNumber}`,
     {
       method: "GET",
       headers: {
