@@ -53,14 +53,14 @@ export default function BoothRegistInput({
             <input
               type="time"
               className={INPUT_CLASSNAME}
-              onChange={(e) => setValue(e.target.value)}
+              onChange={(e) => setValue(`${e.target.value}:00`)}
             />
             <div className="pb-3 font-bold"> ~ </div>
             {setValue2 && (
               <input
                 type="time"
                 className={INPUT_CLASSNAME}
-                onChange={(e) => setValue2(e.target.value)}
+                onChange={(e) => setValue2(`${e.target.value}:00`)}
               />
             )}
           </div>
@@ -87,6 +87,7 @@ export default function BoothRegistInput({
             </button>
           </>
         )}
+
         {type === "image" && (
           <div className="flex w-full justify-between items-center mb-4">
             <div className="flex w-3/4 border-b-2 py-2 pl-1">

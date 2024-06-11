@@ -25,7 +25,7 @@ export default function EventInfo({
         className="w-1/3 rounded-md object-cover aspect-square border"
       />
       <div className="flex flex-col flex-1 gap-2">
-        <div className={EVENT_INFO}>{location}</div>
+        <div className={EVENT_INFO}>행사 위치 : {location}</div>
         <div className={EVENT_INFO}>
           행사 운영 기간: {`${openDate} ~ ${closeDate}`}
         </div>
