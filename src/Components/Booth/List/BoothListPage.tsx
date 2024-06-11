@@ -16,7 +16,11 @@ export default function BoothListPage() {
       setLoading(true);
       setIsError(false);
       const response = await fetchBooths(sliceNumber);
-      setBooths((prevBooths) => [...prevBooths, ...response.content]);
+      if (sliceNumber === 0) {
+        setBooths(response.content);
+      } else {
+        setBooths((prevBooths) => [...prevBooths, ...response.content]);
+      }
       setHasMore(response.hasNext);
       setSliceNumber((prevSliceNumber) => prevSliceNumber + 1);
     } catch (error) {
@@ -28,6 +32,10 @@ export default function BoothListPage() {
   };
 
   useEffect(() => {
+    setBooths([]);
+    setSliceNumber(0);
+    setHasMore(true);
+    setLoading(true);
     fetchMoreBooths();
   }, []);
 
@@ -35,7 +43,6 @@ export default function BoothListPage() {
     event.preventDefault();
   };
 
-  // 로그인 확인
   if (!getAccessToken()) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -44,7 +51,6 @@ export default function BoothListPage() {
     );
   }
 
-  // 에러 상태 확인
   if (isError) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -71,7 +77,7 @@ export default function BoothListPage() {
             </button>
           </form>
         </div>
-        {loading ? (
+        {loading && booths.length === 0 ? (
           <h4 className="text-center my-4">로딩 중...</h4>
         ) : booths.length === 0 ? (
           <p className="text-center my-4">부스 정보가 없습니다</p>
@@ -87,7 +93,7 @@ export default function BoothListPage() {
               </p>
             }
           >
-            <div className="grid grid-cols-2 gap-10 mx-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mx-10">
               {booths.map((booth) => (
                 <BoothCard
                   key={booth.id}
