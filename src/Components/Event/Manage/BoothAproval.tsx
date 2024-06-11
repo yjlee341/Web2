@@ -55,7 +55,7 @@ const setBoothState = (boothId: number, status: string) =>
       "Content-Type": "application/json",
       Authorization: `Bearer ${getAccessToken()}`,
     },
-    body: JSON.stringify({ status }),
+    body: JSON.stringify({ boothStatus: status }),
   })
     .then((response) => {
       if (response.ok) return response.json();

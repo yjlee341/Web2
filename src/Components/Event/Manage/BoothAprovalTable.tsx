@@ -11,6 +11,7 @@ interface Props {
   onAprove: (id: number) => void;
   onReject: (id: number) => void;
 }
+
 export default function BoothAprovalTable({
   booths,
   checkList,
@@ -41,10 +42,10 @@ export default function BoothAprovalTable({
           <td className="py-2 px-4 border-b">{booth.description}</td>
           <td
             className={`py-2 px-4 border-b ${
-              booth.status === "APPROVE"
+              booth.status === "REJECT"
                 ? "text-red-500"
-                : booth.status === "REJECT"
-                ? "text-blue-500"
+                : booth.status === "APPROVE"
+                ? "text-green-500"
                 : "text-black"
             }`}
           >
