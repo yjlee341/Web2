@@ -1,4 +1,5 @@
 import { useSearchParams } from "react-router-dom";
+import Profile from "./Profile";
 
 interface MENU {
   [key: string]: {
@@ -10,7 +11,7 @@ interface MENU {
 const MENUS: MENU = {
   profile: {
     menu: "프로필",
-    view: <div>프로필</div>,
+    view: <Profile />,
   },
   bookmark: {
     menu: "북마크",
@@ -50,7 +51,7 @@ export default function MyPage() {
             </button>
           ))}
         </div>
-        <div>{MENUS[currentSideMenu].view}</div>
+        <div className="p-8">{MENUS[currentSideMenu].view}</div>
       </div>
     </section>
   );
